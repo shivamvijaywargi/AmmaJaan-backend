@@ -52,6 +52,7 @@ const productSchema: Schema = new Schema(
       type: String,
       required: [true, "Slug is required"],
       unique: true,
+      lowercase: true,
     },
     label: {
       type: String,
