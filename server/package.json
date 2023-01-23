@@ -26,6 +26,7 @@
     "mongoose": "^6.8.4",
     "morgan": "^1.10.0",
     "nodemailer": "^6.9.0",
+    "slugify": "^1.6.5",
     "winston": "^3.8.2",
     "zod": "^3.20.2"
   },

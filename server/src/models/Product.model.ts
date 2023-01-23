@@ -1,4 +1,6 @@
 import { Schema, model } from "mongoose";
+import slugify from "slugify";
+import AppErr from "../utils/AppErr";
 
 const productSchema: Schema = new Schema(
   {
@@ -71,6 +73,46 @@ const productSchema: Schema = new Schema(
     timestamps: true,
   }
 );
+
+/**
+ * Need to check if this way is good or not
+ * Another way is to add nanoid to the back
+ * Another way is to check if slug exist while creating a new product and if yes then append nanoid to new slug
+ * If following above point then this method should be removed
+ * Last but not least there's a package mongoose-slug-generator, this is a plugin for mongoose
+ * Using above plugin then both slugify and nanoid can be removed
+ */
+productSchema.pre("save", async function (next) {
+  if (!this.isModified("title")) return next();
+
+  this.slug = slugify(this.title);
+
+  let self = this;
+
+  model("MyModel", productSchema).find(
+    { slug: self.slug },
+    (err: any, docs: any[]) => {
+      if (!docs.length) return next();
+
+      if (docs.length === 1 && docs[0]._id.equals(self._id)) {
+        return next();
+      }
+
+      let newSlug = self.slug + "-";
+
+      model("MyModel", productSchema).find(
+        { slug: new RegExp("^" + newSlug, "i") },
+        (err: any, docs: any[]) => {
+          if (err) return next(new AppErr(err, 400));
+
+          newSlug += docs.length + 1;
+
+          next();
+        }
+      );
+    }
+  );
+});
 
 const Product = model("Product", productSchema);
 
