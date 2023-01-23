@@ -242,7 +242,6 @@ export const resetPassword = asyncHandler(
  */
 export const refreshToken = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    Logger.info(req.cookies);
     const { refreshToken: token } = req.cookies;
 
     if (!token) {
