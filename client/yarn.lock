@@ -180,6 +180,13 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.18.tgz#8dfb97f0da23c2293e554c5a50d61ef134d7697f"
   integrity sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==
 
+"@types/postcss-js@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@types/postcss-js/-/postcss-js-4.0.0.tgz#833d2d90ac9dd950fe2344defedcb152cb954156"
+  integrity sha512-ieu0u7T7jnUCFmXcf8JzoJ3/1U5NI3ZYpfX5zW2td0x/BqVQrpCQ6uOY9Ef/0WJuIjc9OCtdfYF/JE7MGax2TA==
+  dependencies:
+    postcss "^8.3.3"
+
 "@types/prop-types@*":
   version "15.7.5"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.5.tgz#5f19d2b85a98e9558036f6a3cacc8819420f05cf"
@@ -1893,7 +1900,7 @@ postcss@8.4.14:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
-postcss@^8.4.18, postcss@^8.4.21:
+postcss@^8.3.3, postcss@^8.4.18, postcss@^8.4.19, postcss@^8.4.21:
   version "8.4.21"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.21.tgz#c639b719a57efc3187b13a1d765675485f4134f4"
   integrity sha512-tP7u/Sn/dVxK2NnruI4H9BG+x+Wxz6oeZ1cJ8P6G/PZY0IKk4k/63TDsQf2kQq3+qoJeLm2kIBUNlZe3zgb4Zg==
@@ -2018,6 +2025,16 @@ rimraf@^3.0.2:
   integrity sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==
   dependencies:
     glob "^7.1.3"
+
+rippleui@^1.8.1:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/rippleui/-/rippleui-1.8.1.tgz#8258c4b1d838fadd2fe19af005728d82dbeed50c"
+  integrity sha512-1dOV+OX3sRDGlqAQj9lj8rSJBMP0j51AC1jgZDh08L5rpR9cn2ROV/fvIXDLxL5dLN5Ukv9yz0oFqAY+xrD7yA==
+  dependencies:
+    "@types/postcss-js" "^4.0.0"
+    postcss "^8.4.19"
+    postcss-js "^4.0.0"
+    tailwindcss "^3.2.4"
 
 run-parallel@^1.1.9:
   version "1.2.0"

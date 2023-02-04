@@ -11,5 +11,17 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [require("daisyui")],
+  plugins: [require("daisyui"), require("rippleui")],
+  daisyui: {
+    styled: true,
+    themes: false,
+    base: true,
+    utils: true,
+    logs: true,
+    rtl: false,
+    prefix: "daisy",
+  },
+  rippleui: {
+    removeThemes: ["dark"],
+  },
 };
