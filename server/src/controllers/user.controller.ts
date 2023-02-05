@@ -19,7 +19,7 @@ export const getAllUsers = asyncHandler(
  * @GET_USER_BY_ID
  * @ROUTE @GET {{URL}}/api/v1/users/:id
  * @returns Single User based on the user id
- * @ACCESS Private (Admins, managers only)
+ * @ACCESS Private (Admins, employees only)
  */
 export const getUserByID = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {}

@@ -2,10 +2,8 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 
 import AppErr from '../utils/AppErr';
 import asyncHandler from './asyncHandler.middleware';
-import { IDecodedJwtPayload } from '../types';
+import { IDecodedJwtPayload, IRoles } from '../types';
 import { NextFunction, Request, Response } from 'express';
-
-type IRoles = (number | undefined)[];
 
 export const isLoggedIn = asyncHandler(
   async (req: Request, _res: Response, next: NextFunction) => {
