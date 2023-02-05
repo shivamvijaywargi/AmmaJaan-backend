@@ -12,7 +12,19 @@ import sendEmail from '../utils/sendEmail';
  * @ACCESS Private (Admins only)
  */
 export const getAllUsers = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {}
+  async (_req: Request, res: Response, next: NextFunction) => {
+    const users = await User.find({});
+
+    if (!users.length) {
+      return next(new AppErr('No users found', 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'All users fetched successfully',
+      users,
+    });
+  }
 );
 
 /**
@@ -22,7 +34,21 @@ export const getAllUsers = asyncHandler(
  * @ACCESS Private (Admins, employees only)
  */
 export const getUserByID = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {}
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      return next(new AppErr('Invalid id or user does not exist', 400));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'User fetched successfully',
+      user,
+    });
+  }
 );
 
 /**
