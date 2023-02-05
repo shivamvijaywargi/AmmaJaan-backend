@@ -136,5 +136,18 @@ export const changePassword = asyncHandler(
  * @ACCESS Private (Admins only)
  */
 export const deleteUser = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {}
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+
+    const user = await User.findByIdAndDelete(id);
+
+    if (!user) {
+      return next(new AppErr('Invalid user id or user does not exist', 400));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'User deleted successfully',
+    });
+  }
 );
