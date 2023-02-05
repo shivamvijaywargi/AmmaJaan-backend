@@ -58,7 +58,9 @@ export const getUserByID = asyncHandler(
  * @ACCESS Private (Logged in user only)
  */
 export const updateUser = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {}
+  async (req: Request, res: Response, next: NextFunction) => {
+    // TODO
+  }
 );
 
 /**
@@ -69,7 +71,6 @@ export const updateUser = asyncHandler(
  */
 export const getLoggedInUserDetails = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req);
     const user = await User.findById(req.user?.user_id);
 
     if (!user) {
@@ -91,7 +92,41 @@ export const getLoggedInUserDetails = asyncHandler(
  * @ACCESS Private (Logged in user only)
  */
 export const changePassword = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {}
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { oldPassword, newPassword } = req.body;
+
+    if (!oldPassword || !newPassword) {
+      return next(
+        new AppErr('Old password and new password are rewuired', 400)
+      );
+    }
+
+    const user = await User.findById(req.user?.user_id).select('+password');
+
+    if (!(user && (await user.comparePassword(oldPassword)))) {
+      return next(new AppErr('Password is incorrect', 400));
+    }
+
+    user.password = newPassword;
+
+    user.save();
+
+    try {
+      const message =
+        'Your AmmaJaan account password was changed recently, if it was not you please reset your account password ASAP.';
+
+      const subject = 'Ammajaan password changed successfully';
+
+      await sendEmail(user.email, subject, message);
+    } catch (error) {}
+
+    user.password = undefined;
+
+    res.status(200).json({
+      success: true,
+      message: 'Password changed successfully',
+    });
+  }
 );
 
 /**
