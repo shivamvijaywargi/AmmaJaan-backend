@@ -46,8 +46,10 @@ app.get('/api/ping', (_req, res) => {
 
 // Import all routes
 import authRoutes from './routes/auth.routes';
+import userRoutes from './routes/user.routes';
 
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/users', userRoutes);
 
 // CatchAll - 404
 app.all('*', (req, res) => {
