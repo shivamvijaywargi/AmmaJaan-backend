@@ -19,6 +19,8 @@ router
   .route('/')
   .get(isLoggedIn, authorizeRoles(ROLES_LIST.ADMIN), getAllUsers)
   .put(isLoggedIn, updateUser);
+router.route('/me').get(isLoggedIn, getLoggedInUserDetails);
+router.route('/change-password').post(isLoggedIn, changePassword);
 router
   .route('/:id')
   .get(
@@ -31,7 +33,5 @@ router
     authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
     deleteUser
   );
-router.route('/me').get(isLoggedIn, getLoggedInUserDetails);
-router.route('/change-password').post(isLoggedIn, changePassword);
 
 export default router;

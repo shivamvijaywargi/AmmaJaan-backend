@@ -68,7 +68,20 @@ export const updateUser = asyncHandler(
  * @ACCESS Private (Logged in users only)
  */
 export const getLoggedInUserDetails = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {}
+  async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req);
+    const user = await User.findById(req.user?.user_id);
+
+    if (!user) {
+      return next(new AppErr('You are not authorized, please login', 401));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Account details fetched successfully',
+      user,
+    });
+  }
 );
 
 /**
