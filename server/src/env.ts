@@ -1,10 +1,10 @@
 // Using zod to parse env variables once, so it gives intellisense thorughout the app
-import { z } from 'zod';
+import { z } from "zod";
 
 const envVariables = z.object({
   NODE_ENV: z.string(),
 
-  PORT: z.number(),
+  PORT: z.string().or(z.number()),
 
   MONGO_URI: z.string(),
 
