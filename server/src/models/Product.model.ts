@@ -1,25 +1,25 @@
-import { Schema, model } from "mongoose";
-import slugify from "slugify";
-import AppErr from "../utils/AppErr";
+import { Schema, model } from 'mongoose';
+// import slugify from 'slugify';
+// import AppErr from '../utils/AppErr';
 
 const productSchema: Schema = new Schema(
   {
     title: {
       type: String,
-      required: [true, "Title is required"],
-      minlength: [5, "Title must be atleast 5 characters long"],
-      maxlength: [55, "Title cannot be more than 55 characters"],
+      required: [true, 'Title is required'],
+      minlength: [5, 'Title must be atleast 5 characters long'],
+      maxlength: [55, 'Title cannot be more than 55 characters'],
       trim: true,
     },
     description: {
       type: String,
-      required: [true, "Description is required"],
-      minlength: [50, "Description must be atleast 50 characters long"],
+      required: [true, 'Description is required'],
+      minlength: [10, 'Description must be atleast 50 characters long'],
     },
     shortDescription: {
       type: String,
-      minlength: [20, "Short description must be atleast 20 characters long"],
-      maxlength: [100, "Short description cannot be more than 100 characters"],
+      minlength: [20, 'Short description must be atleast 20 characters long'],
+      maxlength: [100, 'Short description cannot be more than 100 characters'],
     },
     images: [
       {
@@ -37,36 +37,39 @@ const productSchema: Schema = new Schema(
     ],
     price: {
       type: Number,
-      required: [true, "Price is required"],
-      maxlength: [5, "Price cannot exceed 5 digits"],
+      required: [true, 'Price is required'],
+      maxlength: [5, 'Price cannot exceed 5 digits'],
     },
     quantity: {
       type: Number,
-      required: [true, "Quantity is required"],
-      maxlength: [5, "Quantity cannot exceed 5 digits"],
+      required: [true, 'Quantity is required'],
+      default: 1,
+      maxlength: [5, 'Quantity cannot exceed 5 digits'],
     },
     inStock: {
       type: Boolean,
-      required: [true, "In stock status is required"],
+      required: [true, 'In stock status is required'],
       default: true,
     },
     slug: {
       type: String,
-      required: [true, "Slug is required"],
+      required: [true, 'Slug is required'],
       unique: true,
       lowercase: true,
     },
     label: {
       type: String,
-      enum: ["Hot", "New", "Best Selling"],
+      enum: ['Hot', 'New', 'Best Selling'],
     },
     category: {
       type: Schema.Types.ObjectId,
-      ref: "Category",
+      ref: 'Category',
+      // required: [true, 'Category is required'],
     },
     createdBy: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
+      required: true,
     },
   },
   {
@@ -82,38 +85,38 @@ const productSchema: Schema = new Schema(
  * Last but not least there's a package mongoose-slug-generator, this is a plugin for mongoose
  * Using above plugin then both slugify and nanoid can be removed
  */
-productSchema.pre("save", async function (next) {
-  if (!this.isModified("title")) return next();
+// productSchema.pre('save', async function (next) {
+//   if (!this.isModified('title')) return next();
 
-  this.slug = slugify(this.title);
+//   this.slug = slugify(this.title);
 
-  let self = this;
+//   let self = this;
 
-  model("MyModel", productSchema).find(
-    { slug: self.slug },
-    (err: any, docs: any[]) => {
-      if (!docs.length) return next();
+//   model('MyModel', productSchema).find(
+//     { slug: self.slug },
+//     (err: any, docs: any[]) => {
+//       if (!docs.length) return next();
 
-      if (docs.length === 1 && docs[0]._id.equals(self._id)) {
-        return next();
-      }
+//       if (docs.length === 1 && docs[0]._id.equals(self._id)) {
+//         return next();
+//       }
 
-      let newSlug = self.slug + "-";
+//       let newSlug = self.slug + '-';
 
-      model("MyModel", productSchema).find(
-        { slug: new RegExp("^" + newSlug, "i") },
-        (err: any, docs: any[]) => {
-          if (err) return next(new AppErr(err, 400));
+//       model('MyModel', productSchema).find(
+//         { slug: new RegExp('^' + newSlug, 'i') },
+//         (err: any, docs: any[]) => {
+//           if (err) return next(new AppErr(err, 400));
 
-          newSlug += docs.length + 1;
+//           newSlug += docs.length + 1;
 
-          next();
-        }
-      );
-    }
-  );
-});
+//           next();
+//         }
+//       );
+//     }
+//   );
+// });
 
-const Product = model("Product", productSchema);
+const Product = model('Product', productSchema);
 
 export default Product;
