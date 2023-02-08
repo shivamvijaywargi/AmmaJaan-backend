@@ -44,7 +44,7 @@ const productSchema: Schema = new Schema(
       type: Number,
       required: [true, 'Quantity is required'],
       default: 1,
-      maxlength: [5, 'Quantity cannot exceed 5 digits'],
+      max: [99999, 'Quantity cannot be more than 99999'],
     },
     inStock: {
       type: Boolean,

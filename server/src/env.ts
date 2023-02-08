@@ -1,5 +1,5 @@
 // Using zod to parse env variables once, so it gives intellisense thorughout the app
-import { z } from "zod";
+import { z } from 'zod';
 
 const envVariables = z.object({
   NODE_ENV: z.string(),
@@ -18,6 +18,10 @@ const envVariables = z.object({
   SMTP_MAIL: z.string(),
   SMTP_PASS: z.string(),
   SMTP_FROM_EMAIL: z.string(),
+
+  CLOUDINARY_CLOUD_NAME: z.string(),
+  CLOUDINARY_API_KEY: z.string(),
+  CLOUDINARY_API_SECRET: z.string(),
 });
 
 envVariables.parse(process.env);

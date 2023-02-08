@@ -8,12 +8,10 @@ const router = Router();
 /**
  * @ROUTE {{URL}}/api/v1/products
  */
-router
-  .route('/')
-  .post(
-    isLoggedIn,
-    authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
-    createProduct
-  );
+router.route('/').post(
+  isLoggedIn,
+  // authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
+  createProduct
+);
 
 export default router;

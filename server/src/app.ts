@@ -3,6 +3,7 @@ import { config } from 'dotenv';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import helmet from 'helmet';
+import cloudinary from 'cloudinary';
 
 import morganMiddleware from './configs/morgan';
 import errorMiddleware from './middlewares/error.middleware';
@@ -29,6 +30,13 @@ app.use(
 app.use(rateLimiter);
 // Custom
 app.use(morganMiddleware);
+
+// Cloudinary config
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 /**
  * @SERVER_STATUS

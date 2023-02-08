@@ -1,9 +1,11 @@
 import crypto from 'crypto';
+import fs from 'fs/promises';
 
 import { NextFunction, Request, Response } from 'express';
 import formidable from 'formidable';
 // import { nanoid } from 'nanoid';
 import slugify from 'slugify';
+import cloudinary from 'cloudinary';
 
 import asyncHandler from '../middlewares/asyncHandler.middleware';
 import Product from '../models/Product.model';
@@ -17,7 +19,10 @@ import AppErr from '../utils/AppErr';
  */
 export const createProduct = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const form = formidable({ multiples: true, keepExtensions: true });
+    const form = formidable({
+      multiples: true,
+      keepExtensions: true,
+    });
 
     form.parse(req, async (err, fields, files) => {
       if (err) {
@@ -67,9 +72,23 @@ export const createProduct = asyncHandler(
       }
 
       if (shortDescription) product.shortDescription = shortDescription;
-      if (quantity) product.quantity = quantity;
+      if (quantity && Number(quantity) <= 99999) {
+        product.quantity = quantity;
+      } else {
+        return next(new AppErr('Quantity cannot be greater than 99999', 400));
+      }
       if (label) product.label = label;
       if (inStock) product.inStock = inStock;
+
+      if (files) {
+        // TODO
+        // const incomingFile = files.productImage;
+        // const data = fs.readFile(incomingFile.filepath);
+        // console.log(data);
+        // const result = await cloudinary.v2.uploader.upload(file.filepath, {
+        //   folder: 'eCommerce',
+        // });
+      }
 
       await product.save();
 
