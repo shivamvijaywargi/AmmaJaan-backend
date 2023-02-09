@@ -67,6 +67,7 @@ export const createProduct = asyncHandler(
           description,
           createdBy: req.user?.user_id,
           slug: customSlug,
+          category,
         });
 
         if (!product) {
@@ -148,6 +149,28 @@ export const createProduct = asyncHandler(
         console.log(error);
         return next(new AppErr("Something went wrong, please try again", 400));
       }
+    });
+  }
+);
+
+/**
+ * @GET_ALL_PRODUCTS
+ * @ROUTE @GET {{URL}}/api/v1/products
+ * @returns All products
+ * @ACCESS Public
+ */
+export const getAllProducts = asyncHandler(
+  async (_req: Request, res: Response, next: NextFunction) => {
+    const products = await Product.find({}).populate("category createdBy");
+
+    if (!products.length) {
+      return next(new AppErr("No products found", 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Products fetched successfully",
+      products,
     });
   }
 );
