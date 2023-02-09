@@ -11,6 +11,7 @@ import asyncHandler from "../middlewares/asyncHandler.middleware";
 import Product from "../models/Product.model";
 import AppErr from "../utils/AppErr";
 import { isArray } from "util";
+import Logger from "../utils/logger";
 
 /**
  * @CREATE_PRODUCT
@@ -133,7 +134,7 @@ export const createProduct = asyncHandler(
               }
             }
           } catch (error) {
-            console.log(error);
+            Logger.error(error);
             return next(new AppErr("Image could not be uploaded", 400));
           }
         }
@@ -146,7 +147,7 @@ export const createProduct = asyncHandler(
           product,
         });
       } catch (error) {
-        console.log(error);
+        Logger.error(error);
         return next(new AppErr("Something went wrong, please try again", 400));
       }
     });
