@@ -7,7 +7,9 @@ const categorySchema: Schema = new Schema(
       required: [true, "Category name is required"],
       minlength: [3, "Category name must be atleast 3 characters long"],
       maxlength: [20, "Category name cannot be more than 20 characters"],
+      unique: true,
       trim: true,
+      lowercase: true,
     },
     description: {
       type: String,
@@ -18,6 +20,11 @@ const categorySchema: Schema = new Schema(
       required: [true, "Slug is required"],
       unique: true,
       lowercase: true,
+    },
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
   },
   {
