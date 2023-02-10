@@ -57,3 +57,116 @@ export const createCategory = asyncHandler(
     });
   }
 );
+
+/**
+ * @GET_ALL_CATEGORIES
+ * @ROUTE @GET {{URL}}/api/v1/categories
+ * @returns All categories
+ * @ACCESS Public
+ */
+export const getAllCategories = asyncHandler(
+  async (_req: Request, res: Response, next: NextFunction) => {
+    const categories = await Category.find();
+
+    if (!categories.length) {
+      return next(new AppErr("No category found", 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Categories fetched successfully",
+      categories,
+    });
+  }
+);
+
+/**
+ * @GET_CATEGORY_BY_ID
+ * @ROUTE @GET {{URL}}/api/v1/categories/:id
+ * @returns Single category
+ * @ACCESS Public
+ */
+export const getCategoryById = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+
+    const category = await Category.findById(id);
+
+    if (!category) {
+      return next(new AppErr("Invalid ID or Category not found", 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Category fetched successfully",
+      category,
+    });
+  }
+);
+
+/**
+ * @DELETE_CATEGORY_BY_ID
+ * @ROUTE @GET {{URL}}/api/v1/categories/:id
+ * @returns Single category
+ * @ACCESS Private (Admin + Employee only)
+ */
+export const deleteCategoryById = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+
+    const category = await Category.findByIdAndDelete(id);
+
+    if (!category) {
+      return next(new AppErr("Invalid ID or Category not found", 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Category deleted successfully",
+    });
+  }
+);
+
+/**
+ * @UPDATE_CATEGORY_BY_ID
+ * @ROUTE @PUT {{URL}}/api/v1/categories/:id
+ * @returns Updated category
+ * @ACCESS Private (Admin + Employee only)
+ */
+export const updateCategoryById = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+
+    let customSlug = slugify(req.body.name.toLowerCase() as string);
+
+    const slugExists = await Category.findOne({ slug: customSlug });
+
+    if (slugExists) {
+      return next(new AppErr("Category with this name already exists", 400));
+    }
+
+    const category = await Category.findByIdAndUpdate(
+      id,
+      {
+        $set: req.body,
+      },
+      {
+        new: true,
+      }
+    );
+
+    if (!category) {
+      return next(new AppErr("Invalid ID or Category not found", 404));
+    }
+
+    category.slug = customSlug;
+
+    await category.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Category updated successfully",
+      category,
+    });
+  }
+);
