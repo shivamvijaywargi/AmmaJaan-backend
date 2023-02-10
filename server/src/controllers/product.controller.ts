@@ -1,17 +1,17 @@
-import crypto from "crypto";
-import os from "os";
+import crypto from 'crypto';
+import os from 'os';
 
-import { NextFunction, Request, Response } from "express";
-import formidable from "formidable";
+import { NextFunction, Request, Response } from 'express';
+import formidable from 'formidable';
 // import { nanoid } from 'nanoid';
-import slugify from "slugify";
-import cloudinary from "cloudinary";
+import slugify from 'slugify';
+import cloudinary from 'cloudinary';
 
-import asyncHandler from "../middlewares/asyncHandler.middleware";
-import Product from "../models/Product.model";
-import AppErr from "../utils/AppErr";
-import { isArray } from "util";
-import Logger from "../utils/logger";
+import asyncHandler from '../middlewares/asyncHandler.middleware';
+import Product from '../models/Product.model';
+import AppErr from '../utils/AppErr';
+import { isArray } from 'util';
+import Logger from '../utils/logger';
 
 /**
  * @CREATE_PRODUCT
@@ -31,7 +31,7 @@ export const createProduct = asyncHandler(
     form.parse(req, async (err, fields, files) => {
       try {
         if (err) {
-          return next(new AppErr(err || "Something went wrong", 500));
+          return next(new AppErr(err || 'Something went wrong', 500));
         }
 
         const {
@@ -48,7 +48,7 @@ export const createProduct = asyncHandler(
         if (!title || !description || !price || !category) {
           return next(
             new AppErr(
-              "Title, Description, Price, and Category are required",
+              'Title, Description, Price, and Category are required',
               400
             )
           );
@@ -59,7 +59,7 @@ export const createProduct = asyncHandler(
         const slugExist = await Product.findOne({ slug: customSlug }).lean();
 
         if (slugExist) {
-          customSlug = customSlug + "-" + crypto.randomUUID().substring(0, 5);
+          customSlug = customSlug + '-' + crypto.randomUUID().substring(0, 5);
         }
 
         const product = await Product.create({
@@ -73,7 +73,7 @@ export const createProduct = asyncHandler(
 
         if (!product) {
           return next(
-            new AppErr("Product was not created, please try again", 400)
+            new AppErr('Product was not created, please try again', 400)
           );
         }
 
@@ -81,7 +81,7 @@ export const createProduct = asyncHandler(
         if (quantity && Number(quantity) <= 99999) {
           product.quantity = quantity;
         } else {
-          return next(new AppErr("Quantity cannot be greater than 99999", 400));
+          return next(new AppErr('Quantity cannot be greater than 99999', 400));
         }
         if (label) product.label = label;
         if (inStock) product.inStock = inStock;
@@ -98,7 +98,7 @@ export const createProduct = asyncHandler(
               const result = await cloudinary.v2.uploader.upload(
                 incomingFile.filepath,
                 {
-                  folder: "eCommerce",
+                  folder: 'eCommerce',
                 }
               );
 
@@ -117,7 +117,7 @@ export const createProduct = asyncHandler(
                 const result = await cloudinary.v2.uploader.upload(
                   incomingFile[i].filepath,
                   {
-                    folder: "eCommerce",
+                    folder: 'eCommerce',
                   }
                 );
 
@@ -135,7 +135,7 @@ export const createProduct = asyncHandler(
             }
           } catch (error) {
             Logger.error(error);
-            return next(new AppErr("Image could not be uploaded", 400));
+            return next(new AppErr('Image could not be uploaded', 400));
           }
         }
 
@@ -143,12 +143,12 @@ export const createProduct = asyncHandler(
 
         res.status(201).json({
           success: true,
-          message: "Product created successfully",
+          message: 'Product created successfully',
           product,
         });
       } catch (error) {
         Logger.error(error);
-        return next(new AppErr("Something went wrong, please try again", 400));
+        return next(new AppErr('Something went wrong, please try again', 400));
       }
     });
   }
@@ -162,15 +162,15 @@ export const createProduct = asyncHandler(
  */
 export const getAllProducts = asyncHandler(
   async (_req: Request, res: Response, next: NextFunction) => {
-    const products = await Product.find({}).populate("category createdBy");
+    const products = await Product.find({}).populate('category createdBy');
 
     if (!products.length) {
-      return next(new AppErr("No products found", 404));
+      return next(new AppErr('No products found', 404));
     }
 
     res.status(200).json({
       success: true,
-      message: "Products fetched successfully",
+      message: 'Products fetched successfully',
       products,
     });
   }

@@ -1,28 +1,31 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose';
+import { IReview } from '../types';
 
-const reviewSchema: Schema = new Schema(
+const reviewSchema: Schema = new Schema<IReview>(
   {
     title: {
       type: String,
-      required: [true, "Review title is required"],
-      minlength: [10, "Review title cannot be less than 10 characters"],
+      required: [true, 'Review title is required'],
+      minlength: [10, 'Review title cannot be less than 10 characters'],
     },
     review: {
       type: String,
-      minlength: [20, "Review cannot be less than 20 characters"],
+      minlength: [20, 'Review cannot be less than 20 characters'],
     },
     rating: {
       type: Number,
       enum: [1, 2, 3, 4, 5],
-      required: [true, "Rating is required"],
+      required: [true, 'Rating is required'],
     },
     reviewedBy: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
+      required: true,
     },
     reviewedFor: {
       type: Schema.Types.ObjectId,
-      ref: "Product",
+      ref: 'Product',
+      required: true,
     },
   },
   {
@@ -30,6 +33,6 @@ const reviewSchema: Schema = new Schema(
   }
 );
 
-const Review = model("Review", reviewSchema);
+const Review = model('Review', reviewSchema);
 
 export default Review;

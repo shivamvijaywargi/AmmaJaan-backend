@@ -1,16 +1,18 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose';
+import { IWishlist } from '../types';
 
-const wishlistSchema = new Schema(
+const wishlistSchema = new Schema<IWishlist>(
   {
     user: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
     products: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Product",
+        ref: 'Product',
+        required: true,
       },
     ],
   },
@@ -19,6 +21,6 @@ const wishlistSchema = new Schema(
   }
 );
 
-const Wishlist = model("Wishlist", wishlistSchema);
+const Wishlist = model('Wishlist', wishlistSchema);
 
 export default Wishlist;

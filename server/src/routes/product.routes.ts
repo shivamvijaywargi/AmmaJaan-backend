@@ -1,10 +1,10 @@
-import { Router } from "express";
-import ROLES_LIST from "../configs/ROLES_LIST";
+import { Router } from 'express';
+import ROLES_LIST from '../configs/ROLES_LIST';
 import {
   createProduct,
   getAllProducts,
-} from "../controllers/product.controller";
-import { authorizeRoles, isLoggedIn } from "../middlewares/auth.middleware";
+} from '../controllers/product.controller';
+import { authorizeRoles, isLoggedIn } from '../middlewares/auth.middleware';
 
 const router = Router();
 
@@ -12,7 +12,7 @@ const router = Router();
  * @ROUTE {{URL}}/api/v1/products
  */
 router
-  .route("/")
+  .route('/')
   .post(
     isLoggedIn,
     // authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),

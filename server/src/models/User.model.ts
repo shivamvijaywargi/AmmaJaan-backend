@@ -5,8 +5,9 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 import ROLES_LIST from '../configs/ROLES_LIST';
+import { IUser } from '../types';
 
-const userSchema: Schema = new Schema(
+const userSchema: Schema = new Schema<IUser>(
   {
     fullName: {
       type: String,

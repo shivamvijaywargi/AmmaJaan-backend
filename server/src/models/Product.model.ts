@@ -1,25 +1,26 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose';
+import { IProduct } from '../types';
 // import slugify from 'slugify';
 // import AppErr from '../utils/AppErr';
 
-const productSchema: Schema = new Schema(
+const productSchema: Schema = new Schema<IProduct>(
   {
     title: {
       type: String,
-      required: [true, "Title is required"],
-      minlength: [5, "Title must be atleast 5 characters long"],
-      maxlength: [55, "Title cannot be more than 55 characters"],
+      required: [true, 'Title is required'],
+      minlength: [5, 'Title must be atleast 5 characters long'],
+      maxlength: [55, 'Title cannot be more than 55 characters'],
       trim: true,
     },
     description: {
       type: String,
-      required: [true, "Description is required"],
-      minlength: [10, "Description must be atleast 50 characters long"],
+      required: [true, 'Description is required'],
+      minlength: [10, 'Description must be atleast 50 characters long'],
     },
     shortDescription: {
       type: String,
-      minlength: [20, "Short description must be atleast 20 characters long"],
-      maxlength: [100, "Short description cannot be more than 100 characters"],
+      minlength: [20, 'Short description must be atleast 20 characters long'],
+      maxlength: [100, 'Short description cannot be more than 100 characters'],
     },
     images: [
       {
@@ -37,38 +38,38 @@ const productSchema: Schema = new Schema(
     ],
     price: {
       type: Number,
-      required: [true, "Price is required"],
-      maxlength: [5, "Price cannot exceed 5 digits"],
+      required: [true, 'Price is required'],
+      maxlength: [5, 'Price cannot exceed 5 digits'],
     },
     quantity: {
       type: Number,
-      required: [true, "Quantity is required"],
+      required: [true, 'Quantity is required'],
       default: 1,
-      max: [99999, "Quantity cannot be more than 99999"],
+      max: [99999, 'Quantity cannot be more than 99999'],
     },
     inStock: {
       type: Boolean,
-      required: [true, "In stock status is required"],
+      required: [true, 'In stock status is required'],
       default: true,
     },
     slug: {
       type: String,
-      required: [true, "Slug is required"],
+      required: [true, 'Slug is required'],
       unique: true,
       lowercase: true,
     },
     label: {
       type: String,
-      enum: ["Hot", "New", "Best Selling"],
+      enum: ['Hot', 'New', 'Best Selling'],
     },
     category: {
       type: Schema.Types.ObjectId,
-      ref: "Category",
-      required: [true, "Category is required"],
+      ref: 'Category',
+      required: [true, 'Category is required'],
     },
     createdBy: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
   },
@@ -117,6 +118,6 @@ const productSchema: Schema = new Schema(
 //   );
 // });
 
-const Product = model("Product", productSchema);
+const Product = model('Product', productSchema);
 
 export default Product;

@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from "express";
-import slugify from "slugify";
+import { NextFunction, Request, Response } from 'express';
+import slugify from 'slugify';
 
-import asyncHandler from "../middlewares/asyncHandler.middleware";
-import Category from "../models/Category.model";
-import AppErr from "../utils/AppErr";
+import asyncHandler from '../middlewares/asyncHandler.middleware';
+import Category from '../models/Category.model';
+import AppErr from '../utils/AppErr';
 
 /**
  * @CREATE_CATEGORY
@@ -16,13 +16,13 @@ export const createCategory = asyncHandler(
     const { name, description } = req.body;
 
     if (!name) {
-      return next(new AppErr("Name is required", 400));
+      return next(new AppErr('Name is required', 400));
     }
 
     const categoryExists = await Category.findOne({ name: name.toLowerCase() });
 
     if (categoryExists) {
-      return next(new AppErr("Category already exists", 400));
+      return next(new AppErr('Category already exists', 400));
     }
 
     let customSlug = slugify(name.toLowerCase() as string);
@@ -30,7 +30,7 @@ export const createCategory = asyncHandler(
     const slugExists = await Category.findOne({ slug: customSlug });
 
     if (slugExists) {
-      return next(new AppErr("Category already exists", 400));
+      return next(new AppErr('Category already exists', 400));
     }
 
     // const slugExist = await Category.findOne({ slug: customSlug }).lean();
@@ -47,12 +47,12 @@ export const createCategory = asyncHandler(
     });
 
     if (!category) {
-      return next(new AppErr("Category not created, please try again", 400));
+      return next(new AppErr('Category not created, please try again', 400));
     }
 
     res.status(201).json({
       success: true,
-      message: "Category created successfully",
+      message: 'Category created successfully',
       category,
     });
   }
@@ -69,12 +69,12 @@ export const getAllCategories = asyncHandler(
     const categories = await Category.find();
 
     if (!categories.length) {
-      return next(new AppErr("No category found", 404));
+      return next(new AppErr('No category found', 404));
     }
 
     res.status(200).json({
       success: true,
-      message: "Categories fetched successfully",
+      message: 'Categories fetched successfully',
       categories,
     });
   }
@@ -93,12 +93,12 @@ export const getCategoryById = asyncHandler(
     const category = await Category.findById(id);
 
     if (!category) {
-      return next(new AppErr("Invalid ID or Category not found", 404));
+      return next(new AppErr('Invalid ID or Category not found', 404));
     }
 
     res.status(200).json({
       success: true,
-      message: "Category fetched successfully",
+      message: 'Category fetched successfully',
       category,
     });
   }
@@ -117,12 +117,12 @@ export const deleteCategoryById = asyncHandler(
     const category = await Category.findByIdAndDelete(id);
 
     if (!category) {
-      return next(new AppErr("Invalid ID or Category not found", 404));
+      return next(new AppErr('Invalid ID or Category not found', 404));
     }
 
     res.status(200).json({
       success: true,
-      message: "Category deleted successfully",
+      message: 'Category deleted successfully',
     });
   }
 );
@@ -142,7 +142,7 @@ export const updateCategoryById = asyncHandler(
     const slugExists = await Category.findOne({ slug: customSlug });
 
     if (slugExists) {
-      return next(new AppErr("Category with this name already exists", 400));
+      return next(new AppErr('Category with this name already exists', 400));
     }
 
     const category = await Category.findByIdAndUpdate(
@@ -156,7 +156,7 @@ export const updateCategoryById = asyncHandler(
     );
 
     if (!category) {
-      return next(new AppErr("Invalid ID or Category not found", 404));
+      return next(new AppErr('Invalid ID or Category not found', 404));
     }
 
     category.slug = customSlug;
@@ -165,7 +165,7 @@ export const updateCategoryById = asyncHandler(
 
     res.status(200).json({
       success: true,
-      message: "Category updated successfully",
+      message: 'Category updated successfully',
       category,
     });
   }

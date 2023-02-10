@@ -1,10 +1,12 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose';
+import { ICoupon } from '../types';
 
-const couponSchema: Schema = new Schema(
+const couponSchema: Schema = new Schema<ICoupon>(
   {
     couponCode: {
       type: String,
-      minlength: [5, "Coupon code must be atleast 5 characters long"],
+      minlength: [5, 'Coupon code must be atleast 5 characters long'],
+      required: [true, 'Coupon code is required'],
       trim: true,
     },
     isActive: {
@@ -25,6 +27,6 @@ const couponSchema: Schema = new Schema(
   }
 );
 
-const Coupon = model("Coupon", couponSchema);
+const Coupon = model('Coupon', couponSchema);
 
 export default Coupon;

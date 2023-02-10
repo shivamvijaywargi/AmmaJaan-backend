@@ -1,13 +1,13 @@
-import { Router } from "express";
-import ROLES_LIST from "../configs/ROLES_LIST";
+import { Router } from 'express';
+import ROLES_LIST from '../configs/ROLES_LIST';
 import {
   createCategory,
   deleteCategoryById,
   getAllCategories,
   getCategoryById,
   updateCategoryById,
-} from "../controllers/category.controller";
-import { authorizeRoles, isLoggedIn } from "../middlewares/auth.middleware";
+} from '../controllers/category.controller';
+import { authorizeRoles, isLoggedIn } from '../middlewares/auth.middleware';
 
 const router = Router();
 
@@ -16,7 +16,7 @@ const router = Router();
  */
 
 router
-  .route("/")
+  .route('/')
   .post(
     isLoggedIn,
     authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
@@ -25,16 +25,16 @@ router
   .get(getAllCategories);
 
 router
-  .route("/:id")
+  .route('/:id')
   .get(getCategoryById)
   .put(
     isLoggedIn,
-    // authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
+    authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
     updateCategoryById
   )
   .delete(
     isLoggedIn,
-    // authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
+    authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
     deleteCategoryById
   );
 

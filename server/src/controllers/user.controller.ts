@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from 'express';
 
-import asyncHandler from "../middlewares/asyncHandler.middleware";
-import User from "../models/User.model";
-import AppErr from "../utils/AppErr";
-import sendEmail from "../utils/sendEmail";
+import asyncHandler from '../middlewares/asyncHandler.middleware';
+import User from '../models/User.model';
+import AppErr from '../utils/AppErr';
+import sendEmail from '../utils/sendEmail';
 
 /**
  * @GET_ALL_USERS
@@ -16,12 +16,12 @@ export const getAllUsers = asyncHandler(
     const users = await User.find({});
 
     if (!users.length) {
-      return next(new AppErr("No users found", 404));
+      return next(new AppErr('No users found', 404));
     }
 
     res.status(200).json({
       success: true,
-      message: "All users fetched successfully",
+      message: 'All users fetched successfully',
       users,
     });
   }
@@ -40,12 +40,12 @@ export const getUserByID = asyncHandler(
     const user = await User.findById(id);
 
     if (!user) {
-      return next(new AppErr("Invalid id or user does not exist", 400));
+      return next(new AppErr('Invalid id or user does not exist', 400));
     }
 
     res.status(200).json({
       success: true,
-      message: "User fetched successfully",
+      message: 'User fetched successfully',
       user,
     });
   }
@@ -74,12 +74,12 @@ export const getLoggedInUserDetails = asyncHandler(
     const user = await User.findById(req.user?.user_id);
 
     if (!user) {
-      return next(new AppErr("You are not authorized, please login", 401));
+      return next(new AppErr('You are not authorized, please login', 401));
     }
 
     res.status(200).json({
       success: true,
-      message: "Account details fetched successfully",
+      message: 'Account details fetched successfully',
       user,
     });
   }
@@ -97,14 +97,14 @@ export const changePassword = asyncHandler(
 
     if (!oldPassword || !newPassword) {
       return next(
-        new AppErr("Old password and new password are rewuired", 400)
+        new AppErr('Old password and new password are rewuired', 400)
       );
     }
 
-    const user = await User.findById(req.user?.user_id).select("+password");
+    const user = await User.findById(req.user?.user_id).select('+password');
 
     if (!(user && (await user.comparePassword(oldPassword)))) {
-      return next(new AppErr("Password is incorrect", 400));
+      return next(new AppErr('Password is incorrect', 400));
     }
 
     user.password = newPassword;
@@ -113,9 +113,9 @@ export const changePassword = asyncHandler(
 
     try {
       const message =
-        "Your AmmaJaan account password was changed recently, if it was not you please reset your account password ASAP.";
+        'Your AmmaJaan account password was changed recently, if it was not you please reset your account password ASAP.';
 
-      const subject = "Ammajaan password changed successfully";
+      const subject = 'Ammajaan password changed successfully';
 
       await sendEmail(user.email, subject, message);
     } catch (error) {}
@@ -124,7 +124,7 @@ export const changePassword = asyncHandler(
 
     res.status(200).json({
       success: true,
-      message: "Password changed successfully",
+      message: 'Password changed successfully',
     });
   }
 );
@@ -142,12 +142,12 @@ export const deleteUser = asyncHandler(
     const user = await User.findByIdAndDelete(id);
 
     if (!user) {
-      return next(new AppErr("Invalid user id or user does not exist", 400));
+      return next(new AppErr('Invalid user id or user does not exist', 400));
     }
 
     res.status(200).json({
       success: true,
-      message: "User deleted successfully",
+      message: 'User deleted successfully',
     });
   }
 );

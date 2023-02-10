@@ -1,15 +1,15 @@
-import crypto from "crypto";
-import { NextFunction, Request, Response } from "express";
-import jwt from "jsonwebtoken";
+import crypto from 'crypto';
+import { NextFunction, Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
 
-import asyncHandler from "../middlewares/asyncHandler.middleware";
-import User from "../models/User.model";
-import { IDecodedJwtPayload } from "../types";
-import AppErr from "../utils/AppErr";
-import sendEmail from "../utils/sendEmail";
+import asyncHandler from '../middlewares/asyncHandler.middleware';
+import User from '../models/User.model';
+import { IDecodedJwtPayload } from '../types';
+import AppErr from '../utils/AppErr';
+import sendEmail from '../utils/sendEmail';
 
 const cookieOptions = {
-  secure: process.env.NODE_ENV === "production" ? true : false,
+  secure: process.env.NODE_ENV === 'production' ? true : false,
   httpOnly: true,
   maxAge: 7 * 24 * 60 * 60 * 1000,
 };
@@ -27,7 +27,7 @@ export const registerUser = asyncHandler(
     const userExist = await User.findOne({ email }).lean();
 
     if (userExist) {
-      return next(new AppErr("User already registeres", 409));
+      return next(new AppErr('User already registeres', 409));
     }
 
     const user = await User.create({
@@ -36,20 +36,20 @@ export const registerUser = asyncHandler(
       password,
       phoneNumber,
       avatar: {
-        public_id: "Hello",
-        secure_url: "URL",
+        public_id: 'Hello',
+        secure_url: 'URL',
       },
     });
 
     if (!user) {
       return next(
-        new AppErr("User registration failed, please try again.", 400)
+        new AppErr('User registration failed, please try again.', 400)
       );
     }
 
-    const emailSubject = "Thank you for registering on AmmaJaan";
+    const emailSubject = 'Thank you for registering on AmmaJaan';
     const emailMessage =
-      "It is a pleasure to have you on board, we have a lot of cool stuff in here feel free to explore. If you cannot find any product feel free to reach out to us and we will get back to you as soon as possible.";
+      'It is a pleasure to have you on board, we have a lot of cool stuff in here feel free to explore. If you cannot find any product feel free to reach out to us and we will get back to you as soon as possible.';
 
     await sendEmail(user.email, emailSubject, emailMessage);
 
@@ -58,11 +58,11 @@ export const registerUser = asyncHandler(
     const accessToken = await user.generateAccessToken();
     const refreshToken = await user.generateRefreshToken();
 
-    res.cookie("refreshToken", refreshToken, cookieOptions);
+    res.cookie('refreshToken', refreshToken, cookieOptions);
 
     res.status(201).json({
       success: true,
-      message: "User created successfully",
+      message: 'User created successfully',
       accessToken,
       user,
     });
@@ -80,15 +80,15 @@ export const loginUser = asyncHandler(
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return next(new AppErr("Email and Password are required", 400));
+      return next(new AppErr('Email and Password are required', 400));
     }
 
-    const user = await User.findOne({ email }).select("+password");
+    const user = await User.findOne({ email }).select('+password');
 
     if (!user || !(await user.comparePassword(password))) {
       return next(
         new AppErr(
-          "Email and password do not match or user does not exist",
+          'Email and password do not match or user does not exist',
           400
         )
       );
@@ -103,11 +103,11 @@ export const loginUser = asyncHandler(
     const accessToken = await user.generateAccessToken();
     const refreshToken = await user.generateRefreshToken();
 
-    res.cookie("refreshToken", refreshToken, cookieOptions);
+    res.cookie('refreshToken', refreshToken, cookieOptions);
 
     res.status(200).json({
       success: true,
-      message: "User Logged in successfully",
+      message: 'User Logged in successfully',
       accessToken,
       user,
     });
@@ -124,14 +124,14 @@ export const logoutUser = asyncHandler(
   async (_req: Request, res: Response, _next: NextFunction) => {
     res
       .status(200)
-      .cookie("refreshToken", "", {
+      .cookie('refreshToken', '', {
         secure: true,
         httpOnly: true,
         maxAge: 1,
       })
       .json({
         success: true,
-        message: "Logged out successfully",
+        message: 'Logged out successfully',
       });
   }
 );
@@ -147,13 +147,13 @@ export const forgotPassword = asyncHandler(
     const { email } = req.body;
 
     if (!email) {
-      return next(new AppErr("Email is required", 400));
+      return next(new AppErr('Email is required', 400));
     }
 
     const user = await User.findOne({ email });
 
     if (!user) {
-      return next(new AppErr("User not found, please register", 404));
+      return next(new AppErr('User not found, please register', 404));
     }
 
     const resetToken = await user.generatePasswordResetToken();
@@ -161,10 +161,10 @@ export const forgotPassword = asyncHandler(
     await user.save();
 
     const resetPasswordUrl = `${req.protocol}://${req.get(
-      "host"
+      'host'
     )}/api/v1/auth/reset/${resetToken}`;
 
-    const subject = "Reset your password";
+    const subject = 'Reset your password';
     const message = `Here is your password reset token\n${resetPasswordUrl}.\nIf you did not request this, please ignore.`;
 
     try {
@@ -182,7 +182,7 @@ export const forgotPassword = asyncHandler(
 
       return next(
         new AppErr(
-          error.message || "Something went wrong, please try again.",
+          error.message || 'Something went wrong, please try again.',
           400
         )
       );
@@ -202,9 +202,9 @@ export const resetPassword = asyncHandler(
     const { password } = req.body;
 
     const resetPasswordToken = crypto
-      .createHash("sha256")
+      .createHash('sha256')
       .update(token)
-      .digest("hex");
+      .digest('hex');
 
     const user = await User.findOne({
       resetPasswordToken,
@@ -214,7 +214,7 @@ export const resetPassword = asyncHandler(
     if (!user) {
       return next(
         new AppErr(
-          "Reset password token is invalid or expired, please try again.",
+          'Reset password token is invalid or expired, please try again.',
           400
         )
       );
@@ -228,7 +228,7 @@ export const resetPassword = asyncHandler(
 
     res.status(200).json({
       success: true,
-      message: "Password updated successfully, please login",
+      message: 'Password updated successfully, please login',
     });
   }
 );
@@ -244,7 +244,7 @@ export const refreshToken = asyncHandler(
     const { refreshToken: token } = req.cookies;
 
     if (!token) {
-      return next(new AppErr("No token found, please login", 404));
+      return next(new AppErr('No token found, please login', 404));
     }
 
     const decoded = (await jwt.verify(
@@ -253,20 +253,20 @@ export const refreshToken = asyncHandler(
     )) as IDecodedJwtPayload;
 
     if (!decoded) {
-      return next(new AppErr("Invalid Token, please login", 400));
+      return next(new AppErr('Invalid Token, please login', 400));
     }
 
     const user = await User.findById(decoded.user_id);
 
     if (!user) {
-      return next(new AppErr("Unauthorized, please login", 401));
+      return next(new AppErr('Unauthorized, please login', 401));
     }
 
     const accessToken = await user.generateAccessToken();
 
     res.status(200).json({
       success: true,
-      message: "Access token refreshed successfully",
+      message: 'Access token refreshed successfully',
       accessToken,
     });
   }

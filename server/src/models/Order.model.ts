@@ -1,12 +1,13 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose';
+import { IOrders } from '../types';
 
-const orderSchema: Schema = new Schema(
+const orderSchema: Schema = new Schema<IOrders>(
   {
     products: [
       {
         product: {
           type: Schema.Types.ObjectId,
-          ref: "Product",
+          ref: 'Product',
           required: true,
         },
         quantity: Number,
@@ -15,31 +16,31 @@ const orderSchema: Schema = new Schema(
     ],
     user: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
     address: {
       type: String,
-      required: [true, "Address is required"],
+      required: [true, 'Address is required'],
     },
     phoneNumber: {
       type: String,
-      required: [true, "Phone number is required"],
+      required: [true, 'Phone number is required'],
     },
     paymentMethod: {
       type: String,
-      required: [true, "Payment method is required"],
+      required: [true, 'Payment method is required'],
     },
     total: {
       type: Number,
-      required: [true, "Total price is required"],
+      required: [true, 'Total price is required'],
     },
     coupon: String,
     transactionId: String,
     status: {
       type: String,
-      enum: ["ORDERED", "SHIPPED", "DELIVERED", "CANCELLED"],
-      default: "ORDERED",
+      enum: ['ORDERED', 'SHIPPED', 'DELIVERED', 'CANCELLED'],
+      default: 'ORDERED',
     },
   },
   {
@@ -47,6 +48,6 @@ const orderSchema: Schema = new Schema(
   }
 );
 
-const Order = model("Order", orderSchema);
+const Order = model('Order', orderSchema);
 
 export default Order;

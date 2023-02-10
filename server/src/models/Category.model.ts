@@ -1,29 +1,30 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose';
+import { ICategory } from '../types';
 
-const categorySchema: Schema = new Schema(
+const categorySchema: Schema = new Schema<ICategory>(
   {
     name: {
       type: String,
-      required: [true, "Category name is required"],
-      minlength: [3, "Category name must be atleast 3 characters long"],
-      maxlength: [20, "Category name cannot be more than 20 characters"],
+      required: [true, 'Category name is required'],
+      minlength: [3, 'Category name must be atleast 3 characters long'],
+      maxlength: [20, 'Category name cannot be more than 20 characters'],
       unique: true,
       trim: true,
       lowercase: true,
     },
     description: {
       type: String,
-      minlength: [15, "Description must be atleast 15 characters long"],
+      minlength: [15, 'Description must be atleast 15 characters long'],
     },
     slug: {
       type: String,
-      required: [true, "Slug is required"],
+      required: [true, 'Slug is required'],
       unique: true,
       lowercase: true,
     },
     createdBy: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
   },
@@ -32,6 +33,6 @@ const categorySchema: Schema = new Schema(
   }
 );
 
-const Category = model("Category", categorySchema);
+const Category = model('Category', categorySchema);
 
 export default Category;
