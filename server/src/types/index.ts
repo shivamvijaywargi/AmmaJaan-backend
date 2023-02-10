@@ -1,4 +1,5 @@
 import { Types } from 'mongoose';
+import { z } from 'zod';
 
 export interface IDecodedJwtPayload {
   user_id: string;
@@ -90,6 +91,21 @@ export interface IUser {
   resetPasswordToken?: string;
   resetPasswordExpiry?: Date;
 }
+
+// testing only --- Start
+const ZWishlistSchema = z.object({
+  user: z.object({
+    id: z.instanceof(Types.ObjectId),
+  }),
+  products: z.array(
+    z.object({
+      id: z.instanceof(Types.ObjectId),
+    })
+  ),
+});
+
+export type ZWishlist = z.infer<typeof ZWishlistSchema>;
+// testing only --- End
 
 export interface IWishlist {
   user: Types.ObjectId;
