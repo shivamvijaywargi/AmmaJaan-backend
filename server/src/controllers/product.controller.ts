@@ -175,3 +175,33 @@ export const getAllProducts = asyncHandler(
     });
   }
 );
+
+/**
+ * @UPDATE_PRODUCT_BY_ID
+ * @ROUTE @PUT {{URL}}/api/v1/products/:id
+ * @returns Product updated successfully
+ * @ACCESS Private(Admin + Employee only)
+ */
+export const updateProductById = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+
+    const product = await Product.findByIdAndUpdate(
+      id,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    );
+
+    if (!product) {
+      return next(new AppErr('Invalid ID or product not found', 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Product updated successfully',
+      product,
+    });
+  }
+);

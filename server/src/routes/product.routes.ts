@@ -3,8 +3,11 @@ import ROLES_LIST from '../configs/ROLES_LIST';
 import {
   createProduct,
   getAllProducts,
+  updateProductById,
 } from '../controllers/product.controller';
 import { authorizeRoles, isLoggedIn } from '../middlewares/auth.middleware';
+import validateRequestObj from '../middlewares/validateReq';
+import { UpdateProductSchema } from '../schemas/product.schema';
 
 const router = Router();
 
@@ -19,5 +22,12 @@ router
     createProduct
   )
   .get(getAllProducts);
+
+router.route('/:id').put(
+  isLoggedIn,
+  // authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
+  validateRequestObj(UpdateProductSchema),
+  updateProductById
+);
 
 export default router;
