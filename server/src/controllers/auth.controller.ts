@@ -27,7 +27,7 @@ export const registerUser = asyncHandler(
     const userExist = await User.findOne({ email }).lean();
 
     if (userExist) {
-      return next(new AppErr('User already registeres', 409));
+      return next(new AppErr('User already registered', 409));
     }
 
     const user = await User.create({
@@ -36,8 +36,9 @@ export const registerUser = asyncHandler(
       password,
       phoneNumber,
       avatar: {
-        public_id: 'Hello',
-        secure_url: 'URL',
+        public_id: email,
+        secure_url:
+          'https://res.cloudinary.com/du9jzqlpt/image/upload/v1674647316/avatar_drzgxv.jpg',
       },
     });
 
@@ -78,10 +79,6 @@ export const registerUser = asyncHandler(
 export const loginUser = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
-
-    if (!email || !password) {
-      return next(new AppErr('Email and Password are required', 400));
-    }
 
     const user = await User.findOne({ email }).select('+password');
 
