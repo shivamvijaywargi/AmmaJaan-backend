@@ -13,7 +13,7 @@ import sendEmail from '../utils/sendEmail';
  * @GET_ALL_USERS
  * @ROUTE @GET {{URL}}/api/v1/users
  * @returns All Users
- * @ACCESS Private (Admins only)
+ * @ACCESS Private (Admins + Employees only)
  */
 export const getAllUsers = asyncHandler(
   async (_req: Request, res: Response, next: NextFunction) => {
@@ -209,11 +209,21 @@ export const deleteUser = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
 
-    const user = await User.findByIdAndDelete(id);
+    const user = await User.findById(id);
 
     if (!user) {
       return next(new AppErr('Invalid user id or user does not exist', 400));
     }
+
+    if (user.avatar.public_id) {
+      try {
+        await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+      } catch (error) {
+        return next(new AppErr('Image could not be deleted', 400));
+      }
+    }
+
+    await user.remove();
 
     res.status(200).json({
       success: true,

@@ -35,7 +35,7 @@ router
   )
   .delete(
     isLoggedIn,
-    // authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
+    authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
     deleteProductById
   );
 

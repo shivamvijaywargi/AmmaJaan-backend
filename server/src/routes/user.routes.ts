@@ -19,7 +19,11 @@ const router = Router();
  */
 router
   .route('/')
-  .get(isLoggedIn, authorizeRoles(ROLES_LIST.ADMIN), getAllUsers)
+  .get(
+    isLoggedIn,
+    authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
+    getAllUsers
+  )
   .put(isLoggedIn, updateUser);
 router.route('/me').get(isLoggedIn, getLoggedInUserDetails);
 router
