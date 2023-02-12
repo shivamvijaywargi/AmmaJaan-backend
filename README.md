@@ -65,7 +65,7 @@ I might make a Swagger documentation in the future, if I can learn it sooner.
 
 - [ ] Wishlist
 
-- [ ] Learn testing first and then implement it
+- [ ] Learn Swagger, Testing and then implement them
 
 ## Installation
 
