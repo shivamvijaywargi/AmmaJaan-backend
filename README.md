@@ -108,7 +108,7 @@ Please adhere to this project's `code of conduct`.
 - Need something out of built-in fs package, fs-extra is what you need😉
 - Create user friendly URLs with Slug (Say **NO** to **63e722d56f4c46aa8c65a82f**)
 - Better logging using Winston + Morgan (A level up compared to console logs)
-  - PS: Do not block your thread (IFKYK)
+  - PS: Do not block your only thread (IFKYK)
 
 ### Yet to achieve
 
