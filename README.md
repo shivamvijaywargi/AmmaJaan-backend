@@ -31,13 +31,13 @@ PS: For complete list of packages check out package.json😉
 
 ## API Reference - Only single example since I cannot write all here😅
 
-#### Get single product
+#### Get all products
 
 ```http
   GET /api/v1/products
 ```
 
-#### Get item
+#### Get single product
 
 ```http
   GET /api/products/${id}
