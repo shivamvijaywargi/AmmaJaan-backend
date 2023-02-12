@@ -1,7 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import AppErr from '../utils/AppErr';
+import Logger from '../utils/logger';
 
 const devError = (err: AppErr, res: Response) => {
+  Logger.error(err);
   res.status(err.statusCode).json({
     success: false,
     message: err.message,
@@ -10,6 +12,7 @@ const devError = (err: AppErr, res: Response) => {
 };
 
 const prodError = (err: AppErr, res: Response) => {
+  Logger.error(err);
   res.status(err.statusCode).json({
     success: false,
     message: err.message,

@@ -1,4 +1,8 @@
+import os from 'os';
+
 import { NextFunction, Request, Response } from 'express';
+import formidable from 'formidable';
+import cloudinary from 'cloudinary';
 
 import asyncHandler from '../middlewares/asyncHandler.middleware';
 import User from '../models/User.model';
@@ -60,6 +64,68 @@ export const getUserByID = asyncHandler(
 export const updateUser = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     // TODO
+    const form = formidable({
+      keepExtensions: true,
+      uploadDir: os.tmpdir(),
+      maxFileSize: 50 * 1024 * 1024, // 5MB
+    });
+
+    form.parse(req, async (err, fields, files) => {
+      if (err) {
+        return next(new AppErr(err || 'Something went wrong', 500));
+      }
+
+      try {
+        const user = await User.findByIdAndUpdate(
+          req.user?.user_id,
+          {
+            $set: fields,
+          },
+          {
+            new: true,
+          }
+        );
+
+        if (!user) {
+          return next(new AppErr('Error updating user, please try again', 400));
+        }
+
+        if (files) {
+          try {
+            const incomingFile = files.userImage;
+            if (!Array.isArray(incomingFile)) {
+              const result = await cloudinary.v2.uploader.upload(
+                incomingFile.filepath,
+                {
+                  folder: 'eCommerce/users',
+                }
+              );
+
+              if (result) {
+                user.avatar.public_id = result.public_id;
+                user.avatar.secure_url = result.secure_url;
+              }
+            }
+          } catch (error) {
+            return next(new AppErr('Image could not be uploaded', 400));
+          }
+        }
+
+        res.status(200).json({
+          success: true,
+          message: 'User updated successfully',
+          user,
+        });
+      } catch (error: any) {
+        return next(
+          new AppErr(
+            error ||
+              'Something went wrong while updating the user, please try again',
+            500
+          )
+        );
+      }
+    });
   }
 );
 

@@ -66,7 +66,7 @@ export const createCategory = asyncHandler(
  */
 export const getAllCategories = asyncHandler(
   async (_req: Request, res: Response, next: NextFunction) => {
-    const categories = await Category.find();
+    const categories = await Category.find({});
 
     if (!categories.length) {
       return next(new AppErr('No category found', 404));

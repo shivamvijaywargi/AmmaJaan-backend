@@ -10,7 +10,6 @@ import cloudinary from 'cloudinary';
 import asyncHandler from '../middlewares/asyncHandler.middleware';
 import Product from '../models/Product.model';
 import AppErr from '../utils/AppErr';
-import { isArray } from 'util';
 import Logger from '../utils/logger';
 
 /**
@@ -94,11 +93,11 @@ export const createProduct = asyncHandler(
             }
 
             const incomingFile = files.productImage;
-            if (!isArray(incomingFile)) {
+            if (!Array.isArray(incomingFile)) {
               const result = await cloudinary.v2.uploader.upload(
                 incomingFile.filepath,
                 {
-                  folder: 'eCommerce',
+                  folder: 'eCommerce/products',
                 }
               );
 
@@ -134,7 +133,6 @@ export const createProduct = asyncHandler(
               }
             }
           } catch (error) {
-            Logger.error(error);
             return next(new AppErr('Image could not be uploaded', 400));
           }
         }
