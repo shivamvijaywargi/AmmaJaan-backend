@@ -1,3 +1,4 @@
+import { Types } from 'mongoose';
 import { z } from 'zod';
 
 // Cannot figure out how to use this with formidable, I will check this later if possible
@@ -42,10 +43,7 @@ import { z } from 'zod';
 //       .optional(),
 //     label: z.enum(['Hot', 'New', 'Best Selling']).optional(),
 //     inStock: z.boolean().optional(),
-//     category: z.string({
-//       required_error: 'Category is required',
-//       invalid_type_error: 'Category must be a string',
-//     }),
+//     category: z.instanceOf(Types.ObjectId),
 //   }),
 // });
 
@@ -81,8 +79,12 @@ export const UpdateProductSchema = z.object({
     label: z.enum(['Hot', 'New', 'Best Selling']).optional(),
     inStock: z.boolean().optional(),
     category: z
-      .instanceof(Object)
-      .transform((id) => id.toString())
+      .instanceof(Types.ObjectId) // Use when the type is mongoose.Schema.Types.ObjectId
+      // .transform((id) => id.toString())
       .optional(),
+    // category: z
+    //   .instanceof(Types.ObjectId)
+    //   .transform((id) => id.toString()) // Do this if the check is in NextJS
+    //   .optional(),
   }),
 });
