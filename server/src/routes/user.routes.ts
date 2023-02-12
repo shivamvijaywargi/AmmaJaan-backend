@@ -9,6 +9,8 @@ import {
   updateUser,
 } from '../controllers/user.controller';
 import { authorizeRoles, isLoggedIn } from '../middlewares/auth.middleware';
+import validateRequestObj from '../middlewares/validateReq';
+import { changeUserPasswordSchema } from '../schemas/user.schema';
 
 const router = Router();
 
@@ -20,7 +22,13 @@ router
   .get(isLoggedIn, authorizeRoles(ROLES_LIST.ADMIN), getAllUsers)
   .put(isLoggedIn, updateUser);
 router.route('/me').get(isLoggedIn, getLoggedInUserDetails);
-router.route('/change-password').post(isLoggedIn, changePassword);
+router
+  .route('/change-password')
+  .post(
+    isLoggedIn,
+    validateRequestObj(changeUserPasswordSchema),
+    changePassword
+  );
 router
   .route('/:id')
   .get(

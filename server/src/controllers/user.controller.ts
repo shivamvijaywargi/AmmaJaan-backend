@@ -97,7 +97,7 @@ export const changePassword = asyncHandler(
 
     if (!oldPassword || !newPassword) {
       return next(
-        new AppErr('Old password and new password are rewuired', 400)
+        new AppErr('Old password and new password are required', 400)
       );
     }
 
