@@ -4,6 +4,7 @@ import {
   createProduct,
   deleteProductById,
   getAllProducts,
+  getProductById,
   updateProductById,
 } from '../controllers/product.controller';
 import { authorizeRoles, isLoggedIn } from '../middlewares/auth.middleware';
@@ -26,6 +27,7 @@ router
 
 router
   .route('/:id')
+  .get(getProductById)
   .put(
     isLoggedIn,
     authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),

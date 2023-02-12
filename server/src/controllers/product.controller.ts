@@ -175,6 +175,30 @@ export const getAllProducts = asyncHandler(
 );
 
 /**
+ * @GET_PRODUCT_BY_ID
+ * @ROUTE @GET {{URL}}/api/v1/products/:id
+ * @returns Single products
+ * @ACCESS Public
+ */
+export const getProductById = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const product = await Product.findById(req.params.id).populate(
+      'category createdBy'
+    );
+
+    if (!product) {
+      return next(new AppErr('Invalid ID or product does not exist', 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Product fetched successfully',
+      product,
+    });
+  }
+);
+
+/**
  * @UPDATE_PRODUCT_BY_ID
  * @ROUTE @PUT {{URL}}/api/v1/products/:id
  * @returns Product updated successfully
