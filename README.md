@@ -147,7 +147,7 @@ There are still a few things I still need to dive into which includes but not li
 
 - [@shivamvijaywargi](https://www.github.com/shivamvijaywargi)
 
-## 🛠 Skills
+## 🛠 My Skills
 
 HTML, CSS, Javascript, ReactJS, NextJS, NodeJS, ExpressJS, MongoDB, TypeScript
 
