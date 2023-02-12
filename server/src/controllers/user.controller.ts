@@ -92,6 +92,8 @@ export const updateUser = asyncHandler(
 
         if (files) {
           try {
+            await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+
             const incomingFile = files.userImage;
             if (!Array.isArray(incomingFile)) {
               const result = await cloudinary.v2.uploader.upload(
@@ -110,6 +112,8 @@ export const updateUser = asyncHandler(
             return next(new AppErr('Image could not be uploaded', 400));
           }
         }
+
+        await user.save();
 
         res.status(200).json({
           success: true,

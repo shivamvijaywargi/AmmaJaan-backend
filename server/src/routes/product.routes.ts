@@ -2,6 +2,7 @@ import { Router } from 'express';
 import ROLES_LIST from '../configs/ROLES_LIST';
 import {
   createProduct,
+  deleteProductById,
   getAllProducts,
   updateProductById,
 } from '../controllers/product.controller';
@@ -18,16 +19,22 @@ router
   .route('/')
   .post(
     isLoggedIn,
-    // authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
+    authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
     createProduct
   )
   .get(getAllProducts);
 
-router.route('/:id').put(
-  isLoggedIn,
-  // authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
-  validateRequestObj(UpdateProductSchema),
-  updateProductById
-);
+router
+  .route('/:id')
+  .put(
+    isLoggedIn,
+    authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
+    updateProductById
+  )
+  .delete(
+    isLoggedIn,
+    // authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
+    deleteProductById
+  );
 
 export default router;

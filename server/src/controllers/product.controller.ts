@@ -12,6 +12,11 @@ import Product from '../models/Product.model';
 import AppErr from '../utils/AppErr';
 import Logger from '../utils/logger';
 
+interface IUploadedImageData {
+  public_id: string;
+  secure_url: string;
+}
+
 /**
  * @CREATE_PRODUCT
  * @ROUTE @POST {{URL}}/api/v1/products
@@ -87,11 +92,6 @@ export const createProduct = asyncHandler(
 
         if (files) {
           try {
-            interface IUploadedImageData {
-              public_id: string;
-              secure_url: string;
-            }
-
             const incomingFile = files.productImage;
             if (!Array.isArray(incomingFile)) {
               const result = await cloudinary.v2.uploader.upload(
@@ -182,24 +182,137 @@ export const getAllProducts = asyncHandler(
  */
 export const updateProductById = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
+    const form = formidable({
+      multiples: true,
+      keepExtensions: true,
+      uploadDir: os.tmpdir(),
+      maxFileSize: 50 * 1024 * 1024, // 5MB
+    });
+
+    form.parse(req, async (err, fields, files) => {
+      if (err) {
+        return next(new AppErr(err || 'Something went wrong', 500));
+      }
+
+      try {
+        const { id } = req.params;
+
+        const product = await Product.findByIdAndUpdate(
+          id,
+          {
+            $set: fields,
+          },
+          { new: true }
+        );
+
+        if (!product) {
+          return next(new AppErr('Invalid ID or product not found', 404));
+        }
+
+        if (fields.title) {
+          let newSlug = slugify(product.title);
+
+          const slugExist = await Product.findOne({ slug: newSlug }).lean();
+
+          if (slugExist) {
+            newSlug = newSlug + '-' + crypto.randomUUID().substring(0, 5);
+          }
+
+          product.title = newSlug;
+
+          await product.save();
+        }
+
+        if (files) {
+          try {
+            const incomingFile = files.productImage;
+            if (!Array.isArray(incomingFile)) {
+              const result = await cloudinary.v2.uploader.upload(
+                incomingFile.filepath,
+                {
+                  folder: 'eCommerce/products',
+                }
+              );
+
+              if (result) {
+                let uploadedImage: IUploadedImageData = {
+                  public_id: result.public_id,
+                  secure_url: result.secure_url,
+                };
+
+                product.images.push({
+                  image: uploadedImage,
+                });
+              }
+            } else {
+              for (let i = 0; i < incomingFile.length; i++) {
+                const result = await cloudinary.v2.uploader.upload(
+                  incomingFile[i].filepath,
+                  {
+                    folder: 'eCommerce',
+                  }
+                );
+
+                if (result) {
+                  let uploadedImage: IUploadedImageData = {
+                    public_id: result.public_id,
+                    secure_url: result.secure_url,
+                  };
+
+                  product.images.push({
+                    image: uploadedImage,
+                  });
+                }
+              }
+            }
+          } catch (error) {
+            return next(new AppErr('Image could not be uploaded', 400));
+          }
+        }
+
+        res.status(200).json({
+          success: true,
+          message: 'Product updated successfully',
+          product,
+        });
+      } catch (error: any) {
+        return next(
+          new AppErr(error || 'Something went wrong, please try again', 400)
+        );
+      }
+    });
+  }
+);
+
+/**
+ * @DELETE_PRODUCT_BY_ID
+ * @ROUTE @DELETE {{URL}}/api/v1/products/:id
+ * @returns Product deleted successfully
+ * @ACCESS Private(Admin + Employee only)
+ */
+export const deleteProductById = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
 
-    const product = await Product.findByIdAndUpdate(
-      id,
-      {
-        $set: req.body,
-      },
-      { new: true }
-    );
+    const product = await Product.findById(id);
 
     if (!product) {
       return next(new AppErr('Invalid ID or product not found', 404));
     }
 
+    product.images.map(async (image: any) => {
+      try {
+        await cloudinary.v2.uploader.destroy(image.image.public_id);
+      } catch (error) {
+        next(new AppErr('Could not delete images from cloudinary', 400));
+      }
+    });
+
+    await product.remove();
+
     res.status(200).json({
       success: true,
-      message: 'Product updated successfully',
-      product,
+      message: 'Product deleted successfully',
     });
   }
 );
