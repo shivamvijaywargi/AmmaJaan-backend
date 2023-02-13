@@ -59,7 +59,8 @@ export interface IProduct {
       secure_url: string;
     };
   }[];
-  price: number;
+  originalPrice: number;
+  discountedPrice?: number;
   quantity: number;
   inStock: boolean;
   slug: string;

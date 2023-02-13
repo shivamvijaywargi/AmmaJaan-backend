@@ -40,9 +40,13 @@ const productSchema: Schema = new Schema<IProduct>(
         },
       },
     ],
-    price: {
+    originalPrice: {
       type: Number,
       required: [true, 'Price is required'],
+      maxlength: [5, 'Price cannot exceed 5 digits'],
+    },
+    discountedPrice: {
+      type: Number,
       maxlength: [5, 'Price cannot exceed 5 digits'],
     },
     quantity: {
