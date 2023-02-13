@@ -20,7 +20,7 @@ router
   .post(
     isLoggedIn,
     authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
-    createCategory
+    createCategory,
   )
   .get(getAllCategories);
 
@@ -30,12 +30,12 @@ router
   .put(
     isLoggedIn,
     authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
-    updateCategoryById
+    updateCategoryById,
   )
   .delete(
     isLoggedIn,
     authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
-    deleteCategoryById
+    deleteCategoryById,
   );
 
 export default router;

@@ -28,7 +28,7 @@ export const getAllUsers = asyncHandler(
       message: 'All users fetched successfully',
       users,
     });
-  }
+  },
 );
 
 /**
@@ -52,7 +52,7 @@ export const getUserByID = asyncHandler(
       message: 'User fetched successfully',
       user,
     });
-  }
+  },
 );
 
 /**
@@ -83,7 +83,7 @@ export const updateUser = asyncHandler(
           },
           {
             new: true,
-          }
+          },
         );
 
         if (!user) {
@@ -100,7 +100,7 @@ export const updateUser = asyncHandler(
                 incomingFile.filepath,
                 {
                   folder: 'eCommerce/users',
-                }
+                },
               );
 
               if (result) {
@@ -125,12 +125,12 @@ export const updateUser = asyncHandler(
           new AppErr(
             error ||
               'Something went wrong while updating the user, please try again',
-            500
-          )
+            500,
+          ),
         );
       }
     });
-  }
+  },
 );
 
 /**
@@ -152,7 +152,7 @@ export const getLoggedInUserDetails = asyncHandler(
       message: 'Account details fetched successfully',
       user,
     });
-  }
+  },
 );
 
 /**
@@ -167,7 +167,7 @@ export const changePassword = asyncHandler(
 
     if (!oldPassword || !newPassword) {
       return next(
-        new AppErr('Old password and new password are required', 400)
+        new AppErr('Old password and new password are required', 400),
       );
     }
 
@@ -196,7 +196,7 @@ export const changePassword = asyncHandler(
       success: true,
       message: 'Password changed successfully',
     });
-  }
+  },
 );
 
 /**
@@ -229,5 +229,5 @@ export const deleteUser = asyncHandler(
       success: true,
       message: 'User deleted successfully',
     });
-  }
+  },
 );

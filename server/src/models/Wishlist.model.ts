@@ -18,7 +18,7 @@ const wishlistSchema = new Schema<IWishlist>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const Wishlist = model('Wishlist', wishlistSchema);

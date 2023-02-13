@@ -45,7 +45,7 @@ const orderSchema: Schema = new Schema<IOrders>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const Order = model('Order', orderSchema);

@@ -24,7 +24,7 @@ router
   .post(
     isLoggedIn,
     authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
-    createProduct
+    createProduct,
   )
   .get(validateRequestObj(productQuerySchema), getAllProducts);
 
@@ -34,12 +34,12 @@ router
   .put(
     isLoggedIn,
     authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
-    updateProductById
+    updateProductById,
   )
   .delete(
     isLoggedIn,
     authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
-    deleteProductById
+    deleteProductById,
   );
 
 export default router;

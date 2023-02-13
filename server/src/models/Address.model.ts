@@ -41,7 +41,7 @@ const addressSchema: Schema = new Schema<IAddress>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const Address = model('Address', addressSchema);

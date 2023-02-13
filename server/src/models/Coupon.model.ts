@@ -24,7 +24,7 @@ const couponSchema: Schema = new Schema<ICoupon>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const Coupon = model('Coupon', couponSchema);

@@ -29,7 +29,7 @@ export const isLoggedIn = asyncHandler(async (req, _res, next) => {
 
   const decoded = (await jwt.verify(
     token,
-    process.env.ACCESS_TOKEN_SECRET as string
+    process.env.ACCESS_TOKEN_SECRET as string,
   )) as IDecodedJwtPayload;
 
   if (!decoded) {
@@ -45,7 +45,7 @@ export const authorizeRoles = (...roles: IRoles) =>
   asyncHandler(async (req, _res, next) => {
     if (!roles.includes(req.user?.role)) {
       return next(
-        new AppErr('You are not authorized to access this route', 403)
+        new AppErr('You are not authorized to access this route', 403),
       );
     }
 

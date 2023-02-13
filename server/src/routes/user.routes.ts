@@ -22,7 +22,7 @@ router
   .get(
     isLoggedIn,
     authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
-    getAllUsers
+    getAllUsers,
   )
   .put(isLoggedIn, updateUser);
 router.route('/me').get(isLoggedIn, getLoggedInUserDetails);
@@ -31,19 +31,19 @@ router
   .post(
     isLoggedIn,
     validateRequestObj(changeUserPasswordSchema),
-    changePassword
+    changePassword,
   );
 router
   .route('/:id')
   .get(
     isLoggedIn,
     authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
-    getUserByID
+    getUserByID,
   )
   .delete(
     isLoggedIn,
     authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
-    deleteUser
+    deleteUser,
   );
 
 export default router;

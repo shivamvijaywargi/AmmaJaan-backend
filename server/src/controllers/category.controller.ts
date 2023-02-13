@@ -55,7 +55,7 @@ export const createCategory = asyncHandler(
       message: 'Category created successfully',
       category,
     });
-  }
+  },
 );
 
 /**
@@ -77,7 +77,7 @@ export const getAllCategories = asyncHandler(
       message: 'Categories fetched successfully',
       categories,
     });
-  }
+  },
 );
 
 /**
@@ -101,7 +101,7 @@ export const getCategoryById = asyncHandler(
       message: 'Category fetched successfully',
       category,
     });
-  }
+  },
 );
 
 /**
@@ -124,7 +124,7 @@ export const deleteCategoryById = asyncHandler(
       success: true,
       message: 'Category deleted successfully',
     });
-  }
+  },
 );
 
 /**
@@ -152,7 +152,7 @@ export const updateCategoryById = asyncHandler(
       },
       {
         new: true,
-      }
+      },
     );
 
     if (!category) {
@@ -168,5 +168,5 @@ export const updateCategoryById = asyncHandler(
       message: 'Category updated successfully',
       category,
     });
-  }
+  },
 );

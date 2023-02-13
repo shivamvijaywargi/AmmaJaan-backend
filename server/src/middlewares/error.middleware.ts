@@ -23,7 +23,7 @@ const errorMiddleware = async (
   err: AppErr,
   _req: Request,
   res: Response,
-  _next: NextFunction
+  _next: NextFunction,
 ) => {
   err.statusCode = err.statusCode || 500;
   err.message = err.message || 'Internal Server Error';

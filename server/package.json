@@ -7,6 +7,8 @@
     "build": "npx tsc",
     "start:prod": "node dist/server.js",
     "build:start": "yarn build && yarn start:prod",
+    "prettier": "prettier --write \"src/**/*.ts\"",
+    "prettier:check": "prettier --check \"src/**/*.ts\"",
     "start:dev": "nodemon src/server.ts"
   },
   "keywords": [],
@@ -48,6 +50,7 @@
     "@types/node": "^18.11.18",
     "@types/nodemailer": "^6.4.7",
     "nodemon": "^2.0.20",
+    "prettier": "^2.8.4",
     "ts-node-dev": "^2.0.0",
     "typescript": "^4.9.4"
   },

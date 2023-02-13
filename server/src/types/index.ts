@@ -103,7 +103,7 @@ const ZWishlistSchema = z.object({
   products: z.array(
     z.object({
       id: z.instanceof(Types.ObjectId),
-    })
+    }),
   ),
 });
 

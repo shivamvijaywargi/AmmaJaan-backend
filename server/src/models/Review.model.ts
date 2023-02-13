@@ -30,7 +30,7 @@ const reviewSchema: Schema = new Schema<IReview>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const Review = model('Review', reviewSchema);

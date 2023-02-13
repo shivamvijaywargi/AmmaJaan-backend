@@ -64,8 +64,8 @@ export const createProduct = asyncHandler(
           return next(
             new AppErr(
               'Title, Description, Price, and Category are required',
-              400
-            )
+              400,
+            ),
           );
         }
 
@@ -88,7 +88,7 @@ export const createProduct = asyncHandler(
 
         if (!product) {
           return next(
-            new AppErr('Product was not created, please try again', 400)
+            new AppErr('Product was not created, please try again', 400),
           );
         }
 
@@ -109,7 +109,7 @@ export const createProduct = asyncHandler(
                 incomingFile.filepath,
                 {
                   folder: 'eCommerce/products',
-                }
+                },
               );
 
               if (result) {
@@ -128,7 +128,7 @@ export const createProduct = asyncHandler(
                   incomingFile[i].filepath,
                   {
                     folder: 'eCommerce',
-                  }
+                  },
                 );
 
                 if (result) {
@@ -160,7 +160,7 @@ export const createProduct = asyncHandler(
         return next(new AppErr('Something went wrong, please try again', 400));
       }
     });
-  }
+  },
 );
 
 /**
@@ -236,7 +236,7 @@ export const getAllProducts = asyncHandler(
       products,
       total,
     });
-  }
+  },
 );
 
 /**
@@ -248,7 +248,7 @@ export const getAllProducts = asyncHandler(
 export const getProductById = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const product = await Product.findById(req.params.id).populate(
-      'category createdBy'
+      'category createdBy',
     );
 
     if (!product) {
@@ -265,7 +265,7 @@ export const getProductById = asyncHandler(
       message: 'Product fetched successfully',
       product,
     });
-  }
+  },
 );
 
 /**
@@ -296,7 +296,7 @@ export const updateProductById = asyncHandler(
           {
             $set: fields,
           },
-          { new: true }
+          { new: true },
         );
 
         if (!product) {
@@ -325,7 +325,7 @@ export const updateProductById = asyncHandler(
                 incomingFile.filepath,
                 {
                   folder: 'eCommerce/products',
-                }
+                },
               );
 
               if (result) {
@@ -344,7 +344,7 @@ export const updateProductById = asyncHandler(
                   incomingFile[i].filepath,
                   {
                     folder: 'eCommerce',
-                  }
+                  },
                 );
 
                 if (result) {
@@ -371,11 +371,11 @@ export const updateProductById = asyncHandler(
         });
       } catch (error: any) {
         return next(
-          new AppErr(error || 'Something went wrong, please try again', 400)
+          new AppErr(error || 'Something went wrong, please try again', 400),
         );
       }
     });
-  }
+  },
 );
 
 /**
@@ -408,5 +408,5 @@ export const deleteProductById = asyncHandler(
       success: true,
       message: 'Product deleted successfully',
     });
-  }
+  },
 );

@@ -72,7 +72,7 @@ const userSchema: Schema = new Schema<IUser>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 userSchema.pre('save', async function (next) {
@@ -91,7 +91,7 @@ userSchema.methods = {
       process.env.ACCESS_TOKEN_SECRET!,
       {
         expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
-      }
+      },
     );
   },
   generateRefreshToken: async function () {
@@ -100,7 +100,7 @@ userSchema.methods = {
       process.env.REFRESH_TOKEN_SECRET!,
       {
         expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
-      }
+      },
     );
   },
   generatePasswordResetToken: async function () {
