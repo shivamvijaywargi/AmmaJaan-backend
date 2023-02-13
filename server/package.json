@@ -5,11 +5,13 @@
   "main": "index.js",
   "scripts": {
     "build": "npx tsc",
-    "start:prod": "node dist/server.js",
     "build:start": "yarn build && yarn start:prod",
+    "lint": "eslint --ignore-path .eslintignore \"src/**/*.ts\" --fix",
+    "lint:check": "eslint --ignore-path .eslintignore \"src/**/*.ts\"",
     "prettier": "prettier --write \"src/**/*.ts\"",
     "prettier:check": "prettier --check \"src/**/*.ts\"",
-    "start:dev": "nodemon src/server.ts"
+    "start:dev": "nodemon src/server.ts",
+    "start:prod": "node dist/server.js"
   },
   "keywords": [],
   "author": {
@@ -49,6 +51,9 @@
     "@types/morgan": "^1.9.4",
     "@types/node": "^18.11.18",
     "@types/nodemailer": "^6.4.7",
+    "@typescript-eslint/eslint-plugin": "^5.51.0",
+    "@typescript-eslint/parser": "^5.51.0",
+    "eslint": "^8.34.0",
     "nodemon": "^2.0.20",
     "prettier": "^2.8.4",
     "ts-node-dev": "^2.0.0",

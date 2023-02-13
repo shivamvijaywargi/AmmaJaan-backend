@@ -25,7 +25,7 @@ export const createCategory = asyncHandler(
       return next(new AppErr('Category already exists', 400));
     }
 
-    let customSlug = slugify(name.toLowerCase() as string);
+    const customSlug = slugify(name.toLowerCase() as string);
 
     const slugExists = await Category.findOne({ slug: customSlug });
 
@@ -137,7 +137,7 @@ export const updateCategoryById = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
 
-    let customSlug = slugify(req.body.name.toLowerCase() as string);
+    const customSlug = slugify(req.body.name.toLowerCase() as string);
 
     const slugExists = await Category.findOne({ slug: customSlug });
 
