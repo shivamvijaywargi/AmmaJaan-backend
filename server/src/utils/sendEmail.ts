@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import Logger from './logger';
 // import Logger from './logger';
 
 const sendEmail = async (user: string, subject: string, message: string) => {
@@ -19,8 +20,8 @@ const sendEmail = async (user: string, subject: string, message: string) => {
     html: message,
   });
 
-  // Logger.info("Message sent: %s", mailOptions.messageId);
-  // Logger.info("Preview URL: %s", nodemailer.getTestMessageUrl(mailOptions));
+  Logger.info('Message sent: %s', mailOptions.messageId);
+  Logger.info('Preview URL: %s', nodemailer.getTestMessageUrl(mailOptions));
 };
 
 export default sendEmail;

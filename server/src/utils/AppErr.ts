@@ -3,7 +3,7 @@ class AppErr extends Error {
     throw new Error('Method not implemented.');
   }
   code: number | undefined;
-  path: any;
+  path: unknown;
 
   constructor(message: string, public statusCode: number) {
     super(message);
