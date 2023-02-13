@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 
 export interface IFunction {
-  (req: Request, res: Response, next: NextFunction): Promise<any>;
+  // eslint-disable-next-line no-unused-vars
+  (req: Request, res: Response, next: NextFunction): Promise<unknown>;
 }
 
 const asyncHandler = (fn: IFunction) => {

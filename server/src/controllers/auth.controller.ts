@@ -117,21 +117,19 @@ export const loginUser = asyncHandler(
  * @returns Logged out successfully
  * @ACCESS Public
  */
-export const logoutUser = asyncHandler(
-  async (_req: Request, res: Response, _next: NextFunction) => {
-    res
-      .status(200)
-      .cookie('refreshToken', '', {
-        secure: true,
-        httpOnly: true,
-        maxAge: 1,
-      })
-      .json({
-        success: true,
-        message: 'Logged out successfully',
-      });
-  },
-);
+export const logoutUser = asyncHandler(async (_req: Request, res: Response) => {
+  res
+    .status(200)
+    .cookie('refreshToken', '', {
+      secure: true,
+      httpOnly: true,
+      maxAge: 1,
+    })
+    .json({
+      success: true,
+      message: 'Logged out successfully',
+    });
+});
 
 /**
  * @FORGOT_PASSWORD
@@ -171,6 +169,7 @@ export const forgotPassword = asyncHandler(
         success: true,
         message: `Password reset email sent to ${email} successfully`,
       });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       user.resetPasswordToken = undefined;
       user.resetPasswordExpiry = undefined;
@@ -246,7 +245,7 @@ export const refreshToken = asyncHandler(
 
     const decoded = (await jwt.verify(
       token,
-      process.env.REFRESH_TOKEN_SECRET!,
+      process.env.REFRESH_TOKEN_SECRET as string,
     )) as IDecodedJwtPayload;
 
     if (!decoded) {

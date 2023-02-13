@@ -1,7 +1,7 @@
 // This is just a test for Zod
 
 import { NextFunction, Request, Response } from 'express';
-import { AnyZodObject, ZodError } from 'zod';
+import { AnyZodObject } from 'zod';
 
 import AppErr from '../utils/AppErr';
 
@@ -16,9 +16,11 @@ const validateRequestObj =
       });
 
       return next();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       // Zod Validation Error
-      let allErrors = err.issues.map((error: any) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const allErrors = err.issues.map((error: any) => {
         return error.message;
       });
 

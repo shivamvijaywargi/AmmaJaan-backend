@@ -33,6 +33,7 @@ router
   .get(getProductById)
   .put(
     isLoggedIn,
+    validateRequestObj(UpdateProductSchema),
     authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
     updateProductById,
   )

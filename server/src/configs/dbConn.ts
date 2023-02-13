@@ -6,7 +6,7 @@ mongoose.set('runValidators', true); // To run mongoose Schema validations upon 
 
 const connectToDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI!);
+    const conn = await mongoose.connect(process.env.MONGO_URI as string);
 
     if (conn) {
       Logger.info(`Connected to DB: ${conn.connection.host}`);

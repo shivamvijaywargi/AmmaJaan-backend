@@ -88,7 +88,7 @@ userSchema.methods = {
   generateAccessToken: async function () {
     return jwt.sign(
       { user_id: this._id, role: this.role },
-      process.env.ACCESS_TOKEN_SECRET!,
+      process.env.ACCESS_TOKEN_SECRET as string,
       {
         expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
       },
@@ -97,7 +97,7 @@ userSchema.methods = {
   generateRefreshToken: async function () {
     return jwt.sign(
       { user_id: this._id, role: this.role },
-      process.env.REFRESH_TOKEN_SECRET!,
+      process.env.REFRESH_TOKEN_SECRET as string,
       {
         expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
       },

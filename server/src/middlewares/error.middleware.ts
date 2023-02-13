@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import AppErr from '../utils/AppErr';
 import Logger from '../utils/logger';
 
@@ -19,12 +19,7 @@ const prodError = (err: AppErr, res: Response) => {
   });
 };
 
-const errorMiddleware = async (
-  err: AppErr,
-  _req: Request,
-  res: Response,
-  _next: NextFunction,
-) => {
+const errorMiddleware = async (err: AppErr, _req: Request, res: Response) => {
   err.statusCode = err.statusCode || 500;
   err.message = err.message || 'Internal Server Error';
 

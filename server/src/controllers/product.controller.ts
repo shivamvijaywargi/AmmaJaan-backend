@@ -19,8 +19,8 @@ interface IProductQuery {
   limit?: number;
 }
 interface IQueryObj extends IProductQuery {
-  title?: string | {};
-  description?: string | {};
+  title?: string | object;
+  description?: string | object;
 }
 
 interface IUploadedImageData {
@@ -113,7 +113,7 @@ export const createProduct = asyncHandler(
               );
 
               if (result) {
-                let uploadedImage: IUploadedImageData = {
+                const uploadedImage: IUploadedImageData = {
                   public_id: result.public_id,
                   secure_url: result.secure_url,
                 };
@@ -132,7 +132,7 @@ export const createProduct = asyncHandler(
                 );
 
                 if (result) {
-                  let uploadedImage: IUploadedImageData = {
+                  const uploadedImage: IUploadedImageData = {
                     public_id: result.public_id,
                     secure_url: result.secure_url,
                   };
@@ -173,7 +173,7 @@ export const getAllProducts = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { search, sort }: IProductQuery = req.query;
 
-    let queryObject: IQueryObj = {};
+    const queryObject: IQueryObj = {};
 
     // Add stuff based on condition
     if (search) {
@@ -222,7 +222,7 @@ export const getAllProducts = asyncHandler(
     results.skip(skip).limit(limit);
 
     // Await here
-    let products = await results;
+    const products = await results;
 
     const total = products.length;
 
@@ -329,7 +329,7 @@ export const updateProductById = asyncHandler(
               );
 
               if (result) {
-                let uploadedImage: IUploadedImageData = {
+                const uploadedImage: IUploadedImageData = {
                   public_id: result.public_id,
                   secure_url: result.secure_url,
                 };
@@ -348,7 +348,7 @@ export const updateProductById = asyncHandler(
                 );
 
                 if (result) {
-                  let uploadedImage: IUploadedImageData = {
+                  const uploadedImage: IUploadedImageData = {
                     public_id: result.public_id,
                     secure_url: result.secure_url,
                   };
@@ -369,6 +369,7 @@ export const updateProductById = asyncHandler(
           message: 'Product updated successfully',
           product,
         });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         return next(
           new AppErr(error || 'Something went wrong, please try again', 400),
@@ -394,7 +395,7 @@ export const deleteProductById = asyncHandler(
       return next(new AppErr('Invalid ID or product not found', 404));
     }
 
-    product.images.map(async (image: any) => {
+    product.images.map(async (image: { image: { public_id: string } }) => {
       try {
         await cloudinary.v2.uploader.destroy(image.image.public_id);
       } catch (error) {

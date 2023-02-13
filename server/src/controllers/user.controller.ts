@@ -120,6 +120,7 @@ export const updateUser = asyncHandler(
           message: 'User updated successfully',
           user,
         });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         return next(
           new AppErr(
@@ -188,7 +189,16 @@ export const changePassword = asyncHandler(
       const subject = 'Ammajaan password changed successfully';
 
       await sendEmail(user.email, subject, message);
-    } catch (error) {}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      return next(
+        new AppErr(
+          error.message ||
+            'Something went wrong and Email not send, please try again',
+          400,
+        ),
+      );
+    }
 
     user.password = undefined;
 

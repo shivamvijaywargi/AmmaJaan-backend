@@ -1,4 +1,5 @@
 class AppErr extends Error {
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
   keyValue(keyValue: any) {
     throw new Error('Method not implemented.');
   }
