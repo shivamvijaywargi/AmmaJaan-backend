@@ -12,6 +12,17 @@ import Product from '../models/Product.model';
 import AppErr from '../utils/AppErr';
 import Logger from '../utils/logger';
 
+interface IProductQuery {
+  search?: string;
+  sort?: string;
+  page?: number;
+  limit?: number;
+}
+interface IQueryObj extends IProductQuery {
+  title?: string | {};
+  description?: string | {};
+}
+
 interface IUploadedImageData {
   public_id: string;
   secure_url: string;
@@ -159,8 +170,61 @@ export const createProduct = asyncHandler(
  * @ACCESS Public
  */
 export const getAllProducts = asyncHandler(
-  async (_req: Request, res: Response, next: NextFunction) => {
-    const products = await Product.find({}).populate('category createdBy');
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { search, sort }: IProductQuery = req.query;
+
+    let queryObject: IQueryObj = {};
+
+    // Add stuff based on condition
+    if (search) {
+      queryObject.title = { $regex: search, $options: 'i' };
+      // queryObject.description = { $regex: search, $options: 'i' };
+    }
+
+    // No await here
+    const results = Product.find(queryObject).populate('category createdBy');
+
+    // Sorting code
+    if (sort === 'latest') {
+      results.sort({ createdAt: -1 });
+    }
+
+    if (sort === 'oldest') {
+      results.sort({ createdAt: 1 });
+    }
+
+    if (sort === 'price-asc') {
+      results.sort({ originalPrice: 1 });
+    }
+
+    if (sort === 'price-desc') {
+      results.sort({ originalPrice: -1 });
+    }
+
+    if (sort === 'popular') {
+      results.sort({ views: -1 });
+    }
+
+    if (sort === 'a-z') {
+      results.sort({ title: 1 });
+    }
+
+    if (sort === 'z-a') {
+      results.sort({ title: -1 });
+    }
+
+    // Pagination setup
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 1;
+
+    const skip = (page - 1) * limit;
+
+    results.skip(skip).limit(limit);
+
+    // Await here
+    let products = await results;
+
+    const total = products.length;
 
     if (!products.length) {
       return next(new AppErr('No products found', 404));
@@ -170,6 +234,7 @@ export const getAllProducts = asyncHandler(
       success: true,
       message: 'Products fetched successfully',
       products,
+      total,
     });
   }
 );

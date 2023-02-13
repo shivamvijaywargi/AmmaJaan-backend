@@ -60,6 +60,11 @@ const productSchema: Schema = new Schema<IProduct>(
       required: [true, 'In stock status is required'],
       default: true,
     },
+    views: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
     slug: {
       type: String,
       required: [true, 'Slug is required'],

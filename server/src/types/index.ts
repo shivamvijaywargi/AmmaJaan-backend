@@ -63,6 +63,7 @@ export interface IProduct {
   discountedPrice?: number;
   quantity: number;
   inStock: boolean;
+  views: number;
   slug: string;
   label: 'Hot' | 'New' | 'Best Selling';
   category: Types.ObjectId;

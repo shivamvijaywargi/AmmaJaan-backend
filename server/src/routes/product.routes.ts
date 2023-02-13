@@ -9,7 +9,10 @@ import {
 } from '../controllers/product.controller';
 import { authorizeRoles, isLoggedIn } from '../middlewares/auth.middleware';
 import validateRequestObj from '../middlewares/validateReq';
-import { UpdateProductSchema } from '../schemas/product.schema';
+import {
+  productQuerySchema,
+  UpdateProductSchema,
+} from '../schemas/product.schema';
 
 const router = Router();
 
@@ -23,7 +26,7 @@ router
     authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
     createProduct
   )
-  .get(getAllProducts);
+  .get(validateRequestObj(productQuerySchema), getAllProducts);
 
 router
   .route('/:id')
