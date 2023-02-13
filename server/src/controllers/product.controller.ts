@@ -215,7 +215,7 @@ export const getAllProducts = asyncHandler(
 
     // Pagination setup
     const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 1;
+    const limit = Number(req.query.limit) || 20;
 
     const skip = (page - 1) * limit;
 
@@ -254,6 +254,11 @@ export const getProductById = asyncHandler(
     if (!product) {
       return next(new AppErr('Invalid ID or product does not exist', 404));
     }
+
+    // Update number of view on the product
+    product.views += 1;
+
+    await product.save();
 
     res.status(200).json({
       success: true,
