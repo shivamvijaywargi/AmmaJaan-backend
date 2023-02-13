@@ -22,6 +22,10 @@ const productSchema: Schema = new Schema<IProduct>(
       minlength: [20, 'Short description must be atleast 20 characters long'],
       maxlength: [100, 'Short description cannot be more than 100 characters'],
     },
+    brand: {
+      type: String,
+      trim: true,
+    },
     images: [
       {
         image: {

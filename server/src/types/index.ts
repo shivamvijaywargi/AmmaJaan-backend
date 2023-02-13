@@ -52,6 +52,7 @@ export interface IProduct {
   title: string;
   description: string;
   shortDescription?: string;
+  brand?: string;
   images: {
     image: {
       public_id: string;
