@@ -8,3 +8,9 @@ app.listen(PORT, async () => {
   await connectToDB();
   Logger.info(`App is listening at http://localhost:${PORT}`);
 });
+
+// log unhandled rejections
+process.on('unhandledRejection', (err) => {
+  Logger.error(err);
+  process.exit(1);
+});
