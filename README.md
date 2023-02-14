@@ -16,9 +16,9 @@ Some of the things that I have used
 
 ## Tech Stack
 
-**Client:** Not sure yet😢
+**Frontend:** Not sure yet😢
 
-**Server:** NodeJS, ExpressJS, TypeScript, MongoDB, Mongoose, JWT
+**Backend:** NodeJS, ExpressJS, TypeScript, MongoDB, Mongoose, JWT
 
 PS: For complete list of packages check out package.json😉
 
