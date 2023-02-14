@@ -14,7 +14,10 @@
     "start:prod": "node dist/server.js",
     "prepare": "husky install"
   },
-  "keywords": [],
+  "keywords": [
+    "AmmaJaan",
+    "eCommerce backend"
+  ],
   "author": {
     "name": "Shivam Vijaywargi",
     "email": "vijaywargishivam@gmail.com",
