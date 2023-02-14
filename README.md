@@ -76,8 +76,6 @@ Install AmmaJaan with yarn (You can choose others as well but I used yarn)
   git clone https://github.com/shivamvijaywargi/full-stack-eCommerce.git
   # Now cd into the cloned repo
   cd full-stack-eCommerce
-  # Now to run server cd into server/
-  cd server/
   # First we need to install dependencies
   yarn
   # Finally use this command to run the server in dev mode (For other commands check package.json)
@@ -114,8 +112,15 @@ Please adhere to this project's `code of conduct`.
 
 There are still a few things I still need to dive into which includes but not limited to
 
-- Docker, ESLint + Prettier, I will try to learn about them first before implementing/using/integrating them in this project
 - Use Zod in conjunction with Formidable to be able to create schema to check for fields as well.
+
+- [ ] Docker
+
+- [x] ESLint
+
+- [x] Prettier
+
+- [x] Husky
 
 ## Optimizations
 
