@@ -114,3 +114,20 @@ export interface IWishlist {
   user: Types.ObjectId;
   products: Types.ObjectId[];
 }
+
+export interface IProductQuery {
+  search?: string;
+  sort?: string;
+  page?: number;
+  limit?: number;
+}
+export interface IQueryObj extends IProductQuery {
+  title?: string | object;
+  description?: string | object;
+  couponCode?: string | object;
+}
+
+export interface IUploadedImageData {
+  public_id: string;
+  secure_url: string;
+}

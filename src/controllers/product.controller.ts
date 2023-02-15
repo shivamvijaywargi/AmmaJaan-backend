@@ -11,22 +11,7 @@ import asyncHandler from '../middlewares/asyncHandler.middleware';
 import Product from '../models/Product.model';
 import AppErr from '../utils/AppErr';
 import Logger from '../utils/logger';
-
-interface IProductQuery {
-  search?: string;
-  sort?: string;
-  page?: number;
-  limit?: number;
-}
-interface IQueryObj extends IProductQuery {
-  title?: string | object;
-  description?: string | object;
-}
-
-interface IUploadedImageData {
-  public_id: string;
-  secure_url: string;
-}
+import { IProductQuery, IQueryObj, IUploadedImageData } from '../types';
 
 /**
  * @CREATE_PRODUCT
@@ -234,7 +219,7 @@ export const getAllProducts = asyncHandler(
       success: true,
       message: 'Products fetched successfully',
       products,
-      total,
+      count: total,
     });
   },
 );
