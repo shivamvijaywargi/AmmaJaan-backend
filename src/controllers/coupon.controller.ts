@@ -6,10 +6,10 @@ import { IQueryObj } from '../types';
 import AppErr from '../utils/AppErr';
 
 /**
- * @GET_ALL_PRODUCTS
- * @ROUTE @GET {{URL}}/api/v1/products
- * @returns All products
- * @ACCESS Public
+ * @GET_ALL_COUPONS
+ * @ROUTE @GET {{URL}}/api/v1/coupons
+ * @returns All coupons
+ * @ACCESS Private (Admin + Employee only)
  */
 export const getAllCoupons = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -59,7 +59,7 @@ export const getAllCoupons = asyncHandler(
     const coupons = await results;
 
     if (!coupons.length) {
-      return next(new AppErr('No coupons found', 404));
+      return next(new AppErr('No Coupons found', 404));
     }
 
     res.status(200).json({
@@ -68,5 +68,57 @@ export const getAllCoupons = asyncHandler(
       coupons,
       count: coupons.length,
     });
+  },
+);
+
+/**
+ * @CREATE_COUPON
+ * @ROUTE @GET {{URL}}/api/v1/coupons
+ * @returns Created coupon
+ * @ACCESS Private (Admin + Employee only)
+ */
+export const createCoupon = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { couponCode } = req.body;
+
+    const coupon = await Coupon.create({ couponCode });
+
+    if (!coupon) {
+      return next(new AppErr('Coupon not created, please try again.', 400));
+    }
+
+    res.status(201).json({
+      success: true,
+      message: 'Coupon created successfully',
+      coupon,
+    });
+  },
+);
+
+/**
+ * @UPDATE_COUPON
+ * @ROUTE @PATCH {{URL}}/api/v1/coupons/:couponCode
+ * @returns Updated coupon
+ * @ACCESS Private (Admin + Employee only)
+ */
+export const updateCouponById = asyncHandler(
+  // TODO: Remove the below line once the logic is written
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  async (req: Request, res: Response, next: NextFunction) => {
+    //
+  },
+);
+
+/**
+ * @DELETE_COUPON
+ * @ROUTE @DELETE {{URL}}/api/v1/coupons/:couponCode
+ * @returns Deleted coupon
+ * @ACCESS Private (Admin + Employee only)
+ */
+export const deleteCouponById = asyncHandler(
+  // TODO: Remove the below line once the logic is written
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  async (req: Request, res: Response, next: NextFunction) => {
+    //
   },
 );
