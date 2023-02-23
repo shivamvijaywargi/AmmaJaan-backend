@@ -9,6 +9,7 @@ import {
 import { authorizeRoles, isLoggedIn } from '../middlewares/auth.middleware';
 import validateRequestObj from '../middlewares/validateReq';
 import {
+  CouponParamsSchema,
   CreateCouponSchema,
   updateCouponSchema,
 } from '../schemas/coupon.schema';
@@ -37,11 +38,13 @@ router
   .patch(
     isLoggedIn,
     validateRequestObj(updateCouponSchema),
+    validateRequestObj(CouponParamsSchema),
     authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
     updateCouponById,
   )
-  .post(
+  .delete(
     isLoggedIn,
+    validateRequestObj(CouponParamsSchema),
     authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
     deleteCouponById,
   );
