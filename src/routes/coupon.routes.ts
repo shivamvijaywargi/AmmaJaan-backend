@@ -4,6 +4,7 @@ import {
   createCoupon,
   deleteCouponById,
   getAllCoupons,
+  getCouponById,
   updateCouponById,
 } from '../controllers/coupon.controller';
 import { authorizeRoles, isLoggedIn } from '../middlewares/auth.middleware';
@@ -35,6 +36,12 @@ router
 
 router
   .route('/:couponCode')
+  .get(
+    isLoggedIn,
+    validateRequestObj(CouponParamsSchema),
+    authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
+    getCouponById,
+  )
   .patch(
     isLoggedIn,
     validateRequestObj(updateCouponSchema),

@@ -96,6 +96,32 @@ export const createCoupon = asyncHandler(
 );
 
 /**
+ * @GET_COUPON_BY_ID
+ * @ROUTE @GET {{URL}}/api/v1/coupons/:couponCode
+ * @returns Found Coupon with ID
+ * @ACCESS Private (Admin + Employee only)
+ */
+export const getCouponById = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { couponCode } = req.params;
+
+    const coupon = await Coupon.findById(couponCode);
+
+    if (!coupon) {
+      return next(
+        new AppErr('Invalid coupon ID or coupon does not exist.', 400),
+      );
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Coupon found successfully',
+      coupon,
+    });
+  },
+);
+
+/**
  * @UPDATE_COUPON
  * @ROUTE @PATCH {{URL}}/api/v1/coupons/:couponCode
  * @returns Updated coupon
