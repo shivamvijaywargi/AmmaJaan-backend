@@ -102,10 +102,30 @@ export const createCoupon = asyncHandler(
  * @ACCESS Private (Admin + Employee only)
  */
 export const updateCouponById = asyncHandler(
-  // TODO: Remove the below line once the logic is written
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   async (req: Request, res: Response, next: NextFunction) => {
-    //
+    const { couponCode } = req.params;
+
+    const coupon = await Coupon.findByIdAndUpdate(
+      couponCode,
+      {
+        $set: req.body,
+      },
+      {
+        new: true,
+      },
+    );
+
+    if (!coupon) {
+      return next(
+        new AppErr('Invalid coupon code or coupon does not exist.', 400),
+      );
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Coupon code updated successfully',
+      coupon,
+    });
   },
 );
 

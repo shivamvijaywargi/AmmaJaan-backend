@@ -56,4 +56,4 @@ export const productQuerySchema = z.object({
   }),
 });
 
-export const UpdateProductSchema = CreateProductSchema.partial();
+export const UpdateProductSchema = CreateProductSchema.deepPartial();

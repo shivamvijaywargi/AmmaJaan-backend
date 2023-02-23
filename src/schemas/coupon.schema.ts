@@ -16,4 +16,4 @@ export const CreateCouponSchema = z.object({
   }),
 });
 
-export const updateCouponSchema = CreateCouponSchema.partial();
+export const updateCouponSchema = CreateCouponSchema.deepPartial();
