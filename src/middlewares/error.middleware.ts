@@ -1,12 +1,14 @@
-import { ErrorRequestHandler, Request, Response } from 'express';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
+import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
 import AppErr from '../utils/AppErr';
 import Logger from '../utils/logger';
 
 const errorMiddleware: ErrorRequestHandler = async (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   err: AppErr,
   _req: Request,
   res: Response,
+  next: NextFunction,
 ) => {
   Logger.error(err.message);
 
