@@ -67,7 +67,10 @@ app.use('/api/v1/coupons', couponRoutes);
 
 // CatchAll - 404
 app.all('*', (req, res) => {
-  res.status(404).send('OOPS!!! 404 not found');
+  res.status(404).json({
+    success: false,
+    message: `Not Found - ${req.method} ${req.originalUrl}`,
+  });
 });
 
 // Custom error middleware

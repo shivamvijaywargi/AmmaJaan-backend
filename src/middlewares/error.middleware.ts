@@ -1,25 +1,15 @@
-import { Request, Response } from 'express';
+import { ErrorRequestHandler, Request, Response } from 'express';
 import AppErr from '../utils/AppErr';
 import Logger from '../utils/logger';
 
-const devError = (err: AppErr, res: Response) => {
-  Logger.error(err);
-  res.status(err.statusCode).json({
-    success: false,
-    message: err.message,
-    stack: err.stack,
-  });
-};
+const errorMiddleware: ErrorRequestHandler = async (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  err: AppErr,
+  _req: Request,
+  res: Response,
+) => {
+  Logger.error(err.message);
 
-const prodError = (err: AppErr, res: Response) => {
-  Logger.error(err);
-  res.status(err.statusCode).json({
-    success: false,
-    message: err.message,
-  });
-};
-
-const errorMiddleware = async (err: AppErr, _req: Request, res: Response) => {
   err.statusCode = err.statusCode || 500;
   err.message = err.message || 'Internal Server Error';
 
@@ -47,10 +37,17 @@ const errorMiddleware = async (err: AppErr, _req: Request, res: Response) => {
     err = new AppErr(message, 400);
   }
 
-  if (process.env.NODE_ENV === 'development') {
-    devError(err, res);
-  } else if (process.env.NODE_ENV === 'production') {
-    prodError(err, res);
+  if (process.env.NODE_ENV === 'production') {
+    res.status(err.statusCode).json({
+      success: false,
+      message: err.message,
+    });
+  } else {
+    res.status(err.statusCode).json({
+      success: false,
+      message: err.message,
+      stack: err.stack,
+    });
   }
 };
 
