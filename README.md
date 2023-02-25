@@ -53,7 +53,7 @@ I might make a Swagger documentation in the future, if I can learn it sooner.
 
 ## Roadmap
 
-- [ ] Coupon
+- [*] Coupon
 
 - [ ] Addresses
 
@@ -121,6 +121,8 @@ There are still a few things I still need to dive into which includes but not li
 - [x] Prettier
 
 - [x] Husky
+
+- [ ] Test with Jest
 
 ## Optimizations
 
