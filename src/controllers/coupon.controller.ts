@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 
-import asyncHandler from '../middlewares/asyncHandler.middleware';
-import Coupon from '../models/Coupon.model';
-import { IQueryObj } from '../types';
-import AppErr from '../utils/AppErr';
+import asyncHandler from '@/middlewares/asyncHandler.middleware';
+import Coupon from '@/models/Coupon.model';
+import { IQueryObj } from '@/types';
+import AppErr from '@/utils/AppErr';
 
 /**
  * @GET_ALL_COUPONS

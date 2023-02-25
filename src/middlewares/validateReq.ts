@@ -3,7 +3,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { AnyZodObject } from 'zod';
 
-import AppErr from '../utils/AppErr';
+import AppErr from '@/utils/AppErr';
 
 const validateRequestObj =
   (schema: AnyZodObject) =>

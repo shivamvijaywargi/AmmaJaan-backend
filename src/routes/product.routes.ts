@@ -1,18 +1,18 @@
 import { Router } from 'express';
-import ROLES_LIST from '../configs/ROLES_LIST';
+import ROLES_LIST from '@/configs/ROLES_LIST';
 import {
   createProduct,
   deleteProductById,
   getAllProducts,
   getProductById,
   updateProductById,
-} from '../controllers/product.controller';
-import { authorizeRoles, isLoggedIn } from '../middlewares/auth.middleware';
-import validateRequestObj from '../middlewares/validateReq';
+} from '@/controllers/product.controller';
+import { authorizeRoles, isLoggedIn } from '@/middlewares/auth.middleware';
+import validateRequestObj from '@/middlewares/validateReq';
 import {
   productQuerySchema,
   UpdateProductSchema,
-} from '../schemas/product.schema';
+} from '@/schemas/product.schema';
 
 const router = Router();
 

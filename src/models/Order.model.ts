@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { IOrders } from '../types';
+import { IOrders } from '@/types';
 
 const orderSchema: Schema = new Schema<IOrders>(
   {

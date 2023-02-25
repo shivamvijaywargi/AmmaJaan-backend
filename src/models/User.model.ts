@@ -4,8 +4,8 @@ import { Schema, model } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-import ROLES_LIST from '../configs/ROLES_LIST';
-import { IUser } from '../types';
+import ROLES_LIST from '@/configs/ROLES_LIST';
+import { IUser } from '@/types';
 
 const userSchema: Schema = new Schema<IUser>(
   {

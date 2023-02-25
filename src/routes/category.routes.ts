@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import ROLES_LIST from '../configs/ROLES_LIST';
+import ROLES_LIST from '@/configs/ROLES_LIST';
 import {
   createCategory,
   deleteCategoryById,
   getAllCategories,
   getCategoryById,
   updateCategoryById,
-} from '../controllers/category.controller';
-import { authorizeRoles, isLoggedIn } from '../middlewares/auth.middleware';
+} from '@/controllers/category.controller';
+import { authorizeRoles, isLoggedIn } from '@/middlewares/auth.middleware';
 
 const router = Router();
 

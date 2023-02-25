@@ -2,11 +2,11 @@ import crypto from 'crypto';
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 
-import asyncHandler from '../middlewares/asyncHandler.middleware';
-import User from '../models/User.model';
-import { IDecodedJwtPayload } from '../types';
-import AppErr from '../utils/AppErr';
-import sendEmail from '../utils/sendEmail';
+import asyncHandler from '@/middlewares/asyncHandler.middleware';
+import User from '@/models/User.model';
+import { IDecodedJwtPayload } from '@/types';
+import AppErr from '@/utils/AppErr';
+import sendEmail from '@/utils/sendEmail';
 
 const cookieOptions = {
   secure: process.env.NODE_ENV === 'production' ? true : false,

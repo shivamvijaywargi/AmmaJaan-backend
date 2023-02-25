@@ -1,19 +1,19 @@
 import { Router } from 'express';
-import ROLES_LIST from '../configs/ROLES_LIST';
+import ROLES_LIST from '@/configs/ROLES_LIST';
 import {
   createCoupon,
   deleteCouponById,
   getAllCoupons,
   getCouponById,
   updateCouponById,
-} from '../controllers/coupon.controller';
-import { authorizeRoles, isLoggedIn } from '../middlewares/auth.middleware';
-import validateRequestObj from '../middlewares/validateReq';
+} from '@/controllers/coupon.controller';
+import { authorizeRoles, isLoggedIn } from '@/middlewares/auth.middleware';
+import validateRequestObj from '@/middlewares/validateReq';
 import {
   CouponParamsSchema,
   CreateCouponSchema,
   updateCouponSchema,
-} from '../schemas/coupon.schema';
+} from '@/schemas/coupon.schema';
 
 const router = Router();
 

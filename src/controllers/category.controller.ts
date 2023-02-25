@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import slugify from 'slugify';
 
-import asyncHandler from '../middlewares/asyncHandler.middleware';
-import Category from '../models/Category.model';
-import AppErr from '../utils/AppErr';
+import asyncHandler from '@/middlewares/asyncHandler.middleware';
+import Category from '@/models/Category.model';
+import AppErr from '@/utils/AppErr';
 
 /**
  * @CREATE_CATEGORY

@@ -4,10 +4,10 @@ import { NextFunction, Request, Response } from 'express';
 import formidable from 'formidable';
 import cloudinary from 'cloudinary';
 
-import asyncHandler from '../middlewares/asyncHandler.middleware';
-import User from '../models/User.model';
-import AppErr from '../utils/AppErr';
-import sendEmail from '../utils/sendEmail';
+import asyncHandler from '@/middlewares/asyncHandler.middleware';
+import User from '@/models/User.model';
+import AppErr from '@/utils/AppErr';
+import sendEmail from '@/utils/sendEmail';
 
 /**
  * @GET_ALL_USERS

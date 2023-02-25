@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import ROLES_LIST from '../configs/ROLES_LIST';
+import ROLES_LIST from '@/configs/ROLES_LIST';
 import {
   changePassword,
   deleteUser,
@@ -7,10 +7,10 @@ import {
   getLoggedInUserDetails,
   getUserByID,
   updateUser,
-} from '../controllers/user.controller';
-import { authorizeRoles, isLoggedIn } from '../middlewares/auth.middleware';
-import validateRequestObj from '../middlewares/validateReq';
-import { changeUserPasswordSchema } from '../schemas/user.schema';
+} from '@/controllers/user.controller';
+import { authorizeRoles, isLoggedIn } from '@/middlewares/auth.middleware';
+import validateRequestObj from '@/middlewares/validateReq';
+import { changeUserPasswordSchema } from '@/schemas/user.schema';
 
 const router = Router();
 

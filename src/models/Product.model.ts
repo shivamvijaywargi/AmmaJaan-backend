@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
-import { IProduct } from '../types';
+import { IProduct } from '@/types';
 // import slugify from 'slugify';
-// import AppErr from '../utils/AppErr';
+// import AppErr from '@/utils/AppErr';
 
 const productSchema: Schema = new Schema<IProduct>(
   {

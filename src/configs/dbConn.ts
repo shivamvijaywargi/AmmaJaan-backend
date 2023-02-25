@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Logger from '../utils/logger';
+import Logger from '@/utils/logger';
 
 mongoose.set('strictQuery', false); // To prepare for future mongoose change
 mongoose.set('runValidators', true); // To run mongoose Schema validations upon update

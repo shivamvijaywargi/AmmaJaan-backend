@@ -7,11 +7,11 @@ import formidable from 'formidable';
 import slugify from 'slugify';
 import cloudinary from 'cloudinary';
 
-import asyncHandler from '../middlewares/asyncHandler.middleware';
-import Product from '../models/Product.model';
-import AppErr from '../utils/AppErr';
-import Logger from '../utils/logger';
-import { IProductQuery, IQueryObj, IUploadedImageData } from '../types';
+import asyncHandler from '@/middlewares/asyncHandler.middleware';
+import Product from '@/models/Product.model';
+import AppErr from '@/utils/AppErr';
+import Logger from '@/utils/logger';
+import { IProductQuery, IQueryObj, IUploadedImageData } from '@/types';
 
 /**
  * @CREATE_PRODUCT

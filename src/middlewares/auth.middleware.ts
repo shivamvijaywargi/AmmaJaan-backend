@@ -1,8 +1,8 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
-import AppErr from '../utils/AppErr';
+import AppErr from '@/utils/AppErr';
 import asyncHandler from './asyncHandler.middleware';
-import { IDecodedJwtPayload, IRoles } from '../types';
+import { IDecodedJwtPayload, IRoles } from '@/types';
 
 declare module 'express' {
   export interface Request {
