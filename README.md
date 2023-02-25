@@ -53,7 +53,7 @@ I might make a Swagger documentation in the future, if I can learn it sooner.
 
 ## Roadmap
 
-- [*] Coupon
+- [x] Coupon
 
 - [ ] Addresses
 
