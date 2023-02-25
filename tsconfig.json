@@ -104,5 +104,6 @@
   },
   "ts-node": {
     "require": ["tsconfig-paths/register"]
-  }
+  },
+  "exclude": ["./coverage", "./dist", "__tests__", "jest.config.js"]
 }
