@@ -5,7 +5,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import cloudinary from 'cloudinary';
 
-import morganMiddleware from './configs/morgan';
+import morganMiddleware from '@/configs/morgan';
 import errorMiddleware from './middlewares/error.middleware';
 import rateLimiter from './configs/rateLimiter';
 
