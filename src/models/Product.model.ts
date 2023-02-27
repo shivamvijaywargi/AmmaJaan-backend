@@ -71,6 +71,10 @@ const productSchema: Schema = new Schema<IProduct>(
       unique: true,
       lowercase: true,
     },
+    numOfUnitsSold: {
+      type: Number,
+      default: 0,
+    },
     label: {
       type: String,
       enum: ['Hot', 'New', 'Best Selling'],
