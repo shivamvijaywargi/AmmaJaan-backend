@@ -78,7 +78,7 @@ export const addproductsToWishlist = asyncHandler(
     const wishlist = await Wishlist.findById(id);
 
     if (!wishlist) {
-      return next(new AppErr('Wishlist not found', 404));
+      return next(new AppErr('Inavlid wishlist ID or Wishlist not found', 404));
     }
 
     await wishlist.products.push(productId as unknown as Types.ObjectId);
@@ -88,6 +88,30 @@ export const addproductsToWishlist = asyncHandler(
     res.status(200).json({
       success: true,
       message: 'Product(s) added to wishlist successfully',
+      wishlist,
+    });
+  },
+);
+
+/**
+ * @GET_WISHLIST_BY_ID
+ * @ROUTE @GET {{URL}}/api/v1/wishlists/:id
+ * @returns Wishlist with ID
+ * @ACCESS Private (Logged in user only)
+ */
+export const getWishlistById = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+
+    const wishlist = await Wishlist.findById(id).populate('products');
+
+    if (!wishlist) {
+      return next(new AppErr('Inavlid wishlist ID or Wishlist not found', 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Wishlist fetched successfully',
       wishlist,
     });
   },

@@ -3,6 +3,7 @@ import {
   addproductsToWishlist,
   createWishlist,
   getAllWishlists,
+  getWishlistById,
 } from '@/controllers/wishlist.controller';
 import { authorizeRoles, isLoggedIn } from '@/middlewares/auth.middleware';
 import validateRequestObj from '@/middlewares/validateReq';
@@ -29,8 +30,13 @@ router
 
 router
   .route('/:id')
-  // .get()
+  .get(
+    isLoggedIn,
+    validateRequestObj(addToWishlistParamsSchema),
+    getWishlistById,
+  )
   .post(
+    isLoggedIn,
     validateRequestObj(addToWishlistParamsSchema),
     validateRequestObj(addToWishlistQuerySchema),
     addproductsToWishlist,
