@@ -1,6 +1,5 @@
 import nodemailer from 'nodemailer';
-import Logger from './logger';
-// import Logger from './logger';
+import Logger from '@/utils/logger';
 
 const sendEmail = async (user: string, subject: string, message: string) => {
   const transporter = nodemailer.createTransport({
