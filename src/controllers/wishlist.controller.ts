@@ -193,25 +193,29 @@ export const removeproductFromWishlist = asyncHandler(
     }
 
     // Need to check mongodb aggregation pipelines in depth
-    // await wishlist.updateOne(
-    //   {
-    //     $pull: { products: { productId } },
-    //   },
-    //   { safe: true, multi: false, new: true },
-    // );
-
-    const productIdIndex = wishlist.products.indexOf(
-      productId as unknown as Types.ObjectId,
+    const result = await wishlist.updateOne(
+      {
+        $pull: { products: { $in: productId } },
+      },
+      { safe: true, multi: false, new: true },
     );
 
-    await wishlist.products.splice(productIdIndex, 1);
+    // const productIdIndex = wishlist.products.indexOf(
+    //   productId as unknown as Types.ObjectId,
+    // );
 
-    await wishlist.save();
+    // await wishlist.products.splice(productIdIndex, 1);
+
+    // wishlist.products = wishlist.products.filter((id) => {
+    //   return id != (productId as unknown);
+    // });
+
+    // await wishlist.save();
 
     res.status(200).json({
       success: true,
       message: 'Product removed from wishlist successfully',
-      wishlist,
+      result,
     });
   },
 );
