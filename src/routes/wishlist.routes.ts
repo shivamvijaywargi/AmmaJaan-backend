@@ -1,10 +1,11 @@
 import ROLES_LIST from '@/configs/ROLES_LIST';
 import {
-  addproductsToWishlist,
+  addproductToWishlist,
   createWishlist,
+  deleteWishlistById,
   getAllWishlists,
   getWishlistById,
-  removeproductsFromWishlist,
+  removeproductFromWishlist,
   updateWishlistById,
 } from '@/controllers/wishlist.controller';
 import { authorizeRoles, isLoggedIn } from '@/middlewares/auth.middleware';
@@ -40,20 +41,24 @@ router
     isLoggedIn,
     validateRequestObj(addToWishlistParamsSchema),
     updateWishlistById,
-  );
-// .delete()
-
-router
-  .route('/:wishlistId/products/:productId')
-  .post(
-    isLoggedIn,
-    validateRequestObj(addToWishlistParamsSchema),
-    addproductsToWishlist,
   )
   .delete(
     isLoggedIn,
     validateRequestObj(addToWishlistParamsSchema),
-    removeproductsFromWishlist,
+    deleteWishlistById,
+  );
+
+router
+  .route('/:wishlistId/products/:productId')
+  .patch(
+    isLoggedIn,
+    validateRequestObj(addToWishlistParamsSchema),
+    addproductToWishlist,
+  )
+  .delete(
+    isLoggedIn,
+    validateRequestObj(addToWishlistParamsSchema),
+    removeproductFromWishlist,
   );
 
 export default router;

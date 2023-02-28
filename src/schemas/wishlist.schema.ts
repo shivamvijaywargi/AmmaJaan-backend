@@ -19,6 +19,6 @@ export const createWishlistSchema = z.object({
 export const addToWishlistParamsSchema = z.object({
   params: z.object({
     wishlistId: z.string(),
-    productId: z.string(),
+    productId: z.string().optional(),
   }),
 });

@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
+import { Types } from 'mongoose';
 
 import asyncHandler from '@/middlewares/asyncHandler.middleware';
 import Wishlist from '@/models/Wishlist.model';
 import AppErr from '@/utils/AppErr';
-import { Types } from 'mongoose';
 
 /**
  * @GET_ALL_WISHLISTS
@@ -86,7 +86,7 @@ export const getWishlistById = asyncHandler(
 
 /**
  * @UPDATE_WISHLIST_BY_ID
- * @ROUTE @GET {{URL}}/api/v1/wishlists/:id
+ * @ROUTE @PATCH {{URL}}/api/v1/wishlists/:id
  * @returns Wishlist updated successfully
  * @ACCESS Private (Logged in user only)
  */
@@ -117,12 +117,36 @@ export const updateWishlistById = asyncHandler(
 );
 
 /**
- * @ADD_PRODUCTS_TO_WISHLIST
- * @ROUTE @POST {{URL}}/api/v1/wishlists/:wishlistId/products/:productId
+ * @DELETE_WISHLIST_BY_ID
+ * @ROUTE @DELETE {{URL}}/api/v1/wishlists/:id
+ * @returns Wishlist with ID deleted
+ * @ACCESS Private (Logged in user only)
+ */
+export const deleteWishlistById = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+
+    const wishlist = await Wishlist.findByIdAndDelete(id);
+
+    if (!wishlist) {
+      return next(new AppErr('Invalid wishlist ID or Wishlist not found', 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Wishlist deleted successfully',
+      wishlist,
+    });
+  },
+);
+
+/**
+ * @ADD_PRODUCT_TO_WISHLIST
+ * @ROUTE @PATCH {{URL}}/api/v1/wishlists/:wishlistId/products/:productId
  * @returns Product(s) added successfully
  * @ACCESS Private (Logged in user only)
  */
-export const addproductsToWishlist = asyncHandler(
+export const addproductToWishlist = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { wishlistId, productId } = req.params;
 
@@ -142,19 +166,19 @@ export const addproductsToWishlist = asyncHandler(
 
     res.status(200).json({
       success: true,
-      message: 'Product(s) added to wishlist successfully',
+      message: 'Product added to wishlist successfully',
       wishlist,
     });
   },
 );
 
 /**
- * @REMOVE_PRODUCTS_FROM_WISHLIST
+ * @REMOVE_PRODUCT_FROM_WISHLIST
  * @ROUTE @DELETE {{URL}}/api/v1/wishlists/:wishlistId/products/:productId
  * @returns Product(s) removed successfully
  * @ACCESS Private (Logged in user only)
  */
-export const removeproductsFromWishlist = asyncHandler(
+export const removeproductFromWishlist = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { wishlistId, productId } = req.params;
 
