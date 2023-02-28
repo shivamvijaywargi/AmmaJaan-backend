@@ -15,10 +15,13 @@ export const createWishlistSchema = z.object({
   }),
 });
 
-// For some reason z.instanceOf(Types.ObjectId) is not working for below two schemas, need to check further
+// For some reason z.instanceof(Types.ObjectId) is not working for below schema, need to check further
+// For now I have added regex for ObjectId validation to Zod
 export const addToWishlistParamsSchema = z.object({
   params: z.object({
-    wishlistId: z.string(),
+    wishlistId: z.string().regex(/(ObjectId\(')?[0-9a-fA-F]{24}('\))?/g, {
+      message: 'Invalid ObjectId',
+    }),
     productId: z.string().optional(),
   }),
 });

@@ -31,7 +31,7 @@ router
   .post(isLoggedIn, validateRequestObj(createWishlistSchema), createWishlist);
 
 router
-  .route('/:id')
+  .route('/:wishlistId')
   .get(
     isLoggedIn,
     validateRequestObj(addToWishlistParamsSchema),

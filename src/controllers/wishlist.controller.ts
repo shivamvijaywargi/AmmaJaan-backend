@@ -62,15 +62,15 @@ export const createWishlist = asyncHandler(
 
 /**
  * @GET_WISHLIST_BY_ID
- * @ROUTE @GET {{URL}}/api/v1/wishlists/:id
+ * @ROUTE @GET {{URL}}/api/v1/wishlists/:wishlistId
  * @returns Wishlist with ID
  * @ACCESS Private (Logged in user only)
  */
 export const getWishlistById = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { id } = req.params;
+    const { wishlistId } = req.params;
 
-    const wishlist = await Wishlist.findById(id).populate('products');
+    const wishlist = await Wishlist.findById(wishlistId).populate('products');
 
     if (!wishlist) {
       return next(new AppErr('Inavlid wishlist ID or Wishlist not found', 404));
@@ -86,16 +86,16 @@ export const getWishlistById = asyncHandler(
 
 /**
  * @UPDATE_WISHLIST_BY_ID
- * @ROUTE @PATCH {{URL}}/api/v1/wishlists/:id
+ * @ROUTE @PATCH {{URL}}/api/v1/wishlists/:wishlistId
  * @returns Wishlist updated successfully
  * @ACCESS Private (Logged in user only)
  */
 export const updateWishlistById = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { id } = req.params;
+    const { wishlistId } = req.params;
 
     const wishlist = await Wishlist.findByIdAndUpdate(
-      id,
+      wishlistId,
       {
         $set: req.body,
       },
@@ -118,15 +118,15 @@ export const updateWishlistById = asyncHandler(
 
 /**
  * @DELETE_WISHLIST_BY_ID
- * @ROUTE @DELETE {{URL}}/api/v1/wishlists/:id
+ * @ROUTE @DELETE {{URL}}/api/v1/wishlists/:wishlistId
  * @returns Wishlist with ID deleted
  * @ACCESS Private (Logged in user only)
  */
 export const deleteWishlistById = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { id } = req.params;
+    const { wishlistId } = req.params;
 
-    const wishlist = await Wishlist.findByIdAndDelete(id);
+    const wishlist = await Wishlist.findByIdAndDelete(wishlistId);
 
     if (!wishlist) {
       return next(new AppErr('Invalid wishlist ID or Wishlist not found', 404));
