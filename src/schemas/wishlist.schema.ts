@@ -1,4 +1,3 @@
-import { Types } from 'mongoose';
 import { z } from 'zod';
 
 export const createWishlistSchema = z.object({
@@ -16,14 +15,15 @@ export const createWishlistSchema = z.object({
   }),
 });
 
+// For some reason z.instanceOf(Types.ObjectId) is not working for below two schemas, need to check further
 export const addToWishlistParamsSchema = z.object({
   params: z.object({
-    id: z.instanceof(Types.ObjectId),
+    id: z.string(),
   }),
 });
 
 export const addToWishlistQuerySchema = z.object({
   query: z.object({
-    productId: z.instanceof(Types.ObjectId),
+    productId: z.string(),
   }),
 });

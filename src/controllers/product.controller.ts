@@ -38,14 +38,14 @@ export const createProduct = asyncHandler(
           title,
           description,
           shortDescription,
-          price,
+          originalPrice,
           quantity,
           label,
           inStock,
           category,
         } = fields;
 
-        if (!title || !description || !price || !category) {
+        if (!title || !description || !originalPrice || !category) {
           return next(
             new AppErr(
               'Title, Description, Price, and Category are required',
@@ -64,7 +64,7 @@ export const createProduct = asyncHandler(
 
         const product = await Product.create({
           title,
-          price,
+          originalPrice,
           description,
           createdBy: req.user?.user_id,
           slug: customSlug,
