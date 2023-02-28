@@ -4,6 +4,7 @@ import {
   createWishlist,
   getAllWishlists,
   getWishlistById,
+  updateWishlistById,
 } from '@/controllers/wishlist.controller';
 import { authorizeRoles, isLoggedIn } from '@/middlewares/auth.middleware';
 import validateRequestObj from '@/middlewares/validateReq';
@@ -40,8 +41,8 @@ router
     validateRequestObj(addToWishlistParamsSchema),
     validateRequestObj(addToWishlistQuerySchema),
     addproductsToWishlist,
-  );
-// .patch()
+  )
+  .patch(validateRequestObj(addToWishlistParamsSchema), updateWishlistById);
 // .delete()
 
 export default router;

@@ -37,10 +37,10 @@ export const getAllWishlists = asyncHandler(
  */
 export const createWishlist = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { wishlistName } = req.body;
+    const { name } = req.body;
 
     const wishlistExists = await Wishlist.findOne({
-      name: wishlistName,
+      name,
     });
 
     if (wishlistExists) {
@@ -48,13 +48,69 @@ export const createWishlist = asyncHandler(
     }
 
     const wishlist = await Wishlist.create({
-      name: wishlistName,
+      name,
       user: req.user?.user_id,
     });
 
     res.status(201).json({
       success: true,
       message: 'Wishlist created successfully',
+      wishlist,
+    });
+  },
+);
+
+/**
+ * @GET_WISHLIST_BY_ID
+ * @ROUTE @GET {{URL}}/api/v1/wishlists/:id
+ * @returns Wishlist with ID
+ * @ACCESS Private (Logged in user only)
+ */
+export const getWishlistById = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+
+    const wishlist = await Wishlist.findById(id).populate('products');
+
+    if (!wishlist) {
+      return next(new AppErr('Inavlid wishlist ID or Wishlist not found', 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Wishlist fetched successfully',
+      wishlist,
+    });
+  },
+);
+
+/**
+ * @UPDATE_WISHLIST_BY_ID
+ * @ROUTE @GET {{URL}}/api/v1/wishlists/:id
+ * @returns Wishlist updated successfully
+ * @ACCESS Private (Logged in user only)
+ */
+export const updateWishlistById = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+
+    const wishlist = await Wishlist.findByIdAndUpdate(
+      id,
+      {
+        $set: req.body,
+      },
+      {
+        new: true,
+      },
+    );
+
+    if (!wishlist) {
+      return next(new AppErr('Inavlid wishlist ID or Wishlist not found', 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Wishlist updated successfully',
       wishlist,
     });
   },
@@ -88,30 +144,6 @@ export const addproductsToWishlist = asyncHandler(
     res.status(200).json({
       success: true,
       message: 'Product(s) added to wishlist successfully',
-      wishlist,
-    });
-  },
-);
-
-/**
- * @GET_WISHLIST_BY_ID
- * @ROUTE @GET {{URL}}/api/v1/wishlists/:id
- * @returns Wishlist with ID
- * @ACCESS Private (Logged in user only)
- */
-export const getWishlistById = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const { id } = req.params;
-
-    const wishlist = await Wishlist.findById(id).populate('products');
-
-    if (!wishlist) {
-      return next(new AppErr('Inavlid wishlist ID or Wishlist not found', 404));
-    }
-
-    res.status(200).json({
-      success: true,
-      message: 'Wishlist fetched successfully',
       wishlist,
     });
   },

@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const createWishlistSchema = z.object({
   body: z.object({
-    wishlistName: z
+    name: z
       .string({
         required_error: 'Wishlist name is required',
         invalid_type_error: 'Wishlist name must be a string',
