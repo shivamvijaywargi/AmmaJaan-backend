@@ -118,20 +118,19 @@ export const updateWishlistById = asyncHandler(
 
 /**
  * @ADD_PRODUCTS_TO_WISHLIST
- * @ROUTE @POST {{URL}}/api/v1/wishlists/:id
+ * @ROUTE @POST {{URL}}/api/v1/wishlists/:wishlistId/products/:productId
  * @returns Product(s) added successfully
  * @ACCESS Private (Logged in user only)
  */
 export const addproductsToWishlist = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { id } = req.params;
-    const { productId } = req.query;
+    const { wishlistId, productId } = req.params;
 
     if (!productId) {
       return next(new AppErr('Product ID is required', 400));
     }
 
-    const wishlist = await Wishlist.findById(id);
+    const wishlist = await Wishlist.findById(wishlistId);
 
     if (!wishlist) {
       return next(new AppErr('Inavlid wishlist ID or Wishlist not found', 404));
@@ -144,6 +143,50 @@ export const addproductsToWishlist = asyncHandler(
     res.status(200).json({
       success: true,
       message: 'Product(s) added to wishlist successfully',
+      wishlist,
+    });
+  },
+);
+
+/**
+ * @REMOVE_PRODUCTS_FROM_WISHLIST
+ * @ROUTE @DELETE {{URL}}/api/v1/wishlists/:wishlistId/products/:productId
+ * @returns Product(s) removed successfully
+ * @ACCESS Private (Logged in user only)
+ */
+export const removeproductsFromWishlist = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { wishlistId, productId } = req.params;
+
+    if (!productId) {
+      return next(new AppErr('Product ID is required', 400));
+    }
+
+    const wishlist = await Wishlist.findById(wishlistId);
+
+    if (!wishlist) {
+      return next(new AppErr('Inavlid wishlist ID or Wishlist not found', 404));
+    }
+
+    // Need to check mongodb aggregation pipelines in depth
+    // await wishlist.updateOne(
+    //   {
+    //     $pull: { products: { productId } },
+    //   },
+    //   { safe: true, multi: false, new: true },
+    // );
+
+    const productIdIndex = wishlist.products.indexOf(
+      productId as unknown as Types.ObjectId,
+    );
+
+    await wishlist.products.splice(productIdIndex, 1);
+
+    await wishlist.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Product removed from wishlist successfully',
       wishlist,
     });
   },
