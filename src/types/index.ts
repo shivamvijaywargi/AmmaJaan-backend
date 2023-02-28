@@ -112,6 +112,7 @@ export type ZWishlist = z.infer<typeof ZWishlistSchema>;
 // testing only --- End
 
 export interface IWishlist {
+  name: string;
   user: Types.ObjectId;
   products: Types.ObjectId[];
 }
