@@ -63,7 +63,7 @@ I might make a Swagger documentation in the future, if I can learn it sooner.
 
 - [ ] Review
 
-- [ ] Wishlist
+- [x] Wishlist
 
 - [ ] Learn Swagger, Testing and implement them
 
