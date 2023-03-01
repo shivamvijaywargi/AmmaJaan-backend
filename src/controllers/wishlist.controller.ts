@@ -160,6 +160,10 @@ export const addproductToWishlist = asyncHandler(
       return next(new AppErr('Inavlid wishlist ID or Wishlist not found', 404));
     }
 
+    if (wishlist.products.includes(productId as unknown as Types.ObjectId)) {
+      return next(new AppErr('Product already in wishlist', 409));
+    }
+
     await wishlist.products.push(productId as unknown as Types.ObjectId);
 
     await wishlist.save();
@@ -192,8 +196,8 @@ export const removeproductFromWishlist = asyncHandler(
       return next(new AppErr('Inavlid wishlist ID or Wishlist not found', 404));
     }
 
-    // Need to check mongodb aggregation pipelines in depth
-    const result = await wishlist.updateOne(
+    // Need to learn mongodb aggregation pipelines in depth and make sure to learn from official MongoDB docs
+    await wishlist.updateOne(
       {
         $pull: { products: { $in: productId } },
       },
@@ -215,7 +219,6 @@ export const removeproductFromWishlist = asyncHandler(
     res.status(200).json({
       success: true,
       message: 'Product removed from wishlist successfully',
-      result,
     });
   },
 );

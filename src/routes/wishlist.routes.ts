@@ -11,8 +11,9 @@ import {
 import { authorizeRoles, isLoggedIn } from '@/middlewares/auth.middleware';
 import validateRequestObj from '@/middlewares/validateReq';
 import {
-  addToWishlistParamsSchema,
+  wishlistParamsSchema,
   createWishlistSchema,
+  wishlistQuerySchema,
 } from '@/schemas/wishlist.schema';
 import { Router } from 'express';
 
@@ -32,19 +33,15 @@ router
 
 router
   .route('/:wishlistId')
-  .get(
-    isLoggedIn,
-    validateRequestObj(addToWishlistParamsSchema),
-    getWishlistById,
-  )
+  .get(isLoggedIn, validateRequestObj(wishlistParamsSchema), getWishlistById)
   .patch(
     isLoggedIn,
-    validateRequestObj(addToWishlistParamsSchema),
+    validateRequestObj(wishlistParamsSchema),
     updateWishlistById,
   )
   .delete(
     isLoggedIn,
-    validateRequestObj(addToWishlistParamsSchema),
+    validateRequestObj(wishlistParamsSchema),
     deleteWishlistById,
   );
 
@@ -52,12 +49,14 @@ router
   .route('/:wishlistId/products/:productId')
   .patch(
     isLoggedIn,
-    validateRequestObj(addToWishlistParamsSchema),
+    validateRequestObj(wishlistParamsSchema),
+    validateRequestObj(wishlistQuerySchema),
     addproductToWishlist,
   )
   .delete(
     isLoggedIn,
-    validateRequestObj(addToWishlistParamsSchema),
+    validateRequestObj(wishlistParamsSchema),
+    validateRequestObj(wishlistQuerySchema),
     removeproductFromWishlist,
   );
 
