@@ -16,6 +16,7 @@ const addressSchema: Schema = new Schema<IAddress>(
       unique: true,
       minlength: [10, 'Phone number cannot be less than 10 digits'],
       maxlength: [15, 'Phone number cannot be more than 15 digits'],
+      trim: true,
     },
     houseNumber: {
       type: String,
