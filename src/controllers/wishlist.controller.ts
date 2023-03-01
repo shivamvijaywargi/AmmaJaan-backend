@@ -164,14 +164,21 @@ export const addproductToWishlist = asyncHandler(
       return next(new AppErr('Product already in wishlist', 409));
     }
 
-    await wishlist.products.push(productId as unknown as Types.ObjectId);
+    // Old way I did
+    // await wishlist.products.push(productId as unknown as Types.ObjectId);
+    // await wishlist.save();
 
-    await wishlist.save();
+    // New way using mongodb aggregation pipeline
+    await wishlist.updateOne(
+      {
+        $push: { products: productId },
+      },
+      { new: true },
+    );
 
     res.status(200).json({
       success: true,
       message: 'Product added to wishlist successfully',
-      wishlist,
     });
   },
 );
