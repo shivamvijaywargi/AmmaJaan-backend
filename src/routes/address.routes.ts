@@ -1,10 +1,14 @@
 import {
   createAddress,
+  deleteAddressById,
   getAllUserAddresses,
 } from '@/controllers/addres.controller';
 import { isLoggedIn } from '@/middlewares/auth.middleware';
 import validateRequestObj from '@/middlewares/validateReq';
-import { createAddressSchema } from '@/schemas/address.schema';
+import {
+  addressparamsSchema,
+  createAddressSchema,
+} from '@/schemas/address.schema';
 import { Router } from 'express';
 
 const router = Router();
@@ -17,4 +21,11 @@ router
   .get(isLoggedIn, getAllUserAddresses)
   .post(isLoggedIn, validateRequestObj(createAddressSchema), createAddress);
 
+router
+  .route('/:addressId')
+  .delete(
+    isLoggedIn,
+    validateRequestObj(addressparamsSchema),
+    deleteAddressById,
+  );
 export default router;

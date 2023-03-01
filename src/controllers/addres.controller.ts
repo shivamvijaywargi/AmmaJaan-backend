@@ -77,3 +77,41 @@ export const getAllUserAddresses = asyncHandler(
     });
   },
 );
+
+/**
+ * @DELETE_ADDRESS_BY_ID
+ * @ROUTE @DELETE {{URL}}/api/v1/addresses/:addressId
+ * @returns Address removed successfully
+ * @ACCESS Private (Logged in user only)
+ */
+export const deleteAddressById = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { addressId } = req.params;
+
+    const address = await Address.findByIdAndRemove(addressId);
+
+    if (!address) {
+      return next(new AppErr('Invalid address ID or address not found.', 400));
+    }
+
+    const user = await User.findById(req.user?.user_id);
+
+    if (!user) {
+      return next(new AppErr('Unauthorized, please login first.', 401));
+    }
+
+    await user.updateOne(
+      {
+        $pull: {
+          addresses: { $in: addressId },
+        },
+      },
+      { safe: true, multi: false, new: true },
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Address deleted successfully',
+    });
+  },
+);

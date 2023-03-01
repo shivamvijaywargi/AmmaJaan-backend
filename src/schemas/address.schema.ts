@@ -47,3 +47,11 @@ export const createAddressSchema = z.object({
       .optional(),
   }),
 });
+
+export const addressparamsSchema = z.object({
+  params: z.object({
+    addressId: z.string().regex(/(ObjectId\(')?[0-9a-fA-F]{24}('\))?/g, {
+      message: 'Invalid Address Id',
+    }),
+  }),
+});
