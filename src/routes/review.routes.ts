@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import validateRequestObj from '@/middlewares/validateReq';
 import { CreateReviewSchema } from '@/schemas/review.schema';
-import { createReview } from '@/controllers/review.controller';
+import { createReview, getAllReviews } from '@/controllers/review.controller';
 import { isLoggedIn } from '@/middlewares/auth.middleware';
 
 const router = Router();
@@ -12,6 +12,7 @@ const router = Router();
  */
 router
   .route('/')
+  .get(isLoggedIn, getAllReviews)
   .post(isLoggedIn, validateRequestObj(CreateReviewSchema), createReview);
 
 export default router;

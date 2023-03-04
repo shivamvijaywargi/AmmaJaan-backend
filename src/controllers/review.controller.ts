@@ -45,3 +45,25 @@ export const createReview = asyncHandler(
     });
   },
 );
+
+/**
+ * @GET_ALL_REVIEWS
+ * @ROUTE @GET {{URL}}/api/v1/reviews
+ * @returns All found reviews
+ * @ACCESS Private (Admin + Employee only)
+ */
+export const getAllReviews = asyncHandler(
+  async (_req: Request, res: Response, next: NextFunction) => {
+    const reviews = await Review.find({}).populate('reviewedBy reviewedFor');
+
+    if (!reviews.length) {
+      return next(new AppErr('No reviews found', 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'All found reviews',
+      reviews,
+    });
+  },
+);
