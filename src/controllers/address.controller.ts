@@ -96,7 +96,7 @@ export const getAddressById = asyncHandler(
 
     res.status(200).json({
       success: true,
-      message: 'Address updated successfully',
+      message: 'Address fetched successfully',
       address,
     });
   },
