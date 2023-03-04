@@ -1,8 +1,15 @@
 import { Router } from 'express';
 
 import validateRequestObj from '@/middlewares/validateReq';
-import { CreateReviewSchema } from '@/schemas/review.schema';
-import { createReview, getAllReviews } from '@/controllers/review.controller';
+import {
+  CreateReviewSchema,
+  reviewParamsSchema,
+} from '@/schemas/review.schema';
+import {
+  createReview,
+  delteReviewById,
+  getAllReviews,
+} from '@/controllers/review.controller';
 import { isLoggedIn } from '@/middlewares/auth.middleware';
 
 const router = Router();
@@ -15,4 +22,7 @@ router
   .get(isLoggedIn, getAllReviews)
   .post(isLoggedIn, validateRequestObj(CreateReviewSchema), createReview);
 
+router
+  .route('/:reviewId')
+  .delete(isLoggedIn, validateRequestObj(reviewParamsSchema), delteReviewById);
 export default router;

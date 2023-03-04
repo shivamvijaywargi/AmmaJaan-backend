@@ -22,7 +22,7 @@ export const CreateReviewSchema = z.object({
 
 export const reviewParamsSchema = z.object({
   params: z.object({
-    productId: z.string().regex(/(ObjectId\(')?[0-9a-fA-F]{24}('\))?/g, {
+    reviewId: z.string().regex(/(ObjectId\(')?[0-9a-fA-F]{24}('\))?/g, {
       message: 'Invalid Product Id',
     }),
   }),
