@@ -162,6 +162,7 @@ export const getAllProducts = asyncHandler(
 
     // Add stuff based on condition
     if (search) {
+      // TODO: There is a $or operator which can be used to check search term in multiple fields, I am unable to find a way to use it with queryObj at this point of time
       queryObject.title = { $regex: search, $options: 'i' };
       // queryObject.description = { $regex: search, $options: 'i' };
     }
