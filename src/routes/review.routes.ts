@@ -9,6 +9,7 @@ import {
   createReview,
   delteReviewById,
   getAllReviews,
+  getReviewById,
 } from '@/controllers/review.controller';
 import { isLoggedIn } from '@/middlewares/auth.middleware';
 
@@ -24,5 +25,7 @@ router
 
 router
   .route('/:reviewId')
+  .get(isLoggedIn, validateRequestObj(reviewParamsSchema), getReviewById)
   .delete(isLoggedIn, validateRequestObj(reviewParamsSchema), delteReviewById);
+
 export default router;

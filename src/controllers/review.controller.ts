@@ -69,6 +69,30 @@ export const getAllReviews = asyncHandler(
 );
 
 /**
+ * @GET_REVIEW_BY_ID
+ * @ROUTE @GET {{URL}}/api/v1/reviews/:reviewId
+ * @returns Review deleted successfully
+ * @ACCESS Private (Logged in user only)
+ */
+export const getReviewById = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { reviewId } = req.params;
+
+    const review = await Review.findById(reviewId);
+
+    if (!review) {
+      return next(new AppErr('Invalid review id or review not found', 400));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Review fetched successfully',
+      review,
+    });
+  },
+);
+
+/**
  * @DELETE_REVIEW_BY_ID
  * @ROUTE @DELETE {{URL}}/api/v1/reviews/:reviewId
  * @returns Review deleted successfully
