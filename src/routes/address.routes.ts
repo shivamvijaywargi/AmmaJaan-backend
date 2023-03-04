@@ -2,7 +2,7 @@ import {
   createAddress,
   deleteAddressById,
   getAllUserAddresses,
-} from '@/controllers/addres.controller';
+} from '@/controllers/address.controller';
 import { isLoggedIn } from '@/middlewares/auth.middleware';
 import validateRequestObj from '@/middlewares/validateReq';
 import {
