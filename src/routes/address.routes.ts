@@ -1,7 +1,9 @@
 import {
   createAddress,
   deleteAddressById,
+  getAddressById,
   getAllUserAddresses,
+  updateAddressById,
 } from '@/controllers/address.controller';
 import { isLoggedIn } from '@/middlewares/auth.middleware';
 import validateRequestObj from '@/middlewares/validateReq';
@@ -23,9 +25,12 @@ router
 
 router
   .route('/:addressId')
+  .get(isLoggedIn, validateRequestObj(addressparamsSchema), getAddressById)
+  .patch(isLoggedIn, validateRequestObj(addressparamsSchema), updateAddressById)
   .delete(
     isLoggedIn,
     validateRequestObj(addressparamsSchema),
     deleteAddressById,
   );
+
 export default router;

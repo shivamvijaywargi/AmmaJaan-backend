@@ -79,6 +79,62 @@ export const getAllUserAddresses = asyncHandler(
 );
 
 /**
+ * @GET_ADDRESS_BY_ID
+ * @ROUTE @GET {{URL}}/api/v1/addresses/:addressId
+ * @returns Address fetched successfully
+ * @ACCESS Private (Logged in user only)
+ */
+export const getAddressById = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { addressId } = req.params;
+
+    const address = await Address.findById(addressId);
+
+    if (!address) {
+      return next(new AppErr('Invalid address ID or address not found.', 400));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Address updated successfully',
+      address,
+    });
+  },
+);
+
+/**
+ * @UPDATE_ADDRESS_BY_ID
+ * @ROUTE @PATCH {{URL}}/api/v1/addresses/:addressId
+ * @returns Address updated successfully
+ * @ACCESS Private (Logged in user only)
+ */
+export const updateAddressById = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { addressId } = req.params;
+
+    const address = await Address.findByIdAndUpdate(
+      addressId,
+      {
+        $set: req.body,
+      },
+      {
+        new: true,
+      },
+    );
+
+    if (!address) {
+      return next(new AppErr('Invalid address ID or address not found.', 400));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Address updated successfully',
+      address,
+    });
+  },
+);
+
+/**
  * @DELETE_ADDRESS_BY_ID
  * @ROUTE @DELETE {{URL}}/api/v1/addresses/:addressId
  * @returns Address removed successfully
