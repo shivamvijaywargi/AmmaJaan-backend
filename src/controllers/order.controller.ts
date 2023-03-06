@@ -6,7 +6,7 @@ import Order from '@/models/Order.model';
 
 /**
  * @GET_ALL_ORDERS
- * @ROUTE @GET {{URL}}/api/v1/orders
+ * @ROUTE @GET {{URL}}/api/v1/orders/admin
  * @returns All Orders
  * @ACCESS Private (Admins + Employees only)
  */
