@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { RequestHandler } from 'express';
 
 import asyncHandler from '@/middlewares/asyncHandler.middleware';
 import AppErr from '@/utils/AppErr';
@@ -10,8 +10,8 @@ import Order from '@/models/Order.model';
  * @returns All Orders
  * @ACCESS Private (Admins + Employees only)
  */
-export const getAllOrdersAdmin = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
+export const getAllOrdersAdmin: RequestHandler = asyncHandler(
+  async (req, res, next) => {
     // Pagination setup
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 50;
