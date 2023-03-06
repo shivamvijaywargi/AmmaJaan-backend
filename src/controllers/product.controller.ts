@@ -210,7 +210,7 @@ export const getAllProducts = asyncHandler(
     // Await here
     const products = await results;
 
-    const total = products.length;
+    const count = await Product.countDocuments();
 
     if (!products.length) {
       return next(new AppErr('No products found', 404));
@@ -220,7 +220,9 @@ export const getAllProducts = asyncHandler(
       success: true,
       message: 'Products fetched successfully',
       products,
-      count: total,
+      totalPages: Math.ceil(count / limit),
+      currentPage: Number(page),
+      count,
     });
   },
 );

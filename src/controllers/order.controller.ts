@@ -20,6 +20,8 @@ export const getAllOrdersAdmin = asyncHandler(
 
     const orders = await Order.find({}).skip(skip).limit(limit);
 
+    const count = await Order.countDocuments();
+
     if (!orders.length) {
       return next(new AppErr('No Orders found', 404));
     }
@@ -28,6 +30,9 @@ export const getAllOrdersAdmin = asyncHandler(
       success: true,
       message: 'All Orders fetched successfully',
       orders,
+      totalPages: Math.ceil(count / limit),
+      currentPage: Number(page),
+      count,
     });
   },
 );
