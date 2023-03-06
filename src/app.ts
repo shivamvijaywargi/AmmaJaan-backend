@@ -63,6 +63,7 @@ import couponRoutes from '@/routes/coupon.routes';
 import wishlistRoutes from '@/routes/wishlist.routes';
 import addressRoutes from '@/routes/address.routes';
 import reviewRoutes from '@/routes/review.routes';
+import orderRoutes from '@/routes/order.routes';
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', userRoutes);
@@ -72,6 +73,7 @@ app.use('/api/v1/coupons', couponRoutes);
 app.use('/api/v1/wishlists', wishlistRoutes);
 app.use('/api/v1/addresses', addressRoutes);
 app.use('/api/v1/reviews', reviewRoutes);
+app.use('/api/v1/orders', orderRoutes);
 
 // CatchAll - 404
 app.all('*', (req, res) => {
