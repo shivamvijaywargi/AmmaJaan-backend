@@ -1,5 +1,8 @@
 import ROLES_LIST from '@/configs/ROLES_LIST';
-import { getAllOrdersAdmin } from '@/controllers/order.controller';
+import {
+  getAllLoggedInUserOrders,
+  getAllOrdersAdmin,
+} from '@/controllers/order.controller';
 import { authorizeRoles, isLoggedIn } from '@/middlewares/auth.middleware';
 import { Router } from 'express';
 
@@ -16,4 +19,5 @@ router
     getAllOrdersAdmin,
   );
 
+router.route('/').get(isLoggedIn, getAllLoggedInUserOrders);
 export default router;
