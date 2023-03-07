@@ -53,6 +53,7 @@ export const getAllLoggedInUserOrders: RequestHandler = asyncHandler(
   async (req, res, next) => {
     const orders = await Order.find({ user: req.user?.user_id })
       .populate('user address coupon')
+      .populate('address') // FIXME: For some reason address is not getting populated, need to check
       .populate({ path: 'products.product', select: 'title' });
 
     if (!orders.length) {
