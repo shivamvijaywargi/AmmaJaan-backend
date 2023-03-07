@@ -1,9 +1,12 @@
 import ROLES_LIST from '@/configs/ROLES_LIST';
 import {
+  createOrder,
   getAllLoggedInUserOrders,
   getAllOrdersAdmin,
 } from '@/controllers/order.controller';
 import { authorizeRoles, isLoggedIn } from '@/middlewares/auth.middleware';
+import validateRequestObj from '@/middlewares/validateReq';
+import { CreateOrderSchema } from '@/schemas/order.schema';
 import { Router } from 'express';
 
 const router = Router();
@@ -19,5 +22,9 @@ router
     getAllOrdersAdmin,
   );
 
-router.route('/').get(isLoggedIn, getAllLoggedInUserOrders);
+router
+  .route('/')
+  .get(isLoggedIn, getAllLoggedInUserOrders)
+  .post(isLoggedIn, validateRequestObj(CreateOrderSchema), createOrder);
+
 export default router;

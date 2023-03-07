@@ -142,7 +142,7 @@ export const updateUser = asyncHandler(
  */
 export const getLoggedInUserDetails = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const user = await User.findById(req.user?.user_id);
+    const user = await User.findById(req.user?.user_id).populate('addresses');
 
     if (!user) {
       return next(new AppErr('You are not authorized, please login', 401));

@@ -20,7 +20,7 @@ const orderSchema: Schema = new Schema<IOrders>(
       required: true,
     },
     address: {
-      type: String,
+      type: Schema.Types.ObjectId,
       required: [true, 'Address is required'],
     },
     phoneNumber: {
@@ -35,7 +35,10 @@ const orderSchema: Schema = new Schema<IOrders>(
       type: Number,
       required: [true, 'Total price is required'],
     },
-    coupon: String,
+    coupon: {
+      type: Schema.Types.ObjectId,
+      ref: 'Coupon',
+    },
     transactionId: String,
     status: {
       type: String,

@@ -39,7 +39,7 @@ export interface IOrders {
     price: number;
   }[];
   user: Types.ObjectId;
-  address: string;
+  address: Types.ObjectId;
   phoneNumber: string;
   paymentMethod: string;
   total: number;

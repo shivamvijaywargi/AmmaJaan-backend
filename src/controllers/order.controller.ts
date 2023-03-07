@@ -19,7 +19,10 @@ export const getAllOrdersAdmin: RequestHandler = asyncHandler(
 
     const skip = (page - 1) * limit;
 
-    const orders = await Order.find({}).skip(skip).limit(limit);
+    const orders = await Order.find({})
+      .populate('products.product user address coupon')
+      .skip(skip)
+      .limit(limit);
 
     const count = await Order.countDocuments();
 
@@ -48,9 +51,9 @@ export const getAllOrdersAdmin: RequestHandler = asyncHandler(
  */
 export const getAllLoggedInUserOrders: RequestHandler = asyncHandler(
   async (req, res, next) => {
-    const orders = await Order.find({ user: req.user?.user_id }).populate(
-      'user',
-    );
+    const orders = await Order.find({ user: req.user?.user_id })
+      .populate('user address coupon')
+      .populate({ path: 'products.product', select: 'title' });
 
     if (!orders.length) {
       return next(
@@ -62,6 +65,46 @@ export const getAllLoggedInUserOrders: RequestHandler = asyncHandler(
       success: true,
       message: 'All user orders fetched successfully',
       orders,
+    });
+  },
+);
+
+/**
+ * @CREATE_ORDER
+ * @ROUTE @POST {{URL}}/api/v1/orders/admin
+ * @returns New order created successfully
+ * @ACCESS Private (Logged in users only)
+ */
+export const createOrder: RequestHandler = asyncHandler(
+  async (req, res, next) => {
+    const {
+      address,
+      phoneNumber,
+      paymentMethod,
+      total,
+      coupon,
+      transactionId,
+      products,
+    } = req.body;
+
+    const order = await Order.create({
+      products,
+      address,
+      phoneNumber,
+      paymentMethod,
+      total,
+      coupon,
+      user: req.user?.user_id,
+      transactionId,
+    });
+
+    if (!order) {
+      return next(new AppErr('Order not created, please try again.', 400));
+    }
+
+    res.status(201).json({
+      success: true,
+      message: 'Order created successfully.',
     });
   },
 );
