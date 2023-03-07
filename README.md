@@ -55,13 +55,13 @@ I might make a Swagger documentation in the future, if I can learn it sooner.
 
 - [x] Coupon
 
-- [ ] Addresses
+- [x] Addresses
 
 - [ ] Order
 
 - [ ] Payment integration
 
-- [ ] Review
+- [x] Review
 
 - [x] Wishlist
 
