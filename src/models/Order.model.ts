@@ -21,6 +21,7 @@ const orderSchema: Schema = new Schema<IOrders>(
     },
     address: {
       type: Schema.Types.ObjectId,
+      ref: 'Address',
       required: [true, 'Address is required'],
     },
     phoneNumber: {
