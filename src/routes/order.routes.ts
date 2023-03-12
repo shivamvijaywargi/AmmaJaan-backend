@@ -1,3 +1,5 @@
+import { Router } from 'express';
+
 import ROLES_LIST from '@/configs/ROLES_LIST';
 import {
   createOrder,
@@ -7,7 +9,6 @@ import {
 import { authorizeRoles, isLoggedIn } from '@/middlewares/auth.middleware';
 import validateRequestObj from '@/middlewares/validateReq';
 import { CreateOrderSchema } from '@/schemas/order.schema';
-import { Router } from 'express';
 
 const router = Router();
 

@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 
-import { Schema, model } from 'mongoose';
+import { Schema, model, InferSchemaType } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
@@ -117,6 +117,8 @@ userSchema.methods = {
   },
 };
 
-const User = model('User', userSchema);
+type UserSchema = InferSchemaType<typeof userSchema>;
+
+const User = model<UserSchema>('User', userSchema);
 
 export default User;

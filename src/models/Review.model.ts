@@ -33,6 +33,6 @@ const reviewSchema: Schema = new Schema<IReview>(
   },
 );
 
-const Review = model('Review', reviewSchema);
+const Review = model<IReview>('Review', reviewSchema);
 
 export default Review;

@@ -52,6 +52,6 @@ const orderSchema: Schema = new Schema<IOrders>(
   },
 );
 
-const Order = model('Order', orderSchema);
+const Order = model<IOrders>('Order', orderSchema);
 
 export default Order;

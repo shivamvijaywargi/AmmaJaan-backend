@@ -29,6 +29,6 @@ const wishlistSchema = new Schema<IWishlist>(
   },
 );
 
-const Wishlist = model('Wishlist', wishlistSchema);
+const Wishlist = model<IWishlist>('Wishlist', wishlistSchema);
 
 export default Wishlist;
