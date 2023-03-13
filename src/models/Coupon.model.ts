@@ -8,6 +8,7 @@ const couponSchema: Schema = new Schema<ICoupon>(
       minlength: [5, 'Coupon code must be atleast 5 characters long'],
       required: [true, 'Coupon code is required'],
       trim: true,
+      unique: true,
     },
     isActive: {
       type: Boolean,

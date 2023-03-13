@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import ROLES_LIST from '@/configs/ROLES_LIST';
 import {
+  applyCoupon,
   createCoupon,
   deleteCouponById,
   getAllCoupons,
@@ -10,6 +11,7 @@ import {
 import { authorizeRoles, isLoggedIn } from '@/middlewares/auth.middleware';
 import validateRequestObj from '@/middlewares/validateReq';
 import {
+  ApplyCouponSchema,
   CouponParamsSchema,
   CreateCouponSchema,
   updateCouponSchema,
@@ -55,5 +57,9 @@ router
     authorizeRoles(ROLES_LIST.ADMIN, ROLES_LIST.EMPLOYEE),
     deleteCouponById,
   );
+
+router
+  .route('/apply')
+  .post(isLoggedIn, validateRequestObj(ApplyCouponSchema), applyCoupon);
 
 export default router;

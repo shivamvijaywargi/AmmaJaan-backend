@@ -20,6 +20,17 @@ export const updateCouponSchema = CreateCouponSchema.deepPartial();
 
 export const CouponParamsSchema = z.object({
   params: z.object({
-    couponCode: z.string(),
+    couponCode: z.string().regex(/(ObjectId\(')?[0-9a-fA-F]{24}('\))?/g, {
+      message: 'Invalid couponCode Id',
+    }),
+  }),
+});
+
+export const ApplyCouponSchema = z.object({
+  body: z.object({
+    couponCode: z.string().min(5, {
+      message: 'Coupon code is not valid',
+    }),
+    orderTotal: z.number(),
   }),
 });

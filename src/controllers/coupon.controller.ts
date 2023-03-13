@@ -81,6 +81,12 @@ export const createCoupon = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { couponCode, discount } = req.body;
 
+    const couponExists = await Coupon.findOne({ couponCode });
+
+    if (couponExists) {
+      return next(new AppErr('Coupon code already exists!', 409));
+    }
+
     const coupon = await Coupon.create({ couponCode, discount });
 
     if (!coupon) {
@@ -176,6 +182,38 @@ export const deleteCouponById = asyncHandler(
     res.status(200).json({
       success: true,
       message: 'Coupon deleted successfully',
+    });
+  },
+);
+
+/**
+ * @APPLY_COUPON
+ * @ROUTE @DELETE {{URL}}/api/v1/coupons/apply
+ * @returns Coupen applied successfully
+ * @ACCESS Private (Logged in users only)
+ */
+export const applyCoupon = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { couponCode, orderTotal } = req.body;
+
+    const couponExists = await Coupon.findOne({
+      couponCode,
+    });
+
+    if (!couponExists) {
+      return next(
+        new AppErr('The Coupon code you entered does not exist!', 404),
+      );
+    }
+
+    const discount = orderTotal * (couponExists.discount / 100);
+
+    const discountedTotal = orderTotal - discount;
+
+    res.status(200).json({
+      success: true,
+      message: 'Coupon code applied successfully',
+      discountedTotal,
     });
   },
 );
