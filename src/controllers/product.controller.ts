@@ -167,16 +167,20 @@ export const getAllProducts = asyncHandler(
     }
 
     // No await here
-    const results = Product.find({
-      $or: [
-        {
-          title: queryObject.title,
-        },
-        {
-          description: queryObject.description,
-        },
-      ],
-    }).populate('category createdBy');
+    const results = Product.find(
+      Object.keys(queryObject).length
+        ? {
+            $or: [
+              {
+                title: queryObject.title,
+              },
+              {
+                description: queryObject.description,
+              },
+            ],
+          }
+        : {},
+    ).populate('category createdBy');
 
     // Sorting code
     if (sort === 'latest') {
@@ -355,6 +359,8 @@ export const updateProductById = asyncHandler(
                 }
               }
             }
+
+            await product.save();
           } catch (error) {
             return next(new AppErr('Image could not be uploaded', 400));
           }

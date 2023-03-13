@@ -1,4 +1,3 @@
-import { Types } from 'mongoose';
 import { z } from 'zod';
 
 // Cannot figure out how to use this with formidable, I will check this later if possible
@@ -43,7 +42,9 @@ export const CreateProductSchema = z.object({
       .optional(),
     label: z.enum(['Hot', 'New', 'Best Selling']).optional(),
     inStock: z.boolean().optional(),
-    category: z.instanceof(Types.ObjectId),
+    category: z.string().regex(/(ObjectId\(')?[0-9a-fA-F]{24}('\))?/g, {
+      message: 'Invalid Category Id',
+    }),
   }),
 });
 

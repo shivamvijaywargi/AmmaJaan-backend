@@ -79,9 +79,9 @@ export const getAllCoupons = asyncHandler(
  */
 export const createCoupon = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { couponCode } = req.body;
+    const { couponCode, discount } = req.body;
 
-    const coupon = await Coupon.create({ couponCode });
+    const coupon = await Coupon.create({ couponCode, discount });
 
     if (!coupon) {
       return next(new AppErr('Coupon not created, please try again.', 400));
