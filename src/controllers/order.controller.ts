@@ -3,6 +3,9 @@ import { RequestHandler } from 'express';
 import asyncHandler from '@/middlewares/asyncHandler.middleware';
 import AppErr from '@/utils/AppErr';
 import Order from '@/models/Order.model';
+import sendEmail from '@/utils/sendEmail';
+import User from '@/models/User.model';
+import Product from '@/models/Product.model';
 
 /*********************** ADMIN CONTROLLERS - START *****************************/
 /**
@@ -102,6 +105,12 @@ export const createOrder: RequestHandler = asyncHandler(
       products,
     } = req.body;
 
+    const user = await User.findById(req.user?.user_id);
+
+    if (!user) {
+      return next(new AppErr('You are not logged in, please login', 401));
+    }
+
     const order = await Order.create({
       products,
       address,
@@ -116,6 +125,27 @@ export const createOrder: RequestHandler = asyncHandler(
     if (!order) {
       return next(new AppErr('Order not created, please try again.', 400));
     }
+
+    const allProducts = await Product.find({ _id: { $in: products } });
+
+    products.map(async (order: { _id: string; quantity: number }) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const product = allProducts?.find((product: any) => {
+        return product?._id.toString() === order?._id.toString();
+      });
+
+      if (product) {
+        product.numOfUnitsSold += order?.quantity;
+        product.quantity -= order?.quantity;
+        await product.save();
+      }
+    });
+
+    const emailSubject = 'Your AmmaJaan order';
+    const emailMessage =
+      'Thank you for placing your order on AmmaJaan, we are currently processing it and it will soon be shipped.';
+
+    await sendEmail(user.email, emailSubject, emailMessage);
 
     res.status(201).json({
       success: true,

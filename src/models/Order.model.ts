@@ -43,7 +43,7 @@ const orderSchema: Schema = new Schema<IOrders>(
     transactionId: String,
     status: {
       type: String,
-      enum: ['ORDERED', 'SHIPPED', 'DELIVERED', 'CANCELLED'],
+      enum: ['ORDERED', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED'],
       default: 'ORDERED',
     },
   },
