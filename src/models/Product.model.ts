@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, InferSchemaType } from 'mongoose';
 import { IProduct } from '@/types';
 // import slugify from 'slugify';
 // import AppErr from '@/utils/AppErr';
@@ -135,6 +135,8 @@ const productSchema: Schema = new Schema<IProduct>(
 //   );
 // });
 
-const Product = model<IProduct>('Product', productSchema);
+type ProductSchema = InferSchemaType<typeof productSchema>;
+
+const Product = model<ProductSchema>('Product', productSchema);
 
 export default Product;
