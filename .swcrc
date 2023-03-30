@@ -1,0 +1,21 @@
+{
+  "env": {
+    "targets": {
+      "node": 18
+    }
+  },
+  "jsc": {
+    "parser": {
+      "syntax": "typescript"
+    },
+    // baseUrl and paths are important if using absoulte imports and they should match tsconfig.json
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["*"]
+    }
+  },
+  "module": {
+    "type": "commonjs"
+  },
+  "sourceMaps": "inline"
+}
