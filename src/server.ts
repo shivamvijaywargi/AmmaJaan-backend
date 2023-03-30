@@ -1,6 +1,6 @@
-import app from "@/app";
-import connectToDB from "@/configs/dbConn";
-import Logger from "@/utils/logger";
+import app from '@/app';
+import connectToDB from '@/configs/dbConn';
+import Logger from '@/utils/logger';
 
 const PORT = process.env.PORT || 5000;
 
@@ -10,7 +10,7 @@ app.listen(PORT, async () => {
 });
 
 // log unhandled rejections
-process.on("unhandledRejection", (err) => {
+process.on('unhandledRejection', (err) => {
   Logger.error(err);
   process.exit(1);
 });
