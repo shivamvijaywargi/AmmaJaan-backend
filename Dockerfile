@@ -1,5 +1,7 @@
 FROM node:18-alpine
 
+LABEL maintainer="vijaywargishivam@gmail.com"
+
 WORKDIR /app
 
 COPY package.json yarn.lock ./

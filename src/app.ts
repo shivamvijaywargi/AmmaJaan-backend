@@ -54,6 +54,20 @@ app.get('/api/ping', (_req, res) => {
   });
 });
 
+/**
+ * @SERVER_STATUS
+ * @ROUTE @GET {{URL}}/mode
+ * @DESC Returns response 200 with application mode
+ * @ACCESS Public
+ */
+app.get('/mode', (_req, res) => {
+  res.status(200).json({
+    success: true,
+    environment:
+      process.env.NODE_ENV === 'production' ? 'production' : 'development',
+  });
+});
+
 // Import all routes
 import authRoutes from '@/routes/auth.routes';
 import userRoutes from '@/routes/user.routes';
