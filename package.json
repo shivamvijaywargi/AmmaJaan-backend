@@ -8,11 +8,12 @@
     "build:start": "yarn build && yarn start:prod",
     "lint": "eslint --ignore-path .eslintignore \"src/**/*.ts\" --fix",
     "lint:check": "eslint --ignore-path .eslintignore \"src/**/*.ts\"",
+    "prepare": "husky install",
     "prettier": "prettier --write \"src/**/*.ts\"",
     "prettier:check": "prettier --check \"src/**/*.ts\"",
+    "rebuild:be": "docker compose build server && docker compose rm --stop server && docker compose up -d server",
     "start:dev": "nodemon src/server.ts",
     "start:prod": "node dist/server.js",
-    "prepare": "husky install",
     "test": "jest --coverage"
   },
   "keywords": [
