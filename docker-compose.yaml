@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  # Server is the name of the backend, you can name it anything
+  server:
+    build: . # Path to Dockerfile
+    ports:
+      - 5000:5000 # Left is local and right is docker (I Believe)
+      - 9229:9229 # Debugger port
+    # Volumes is used so that we do not build the entire image upon a single file change
+    volumes:
+      - .:/app # Left is local and after : is directory set in Dockerfile
+      - /app/node_modules # Specifies to use Docker node_modules within Docker only and share everything else with us outside
+    environment:
+      - PORT=5000

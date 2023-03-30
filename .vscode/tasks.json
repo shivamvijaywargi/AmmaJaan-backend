@@ -1,0 +1,17 @@
+// This will work with VS Code
+// With this if we change any file then the docker compose will pick that and restart the server with those changes
+// This is helpful during development
+
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "restart server",
+      "type": "shell",
+      "command": "docker compose restart server",
+      "presentation": {
+        "reveal": "never"
+      }
+    }
+  ]
+}

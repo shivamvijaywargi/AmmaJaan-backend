@@ -1,0 +1,16 @@
+{
+  "recommendations": [
+    "ms-azuretools.vscode-docker",
+    "mikestead.dotenv",
+    "usernamehw.errorlens",
+    "dbaeumer.vscode-eslint",
+    "codezombiech.gitignore",
+    "eamodio.gitlens",
+    "VisualStudioExptTeam.vscodeintellicode",
+    "PKief.material-icon-theme",
+    "bengreenier.vscode-node-readme",
+    "Gruntfuggly.todo-tree",
+    "redhat.vscode-yaml",
+    "Gruntfuggly.triggertaskonsave"
+  ]
+}

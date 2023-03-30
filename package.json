@@ -24,6 +24,13 @@
     "email": "vijaywargishivam@gmail.com",
     "url": "https://github.com/shivamvijaywargi"
   },
+  "maintainers": [
+    {
+      "name": "Shivam Vijaywargi",
+      "email": "vijaywargishivam@gmail.com",
+      "url": "https://github.com/shivamvijaywargi"
+    }
+  ],
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
