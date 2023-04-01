@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import helmet from 'helmet';
 import cloudinary from 'cloudinary';
+import Stripe from 'stripe';
 
 import morganMiddleware from '@/configs/morgan';
 import errorMiddleware from '@/middlewares/error.middleware';
@@ -38,6 +39,11 @@ cloudinary.v2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+// Stripe config
+export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: '2022-11-15',
 });
 
 /**
