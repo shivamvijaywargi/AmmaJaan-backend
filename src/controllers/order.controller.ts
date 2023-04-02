@@ -6,6 +6,7 @@ import Order from '@/models/Order.model';
 import sendEmail from '@/utils/sendEmail';
 import User from '@/models/User.model';
 import Product from '@/models/Product.model';
+import { stripe } from '@/app';
 
 /*********************** ADMIN CONTROLLERS - START *****************************/
 /**
@@ -128,10 +129,29 @@ export const createOrder: RequestHandler = asyncHandler(
 
     const allProducts = await Product.find({ _id: { $in: products } });
 
+    let convertedOrders;
+
     products.map(async (order: { _id: string; quantity: number }) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const product = allProducts?.find((product: any) => {
         return product?._id.toString() === order?._id.toString();
+      });
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      convertedOrders = allProducts.map((product: any) => {
+        return {
+          price_data: {
+            currency: 'inr',
+            product_data: {
+              name: product.title,
+              description: product.description,
+            },
+            unit_amount: product.discountedPrice
+              ? Number(product.discountedPrice) * 100
+              : Number(product.originalPrice) * 100,
+          },
+          quantity: order?.quantity,
+        };
       });
 
       if (product) {
@@ -139,6 +159,17 @@ export const createOrder: RequestHandler = asyncHandler(
         product.quantity -= order?.quantity;
         await product.save();
       }
+    });
+
+    // Make payment stripe
+    const session = await stripe.checkout.sessions.create({
+      line_items: convertedOrders,
+      metadata: {
+        orderId: JSON.stringify(order?._id),
+      },
+      mode: 'payment',
+      success_url: `${process.env.CLIENT_URL}/payment/success`,
+      cancel_url: `${process.env.CLIENT_URL}/payment/cancel`,
     });
 
     const emailSubject = 'Your AmmaJaan order';
@@ -150,6 +181,7 @@ export const createOrder: RequestHandler = asyncHandler(
     res.status(201).json({
       success: true,
       message: 'Order created successfully.',
+      url: session.url,
     });
   },
 );

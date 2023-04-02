@@ -41,10 +41,14 @@ const orderSchema: Schema = new Schema<IOrders>(
       ref: 'Coupon',
     },
     transactionId: String,
-    status: {
+    orderStatus: {
       type: String,
       enum: ['ORDERED', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED'],
       default: 'ORDERED',
+    },
+    paymentStatus: {
+      type: String,
+      default: 'UNPAID',
     },
   },
   {

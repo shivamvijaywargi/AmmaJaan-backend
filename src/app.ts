@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import { config } from 'dotenv';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -14,6 +14,78 @@ import setCache from '@/middlewares/cache.middleware';
 config();
 
 const app = express();
+
+// Stripe config
+export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+  apiVersion: '2022-11-15',
+});
+
+// Stripe webhook
+// This is your Stripe CLI webhook secret for testing your endpoint locally.
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
+
+app.post(
+  '/webhook',
+  express.raw({ type: 'application/json' }),
+  async (request: Request, response: Response): Promise<void> => {
+    const sig = request.headers['stripe-signature'];
+
+    let event: Stripe.Event;
+
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      event = stripe.webhooks.constructEvent(request.body, sig!, webhookSecret);
+
+      Logger.info(event);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      Logger.error(err);
+      response.status(400).send(`Webhook Error: ${err.message}`);
+      return;
+    }
+
+    // Handle the event
+    if (event.type === 'checkout.session.completed') {
+      // Interface to type cast object so TypeScript does not complain
+      interface ISession {
+        metadata: { orderId: string };
+        payment_status: string;
+        payment_method_types: [string];
+        amount_total: number;
+      }
+      // Update the order
+      const session = event.data.object as ISession;
+
+      const { orderId } = session.metadata;
+      const paymentStatus = session.payment_status;
+      const paymentMethod = session.payment_method_types[0];
+      const totalAmount = session.amount_total;
+
+      // find the order using the orderID
+      const order = await Order.findByIdAndUpdate(
+        JSON.parse(orderId),
+        {
+          total: totalAmount / 100,
+          paymentMethod: paymentMethod,
+          paymentStatus: paymentStatus,
+        },
+        {
+          new: true,
+        },
+      );
+
+      Logger.info(order);
+
+      console.log(order);
+    } else {
+      Logger.error(`Unhandled event type ${event.type}`);
+      return;
+    }
+
+    // Return a 200 response to acknowledge receipt of the event
+    response.send();
+  },
+);
 
 // Middlewares
 // Built-in
@@ -39,11 +111,6 @@ cloudinary.v2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
-// Stripe config
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2022-11-15',
 });
 
 /**
@@ -84,6 +151,8 @@ import wishlistRoutes from '@/routes/wishlist.routes';
 import addressRoutes from '@/routes/address.routes';
 import reviewRoutes from '@/routes/review.routes';
 import orderRoutes from '@/routes/order.routes';
+import Logger from './utils/logger';
+import Order from './models/Order.model';
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', userRoutes);
