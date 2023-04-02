@@ -75,8 +75,6 @@ app.post(
       );
 
       Logger.info(order);
-
-      console.log(order);
     } else {
       Logger.error(`Unhandled event type ${event.type}`);
       return;
