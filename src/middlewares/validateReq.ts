@@ -1,4 +1,8 @@
-// CREDITS: https://jeffsegovia.dev/blogs/rest-api-validation-using-zod
+/**
+ * CREDITS
+ * UPDATE: Updated the zod validation middleware🚑️https://jeffsegovia.dev/blogs/rest-api-validation-using-zod
+ * https://www.imadatyat.me/guides/schema-validation-with-zod-and-expressjs
+ */
 
 import { NextFunction, Request, Response } from 'express';
 import { AnyZodObject, ZodOptional } from 'zod';
