@@ -1,15 +1,15 @@
-// This is just a test for Zod
+// CREDITS: https://jeffsegovia.dev/blogs/rest-api-validation-using-zod
 
 import { NextFunction, Request, Response } from 'express';
-import { AnyZodObject } from 'zod';
+import { AnyZodObject, ZodOptional } from 'zod';
 
 import AppErr from '@/utils/AppErr';
 
 const validateRequestObj =
-  (schema: AnyZodObject) =>
+  (schema: AnyZodObject | ZodOptional<AnyZodObject>) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await schema.parse({
+      await schema.parseAsync({
         body: req.body,
         params: req.params,
         query: req.query,
