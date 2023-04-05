@@ -12,7 +12,7 @@
     "prettier": "prettier --write \"src/**/*.ts\"",
     "prettier:check": "prettier --check \"src/**/*.ts\"",
     "rebuild:be": "docker compose build server && docker compose rm --stop server && docker compose up -d server",
-    "start:dev": "nodemon src/server.ts",
+    "start:dev": "ts-node-dev --respawn --pretty --transpile-only src/server.ts",
     "start:prod": "node dist/server.js",
     "test": "jest --coverage"
   },
@@ -74,7 +74,6 @@
     "eslint": "^8.34.0",
     "husky": "^8.0.0",
     "jest": "^29.4.3",
-    "nodemon": "^2.0.20",
     "prettier": "^2.8.4",
     "rimraf": "^4.4.1",
     "supertest": "^6.3.3",
