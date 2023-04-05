@@ -12,7 +12,7 @@
     "prettier": "prettier --write \"src/**/*.ts\"",
     "prettier:check": "prettier --check \"src/**/*.ts\"",
     "rebuild:be": "docker compose build server && docker compose rm --stop server && docker compose up -d server",
-    "start:dev": "ts-node-dev --respawn --pretty --transpile-only src/server.ts",
+    "start:dev": "ts-node-dev -r tsconfig-paths/register --respawn --pretty --transpile-only --rs src/server.ts",
     "start:prod": "node dist/server.js",
     "test": "jest --coverage"
   },
