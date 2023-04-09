@@ -62,7 +62,7 @@ app.post(
       const paymentIntent = session.payment_intent;
 
       // find the order using the orderID
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
       const order = await Order.findByIdAndUpdate(
         JSON.parse(orderId),
         {
