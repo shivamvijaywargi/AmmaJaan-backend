@@ -2,5 +2,6 @@
   // Below is for trigger task on save extension and is to keep track of any changes in src and if anything changes then restart server
   "triggerTaskOnSave.tasks": {
     "restart server": ["src/**/*"]
-  }
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
