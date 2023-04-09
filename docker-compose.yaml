@@ -15,7 +15,7 @@ services:
     environment:
       - PORT=5000
 
-  # If you want to use local mongodb within docker then uncomment the the below services(mongodb and mongo-express)
+  # If you want to use local mongodb within docker then uncomment the below services(mongodb and mongo-express)
 #   mongodb:
 #     image: mongo
 #     # container_name: mongo
