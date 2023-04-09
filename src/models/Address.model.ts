@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { IAddress } from '@/types';
 
-const addressSchema: Schema = new Schema<IAddress>(
+const addressSchema = new Schema<IAddress>(
   {
     name: {
       type: String,

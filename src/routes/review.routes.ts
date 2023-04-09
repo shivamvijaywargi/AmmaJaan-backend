@@ -4,7 +4,7 @@ import validateRequestObj from '@/middlewares/validateReq';
 import {
   CreateReviewSchema,
   reviewParamsSchema,
-} from '@/schemas/review.schema';
+} from '@/validations/review.schema';
 import {
   createReview,
   delteReviewById,

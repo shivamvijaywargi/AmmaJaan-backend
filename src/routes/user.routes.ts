@@ -10,7 +10,7 @@ import {
 } from '@/controllers/user.controller';
 import { authorizeRoles, isLoggedIn } from '@/middlewares/auth.middleware';
 import validateRequestObj from '@/middlewares/validateReq';
-import { changeUserPasswordSchema } from '@/schemas/user.schema';
+import { changeUserPasswordSchema } from '@/validations/user.schema';
 
 const router = Router();
 

@@ -45,6 +45,68 @@ export const getAllOrdersAdmin: RequestHandler = asyncHandler(
   },
 );
 
+/**
+ * @CANCEL_ORDER_BY_ID
+ * @ROUTE @GET {{URL}}/api/v1/orders/:id/admin
+ * @returns Order cancelled successfully
+ * @ACCESS Private (Admins + Employees only)
+ */
+export const cancelOrderByIdAdmin: RequestHandler = asyncHandler(
+  async (req, res, next) => {
+    const { id } = req.params;
+
+    if (!id) {
+      return next(new AppErr('Order id is required', 400));
+    }
+
+    const order = await Order.findById(id);
+
+    if (!order) {
+      return next(
+        new AppErr('Invalid order ID or no order with the given ID exist', 400),
+      );
+    }
+
+    if (order.orderStatus === 'CANCELLED') {
+      return next(new AppErr('Order is already in cancelled state', 400));
+    }
+
+    const isPaid = order.paymentStatus;
+
+    if (!isPaid) {
+      order.orderStatus = 'CANCELLED';
+      await order.save();
+
+      return res.status(200).json({
+        success: true,
+        message: 'Order cancelled successfully',
+      });
+    }
+
+    const refundStripe = await stripe.refunds.create({
+      payment_intent: order.transactionId,
+    });
+
+    if (!refundStripe) {
+      return next(
+        new AppErr(
+          'Something went wrong, please check Stripe dashboard once.',
+          500,
+        ),
+      );
+    }
+
+    order.orderStatus = 'CANCELLED';
+    order.paymentStatus = 'REFUNDED';
+    await order.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Order cancelled successfully and refunded the amount',
+    });
+  },
+);
+
 /*********************** ADMIN CONTROLLERS - END *****************************/
 
 /**

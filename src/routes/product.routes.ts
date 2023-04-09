@@ -12,7 +12,7 @@ import validateRequestObj from '@/middlewares/validateReq';
 import {
   productQuerySchema,
   UpdateProductSchema,
-} from '@/schemas/product.schema';
+} from '@/validations/product.schema';
 
 const router = Router();
 
