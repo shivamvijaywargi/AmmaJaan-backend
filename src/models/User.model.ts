@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 import ROLES_LIST from '@/configs/ROLES_LIST';
 import { IUser } from '@/types';
 
-const userSchema: Schema = new Schema<IUser>(
+const userSchema = new Schema<IUser>(
   {
     fullName: {
       type: String,

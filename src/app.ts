@@ -35,8 +35,6 @@ app.post(
     try {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       event = stripe.webhooks.constructEvent(request.body, sig!, webhookSecret);
-
-      Logger.info(event);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       Logger.error(err);
@@ -52,6 +50,7 @@ app.post(
         payment_status: string;
         payment_method_types: [string];
         amount_total: number;
+        payment_intent: string;
       }
       // Update the order
       const session = event.data.object as ISession;
@@ -60,21 +59,22 @@ app.post(
       const paymentStatus = session.payment_status;
       const paymentMethod = session.payment_method_types[0];
       const totalAmount = session.amount_total;
+      const paymentIntent = session.payment_intent;
 
       // find the order using the orderID
+      // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
       const order = await Order.findByIdAndUpdate(
         JSON.parse(orderId),
         {
           total: totalAmount / 100,
           paymentMethod: paymentMethod,
           paymentStatus: paymentStatus,
+          transactionId: paymentIntent,
         },
         {
           new: true,
         },
       );
-
-      Logger.info(order);
     } else {
       Logger.error(`Unhandled event type ${event.type}`);
       return;

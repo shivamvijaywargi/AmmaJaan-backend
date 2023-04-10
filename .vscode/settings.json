@@ -1,6 +1,13 @@
 {
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/*/**": true,
+    "**/.hg/store/**": true
+  },
   // Below is for trigger task on save extension and is to keep track of any changes in src and if anything changes then restart server
   "triggerTaskOnSave.tasks": {
     "restart server": ["src/**/*"]
-  }
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

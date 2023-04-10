@@ -15,7 +15,7 @@ import {
   CouponParamsSchema,
   CreateCouponSchema,
   updateCouponSchema,
-} from '@/schemas/coupon.schema';
+} from '@/validations/coupon.schema';
 
 const router = Router();
 

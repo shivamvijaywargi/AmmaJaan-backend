@@ -46,7 +46,7 @@ export interface IOrders {
   coupon?: string;
   transactionId?: string;
   orderStatus: 'ORDERED' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
-  paymentStatus: string;
+  paymentStatus: 'PAID' | 'UNPAID' | 'REFUNDED';
 }
 
 export interface IProduct {

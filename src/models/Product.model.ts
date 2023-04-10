@@ -3,7 +3,7 @@ import { IProduct } from '@/types';
 // import slugify from 'slugify';
 // import AppErr from '@/utils/AppErr';
 
-const productSchema: Schema = new Schema<IProduct>(
+const productSchema = new Schema<IProduct>(
   {
     title: {
       type: String,

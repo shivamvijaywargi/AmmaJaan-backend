@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { IOrders } from '@/types';
 
-const orderSchema: Schema = new Schema<IOrders>(
+const orderSchema = new Schema<IOrders>(
   {
     products: [
       {

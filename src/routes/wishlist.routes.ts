@@ -14,7 +14,7 @@ import {
   wishlistParamsSchema,
   createWishlistSchema,
   wishlistQuerySchema,
-} from '@/schemas/wishlist.schema';
+} from '@/validations/wishlist.schema';
 import { Router } from 'express';
 
 const router = Router();

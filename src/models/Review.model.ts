@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { IReview } from '@/types';
 
-const reviewSchema: Schema = new Schema<IReview>(
+const reviewSchema = new Schema<IReview>(
   {
     title: {
       type: String,

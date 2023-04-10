@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { ICoupon } from '@/types';
 
-const couponSchema: Schema = new Schema<ICoupon>(
+const couponSchema = new Schema<ICoupon>(
   {
     couponCode: {
       type: String,

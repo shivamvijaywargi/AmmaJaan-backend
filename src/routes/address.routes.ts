@@ -10,7 +10,7 @@ import validateRequestObj from '@/middlewares/validateReq';
 import {
   addressparamsSchema,
   createAddressSchema,
-} from '@/schemas/address.schema';
+} from '@/validations/address.schema';
 import { Router } from 'express';
 
 const router = Router();
