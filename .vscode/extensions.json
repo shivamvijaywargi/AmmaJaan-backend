@@ -11,6 +11,7 @@
     "bengreenier.vscode-node-readme",
     "Gruntfuggly.todo-tree",
     "redhat.vscode-yaml",
-    "Gruntfuggly.triggertaskonsave"
+    "Gruntfuggly.triggertaskonsave",
+    "EditorConfig.EditorConfig"
   ]
 }
