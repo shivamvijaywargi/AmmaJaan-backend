@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Types } from 'mongoose';
 import { z } from 'zod';
 
@@ -84,7 +85,7 @@ export interface IUser {
   fullName: string;
   email: string;
   phoneNumber: string;
-  password: string;
+  password: string | undefined;
   role: number;
   isActive: boolean;
   loginCount: number;
@@ -95,6 +96,11 @@ export interface IUser {
   addresses: Types.ObjectId[];
   resetPasswordToken?: string;
   resetPasswordExpiry?: Date;
+
+  comparePassword(password: string): boolean;
+  generateAccessToken(): string;
+  generateRefreshToken(): string;
+  generatePasswordResetToken(): string;
 }
 
 // testing only --- Start
