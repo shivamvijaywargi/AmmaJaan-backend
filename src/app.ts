@@ -5,6 +5,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import cloudinary from 'cloudinary';
 import Stripe from 'stripe';
+import compression from 'compression';
 
 import morganMiddleware from '@/configs/morgan';
 import errorMiddleware from '@/middlewares/error.middleware';
@@ -103,6 +104,7 @@ app.use(rateLimiter);
 // Custom
 app.use(morganMiddleware);
 app.use(setCache);
+app.use(compression());
 
 // Cloudinary config
 cloudinary.v2.config({
