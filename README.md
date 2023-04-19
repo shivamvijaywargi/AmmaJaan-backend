@@ -57,9 +57,9 @@ I might make a Swagger documentation in the future, if I can learn it sooner.
 
 - [x] Addresses
 
-- [ ] Order
+- [x] Order
 
-- [ ] Payment integration
+- [x] Payment integration
 
 - [x] Review
 
