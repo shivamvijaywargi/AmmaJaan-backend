@@ -114,7 +114,7 @@ There are still a few things I still need to dive into which includes but not li
 
 - Use Zod in conjunction with Formidable to be able to create schema to check for fields as well.
 
-- [ ] Docker
+- [x] Docker
 
 - [x] ESLint
 
