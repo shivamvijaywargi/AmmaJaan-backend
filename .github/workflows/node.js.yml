@@ -27,8 +27,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - name: clean node_modules and install deps exactly as per the package-lock.json
-    - run: npm ci
+      run: npm ci
     - name: Run the build script
-    - run: npm run build --if-present
+      run: npm run build --if-present
     - name: Run tests (if any)
-    - run: npm test --if-present
+      run: npm test --if-present
