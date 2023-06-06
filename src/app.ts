@@ -103,7 +103,7 @@ app.use(
 app.use(rateLimiter);
 // Custom
 app.use(morganMiddleware);
-app.use(setCache);
+// app.use(setCache);
 app.use(compression());
 
 // Cloudinary config
