@@ -10,7 +10,7 @@ import compression from 'compression';
 import morganMiddleware from '@/configs/morgan';
 import errorMiddleware from '@/middlewares/error.middleware';
 import rateLimiter from '@/configs/rateLimiter';
-import setCache from '@/middlewares/cache.middleware';
+// import setCache from '@/middlewares/cache.middleware';
 
 config();
 
