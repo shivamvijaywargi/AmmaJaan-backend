@@ -1,5 +1,6 @@
-import express, { Request, Response } from 'express';
 import { config } from 'dotenv';
+config();
+import express, { Request, Response } from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -11,8 +12,6 @@ import morganMiddleware from '@/configs/morgan';
 import errorMiddleware from '@/middlewares/error.middleware';
 import rateLimiter from '@/configs/rateLimiter';
 // import setCache from '@/middlewares/cache.middleware';
-
-config();
 
 const app = express();
 

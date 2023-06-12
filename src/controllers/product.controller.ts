@@ -92,7 +92,7 @@ export const createProduct = asyncHandler(
         if (inStock) product.inStock = Boolean(inStock);
         if (discountedPrice) product.discountedPrice = +discountedPrice;
 
-        if (files) {
+        if (Object.keys(files).length) {
           try {
             const incomingFile = files.productImage;
             if (!Array.isArray(incomingFile)) {
@@ -290,11 +290,11 @@ export const updateProductById = asyncHandler(
     });
 
     form.parse(req, async (err, fields, files) => {
-      if (err) {
-        return next(new AppErr(err || 'Something went wrong', 500));
-      }
-
       try {
+        if (err) {
+          return next(new AppErr(err || 'Something went wrong', 500));
+        }
+
         const { id } = req.params;
 
         const product = await Product.findByIdAndUpdate(
@@ -323,7 +323,7 @@ export const updateProductById = asyncHandler(
           await product.save();
         }
 
-        if (files) {
+        if (Object.keys(files).length) {
           try {
             const incomingFile = files.productImage;
             if (!Array.isArray(incomingFile)) {
@@ -372,7 +372,7 @@ export const updateProductById = asyncHandler(
           }
         }
 
-        res.status(200).json({
+        return res.status(200).json({
           success: true,
           message: 'Product updated successfully',
           product,

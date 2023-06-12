@@ -57,4 +57,10 @@ export const productQuerySchema = z.object({
   }),
 });
 
-export const UpdateProductSchema = CreateProductSchema.deepPartial();
+export const UpdateProductSchema = CreateProductSchema.deepPartial().extend({
+  params: z.object({
+    id: z.string().regex(/(ObjectId\(')?[0-9a-fA-F]{24}('\))?/g, {
+      message: 'Invalid Product Id',
+    }),
+  }),
+});
