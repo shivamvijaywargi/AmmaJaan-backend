@@ -137,14 +137,6 @@ export const updateCategoryById = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
 
-    const customSlug = slugify(req.body.name.toLowerCase() as string);
-
-    const slugExists = await Category.findOne({ slug: customSlug });
-
-    if (slugExists) {
-      return next(new AppErr('Category with this name already exists', 400));
-    }
-
     const category = await Category.findByIdAndUpdate(
       id,
       {
@@ -158,10 +150,6 @@ export const updateCategoryById = asyncHandler(
     if (!category) {
       return next(new AppErr('Invalid ID or Category not found', 404));
     }
-
-    category.slug = customSlug;
-
-    await category.save();
 
     res.status(200).json({
       success: true,
