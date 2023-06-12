@@ -25,10 +25,10 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'pnpm'
-    - name: clean node_modules and install deps exactly as per the yarn.lock
-      run: pnpm install --frozen-lockfile
+        cache: 'yarn'
+    - name: clean node_modules and install deps
+      run: yarn install
     - name: Run the build script
-      run: pnpm build
+      run: yarn build
     - name: Run tests (if any)
-      run: pnpm test
+      run: yarn test
