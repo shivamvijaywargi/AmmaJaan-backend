@@ -318,7 +318,7 @@ export const updateProductById = asyncHandler(
             newSlug = newSlug + '-' + crypto.randomUUID().substring(0, 5);
           }
 
-          product.title = newSlug;
+          product.slug = newSlug;
 
           await product.save();
         }
