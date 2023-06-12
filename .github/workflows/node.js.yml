@@ -25,10 +25,10 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'yarn'
+        cache: 'pnpm'
     - name: clean node_modules and install deps
-      run: yarn install
+      run: pnpm install
     - name: Run the build script
-      run: yarn build
+      run: pnpm build
     - name: Run tests (if any)
-      run: yarn test
+      run: pnpm test
