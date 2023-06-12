@@ -26,6 +26,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'pnpm'
+    - name: Install pnpm
+      run: npm install -g pnpm
     - name: clean node_modules and install deps
       run: pnpm install
     - name: Run the build script
