@@ -39,6 +39,7 @@ export const createProduct = asyncHandler(
           description,
           shortDescription,
           originalPrice,
+          discountedPrice,
           quantity,
           label,
           inStock,
@@ -77,14 +78,19 @@ export const createProduct = asyncHandler(
           );
         }
 
-        if (shortDescription) product.shortDescription = shortDescription;
+        if (shortDescription && !Array.isArray(shortDescription)) {
+          product.shortDescription = shortDescription;
+        }
+        if (label === 'Hot' || label === 'New' || label === 'Best Selling') {
+          product.label = label;
+        }
         if (quantity && Number(quantity) <= 99999) {
-          product.quantity = quantity;
+          product.quantity = +quantity;
         } else {
           return next(new AppErr('Quantity cannot be greater than 99999', 400));
         }
-        if (label) product.label = label;
-        if (inStock) product.inStock = inStock;
+        if (inStock) product.inStock = Boolean(inStock);
+        if (discountedPrice) product.discountedPrice = +discountedPrice;
 
         if (files) {
           try {

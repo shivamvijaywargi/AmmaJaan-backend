@@ -53,7 +53,7 @@ export interface IOrders {
 export interface IProduct {
   title: string;
   description: string;
-  shortDescription?: string;
+  shortDescription: string;
   brand?: string;
   images: {
     image: {
@@ -62,7 +62,7 @@ export interface IProduct {
     };
   }[];
   originalPrice: number;
-  discountedPrice?: number;
+  discountedPrice: number;
   quantity: number;
   inStock: boolean;
   views: number;
