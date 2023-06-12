@@ -4,7 +4,7 @@ LABEL maintainer="vijaywargishivam@gmail.com"
 
 WORKDIR /app
 
-COPY package.json yarn.lock ./
+COPY package.json yarn*.lock pnpm-lock.yaml ./
 
 RUN yarn
 
