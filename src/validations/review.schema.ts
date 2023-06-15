@@ -27,3 +27,11 @@ export const reviewParamsSchema = z.object({
     }),
   }),
 });
+
+export const productReviewsParamasSchema = z.object({
+  params: z.object({
+    productId: z.string().regex(/(ObjectId\(')?[0-9a-fA-F]{24}('\))?/g, {
+      message: 'Invalid Product Id',
+    }),
+  }),
+});
