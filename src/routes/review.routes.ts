@@ -3,6 +3,7 @@ import { Router } from 'express';
 import validateRequestObj from '@/middlewares/validateReq';
 import {
   CreateReviewSchema,
+  productReviewsParamasSchema,
   reviewParamsSchema,
 } from '@/validations/review.schema';
 import {
@@ -10,6 +11,7 @@ import {
   delteReviewById,
   getAllReviews,
   getReviewById,
+  getReviewsByProductId,
 } from '@/controllers/review.controller';
 import { isLoggedIn } from '@/middlewares/auth.middleware';
 
@@ -27,5 +29,9 @@ router
   .route('/:reviewId')
   .get(isLoggedIn, validateRequestObj(reviewParamsSchema), getReviewById)
   .delete(isLoggedIn, validateRequestObj(reviewParamsSchema), delteReviewById);
+
+router
+  .route('/products/:productId')
+  .get(validateRequestObj(productReviewsParamasSchema), getReviewsByProductId);
 
 export default router;

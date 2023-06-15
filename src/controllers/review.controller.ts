@@ -114,3 +114,27 @@ export const delteReviewById = asyncHandler(
     });
   },
 );
+
+/**
+ * @GET_REVIEWS_BY_PRODUCTID
+ * @ROUTE @DELETE {{URL}}/api/v1/reviews/products/:productId
+ * @returns Reviews for the product Id
+ * @ACCESS Public
+ */
+export const getReviewsByProductId = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { productId } = req.params;
+
+    const reviews = await Review.find({ reviewedFor: productId });
+
+    if (!reviews) {
+      return next(new AppErr('Invalid product id or reviews not found', 400));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Reviews fetched successfully',
+      reviews,
+    });
+  },
+);
