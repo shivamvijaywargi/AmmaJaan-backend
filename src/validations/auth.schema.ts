@@ -8,11 +8,11 @@ export const registerUserSchema = z.object({
         required_error: 'Full name is required',
         invalid_type_error: 'Full name must be a string',
       })
+      .trim()
       .min(5, {
         message: 'Full name must be at least 5 characters',
       })
-      .max(25, 'Full name cannot be more than 25 characters')
-      .trim(),
+      .max(25, 'Full name cannot be more than 25 characters'),
     email: z
       .string({
         required_error: 'Email is required',
@@ -22,6 +22,7 @@ export const registerUserSchema = z.object({
       .string({
         required_error: 'Phone number is required',
       })
+      .trim()
       .min(10, { message: 'Phone number must be at least 10 characters' })
       .max(15, {
         message: 'Phone number cannot exceed 15 characters',
@@ -30,6 +31,7 @@ export const registerUserSchema = z.object({
       .string({
         required_error: 'Password is required',
       })
+      .trim()
       .min(8, {
         message: 'Password must be at least 8 characters',
       }),

@@ -7,9 +7,10 @@ export const CreateReviewSchema = z.object({
         required_error: 'Title is required',
         invalid_type_error: 'Title must be a string',
       })
+      .trim()
       .min(10)
       .max(55),
-    review: z.string().min(20).max(260).optional(),
+    review: z.string().trim().min(20).max(260).optional(),
     rating: z
       .number({
         required_error: 'Rating is required',
