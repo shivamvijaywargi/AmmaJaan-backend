@@ -11,7 +11,13 @@ import asyncHandler from '@/middlewares/asyncHandler.middleware';
 import Product from '@/models/Product.model';
 import AppErr from '@/utils/AppErr';
 import Logger from '@/utils/logger';
-import { IProductQuery, IQueryObj, IUploadedImageData } from '@/types';
+import {
+  IProduct,
+  IProductQuery,
+  IQueryObj,
+  IUploadedImageData,
+} from '@/types';
+import mongoose from 'mongoose';
 
 /**
  * @CREATE_PRODUCT
@@ -253,9 +259,17 @@ export const getAllProducts = asyncHandler(
  */
 export const getProductById = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const product = await Product.findById(req.params.id).populate(
-      'category createdBy',
-    );
+    // const product = await Product.findById(req.params.id).populate(
+    //   'category createdBy',
+    // );
+
+    const product = mongoose.Types.ObjectId.isValid(req.params.id)
+      ? await Product.findOne({ _id: req.params.id }).populate(
+          'category createdBy',
+        )
+      : await Product.findOne({
+          slug: req.params.id,
+        }).populate('category createdBy');
 
     if (!product) {
       return next(new AppErr('Invalid ID or product does not exist', 404));
