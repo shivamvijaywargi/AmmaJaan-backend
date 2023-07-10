@@ -69,7 +69,7 @@ export const CreateOrderSchema = z.object({
           .regex(/(ObjectId\(')?[0-9a-fA-F]{24}('\))?/g, {
             message: 'Invalid Product Id',
           }),
-      })
+      }),
     ),
   }),
 });
