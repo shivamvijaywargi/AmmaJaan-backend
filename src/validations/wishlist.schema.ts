@@ -7,11 +7,11 @@ export const createWishlistSchema = z.object({
         required_error: 'Wishlist name is required',
         invalid_type_error: 'Wishlist name must be a string',
       })
+      .trim()
       .min(3, {
         message: 'Wishlist name must be at least 3 characters',
       })
-      .max(25, 'Wishlist name cannot be more than 25 characters')
-      .trim(),
+      .max(25, 'Wishlist name cannot be more than 25 characters'),
   }),
 });
 

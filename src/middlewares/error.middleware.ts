@@ -24,7 +24,7 @@ const errorMiddleware: ErrorRequestHandler = async (
   // Mongoose duplicate key error
   if (err.code === 11000) {
     const message = `Duplicate ${Object.keys(err.keyValue)} entered`;
-    err = new AppErr(message, 400);
+    err = new AppErr(message, 409);
   }
 
   // Wrong JWT Error
@@ -36,7 +36,7 @@ const errorMiddleware: ErrorRequestHandler = async (
   // JWT expired Error
   if (err.name === 'TokenExpiredError') {
     const message = `Json Web Token is expired, try again`;
-    err = new AppErr(message, 400);
+    err = new AppErr(message, 401);
   }
 
   if (process.env.NODE_ENV === 'production') {

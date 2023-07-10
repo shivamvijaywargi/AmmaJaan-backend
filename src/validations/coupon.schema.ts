@@ -7,6 +7,7 @@ export const CreateCouponSchema = z.object({
         required_error: 'Coupon code is required',
         invalid_type_error: 'Coupon code must be a string',
       })
+      .trim()
       .min(5, {
         message: 'Coupon code must be atleast 5 characters long',
       }),
@@ -28,7 +29,7 @@ export const CouponParamsSchema = z.object({
 
 export const ApplyCouponSchema = z.object({
   body: z.object({
-    couponCode: z.string().min(5, {
+    couponCode: z.string().trim().min(5, {
       message: 'Coupon code is not valid',
     }),
     orderTotal: z.number(),

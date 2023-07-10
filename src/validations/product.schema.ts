@@ -8,6 +8,7 @@ export const CreateProductSchema = z.object({
         required_error: 'Title is required',
         invalid_type_error: 'Title must be a string',
       })
+      .trim()
       .min(5)
       .max(55),
     description: z
@@ -15,9 +16,11 @@ export const CreateProductSchema = z.object({
         required_error: 'Description is required',
         invalid_type_error: 'Description must be a string',
       })
+      .trim()
       .min(10),
     shortDescription: z
       .string()
+      .trim()
       .min(20, {
         message: 'Short description must be atleast 20 characters long',
       })
