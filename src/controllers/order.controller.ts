@@ -152,21 +152,14 @@ export const getAllLoggedInUserOrders: RequestHandler = asyncHandler(
 
 /**
  * @CREATE_ORDER
- * @ROUTE @POST {{URL}}/api/v1/orders/admin
+ * @ROUTE @POST {{URL}}/api/v1/orders
  * @returns New order created successfully
  * @ACCESS Private (Logged in users only)
  */
 export const createOrder: RequestHandler = asyncHandler(
   async (req, res, next) => {
-    const {
-      address,
-      phoneNumber,
-      paymentMethod,
-      total,
-      coupon,
-      transactionId,
-      products,
-    } = req.body;
+    const { address, phoneNumber, paymentMethod, total, coupon, products } =
+      req.body;
 
     const user = await User.findById(req.user?.user_id);
 
@@ -182,7 +175,6 @@ export const createOrder: RequestHandler = asyncHandler(
       total,
       coupon,
       user: req.user?.user_id,
-      transactionId,
     });
 
     if (!order) {
