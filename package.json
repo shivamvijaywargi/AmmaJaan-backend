@@ -2,7 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "rimraf ./dist && swc ./src -d dist",
     "build:start": "yarn build && yarn start:prod",
