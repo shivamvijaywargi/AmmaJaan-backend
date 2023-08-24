@@ -9,9 +9,10 @@ import AppErr from '@/utils/AppErr';
 import sendEmail from '@/utils/sendEmail';
 
 const cookieOptions = {
-  secure: process.env.NODE_ENV === 'production' ? true : false,
   httpOnly: true,
   maxAge: 7 * 24 * 60 * 60 * 1000,
+  sameSite: 'None',
+  secure: process.env.NODE_ENV === 'production' ? true : false,
 };
 
 /**
@@ -44,7 +45,7 @@ export const registerUser = asyncHandler(
 
     if (!user) {
       return next(
-        new AppErr('User registration failed, please try again.', 400),
+        new AppErr('User registration failed, please try again.', 400)
       );
     }
 
@@ -67,7 +68,7 @@ export const registerUser = asyncHandler(
       accessToken,
       user,
     });
-  },
+  }
 );
 
 /**
@@ -86,8 +87,8 @@ export const loginUser = asyncHandler(
       return next(
         new AppErr(
           'Email and password do not match or user does not exist',
-          400,
-        ),
+          400
+        )
       );
     }
 
@@ -108,7 +109,7 @@ export const loginUser = asyncHandler(
       accessToken,
       user,
     });
-  },
+  }
 );
 
 /**
@@ -156,7 +157,7 @@ export const forgotPassword = asyncHandler(
     await user.save();
 
     const resetPasswordUrl = `${req.protocol}://${req.get(
-      'host',
+      'host'
     )}/api/v1/auth/reset/${resetToken}`;
 
     const subject = 'Reset your password';
@@ -179,11 +180,11 @@ export const forgotPassword = asyncHandler(
       return next(
         new AppErr(
           error.message || 'Something went wrong, please try again.',
-          400,
-        ),
+          400
+        )
       );
     }
-  },
+  }
 );
 
 /**
@@ -211,8 +212,8 @@ export const resetPassword = asyncHandler(
       return next(
         new AppErr(
           'Reset password token is invalid or expired, please try again.',
-          400,
-        ),
+          400
+        )
       );
     }
 
@@ -226,7 +227,7 @@ export const resetPassword = asyncHandler(
       success: true,
       message: 'Password updated successfully, please login',
     });
-  },
+  }
 );
 
 /**
@@ -245,7 +246,7 @@ export const refreshToken = asyncHandler(
 
     const decoded = (await jwt.verify(
       token,
-      process.env.REFRESH_TOKEN_SECRET as string,
+      process.env.REFRESH_TOKEN_SECRET as string
     )) as IDecodedJwtPayload;
 
     if (!decoded) {
@@ -265,5 +266,5 @@ export const refreshToken = asyncHandler(
       message: 'Access token refreshed successfully',
       accessToken,
     });
-  },
+  }
 );
