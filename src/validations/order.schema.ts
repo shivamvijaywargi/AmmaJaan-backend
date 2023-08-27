@@ -37,13 +37,7 @@ export const CreateOrderSchema = z.object({
       required_error: 'Total amount is required',
       invalid_type_error: 'Total amount must be a number',
     }),
-    coupon: z
-      .string()
-      .trim()
-      .regex(/(ObjectId\(')?[0-9a-fA-F]{24}('\))?/g, {
-        message: 'Invalid Coupon Id',
-      })
-      .optional(),
+    coupon: z.string().trim().optional(),
     transactionId: z.string().trim().optional(),
     products: z.array(
       z.object({
