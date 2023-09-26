@@ -223,7 +223,7 @@ export const createOrder: RequestHandler = asyncHandler(
       },
       mode: 'payment',
       success_url: `${process.env.CLIENT_URL}/payment/success`,
-      cancel_url: `${process.env.CLIENT_URL}/payment/cancel`,
+      cancel_url: `${process.env.CLIENT_URL}/cart`,
     });
 
     const emailSubject = 'Your AmmaJaan order';
