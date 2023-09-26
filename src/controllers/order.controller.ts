@@ -47,7 +47,7 @@ export const getAllOrdersAdmin: RequestHandler = asyncHandler(
 
 /**
  * @CANCEL_ORDER_BY_ID
- * @ROUTE @GET {{URL}}/api/v1/orders/:id/admin
+ * @ROUTE @PATCH {{URL}}/api/v1/orders/:id/admin
  * @returns Order cancelled successfully
  * @ACCESS Private (Admins + Employees only)
  */
