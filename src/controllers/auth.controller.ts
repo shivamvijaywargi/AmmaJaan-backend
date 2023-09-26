@@ -169,9 +169,7 @@ export const forgotPassword = asyncHandler(
 
     await user.save();
 
-    const resetPasswordUrl = `${req.protocol}://${req.get(
-      'host',
-    )}/api/v1/auth/reset/${resetToken}`;
+    const resetPasswordUrl = `${process.env.CLIENT_URL}/auth/reset/${resetToken}`;
 
     const subject = 'Reset your password';
     const message = `Here is your password reset token\n${resetPasswordUrl}.\nIf you did not request this, please ignore.`;

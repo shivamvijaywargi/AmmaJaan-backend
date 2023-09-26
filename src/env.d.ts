@@ -26,6 +26,8 @@ const envVariables = z.object({
   STRIPE_PUBLISHABLE_KEY: z.string(),
   STRIPE_SECRET_KEY: z.string(),
   STRIPE_WEBHOOK_SECRET: z.string(),
+
+  CLIENT_URL: z.string(),
 });
 
 envVariables.parse(process.env);
